@@ -25,3 +25,11 @@ pluginManagement {
         }
     }
 }
+sourceControl {
+    gitRepository("https://github.com/Team6090/SwerveIO") {
+        producesModule("net.bancino.robotics:SwerveIO")
+    }
+    gitRepository("https://github.com/Team6090/JLimelight") {
+        producesModule("net.bancino.robotics:JLimelight")
+    }
+}
