@@ -37,14 +37,15 @@ public class DriveWithJoystick extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.setDefaultNumber("throttle", 0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double fwd = throttle(deadband(xBoxLeftJoystickVertical()));
-    double str = throttle(deadband(xBoxLeftJoystickHorizontal()));
-    double rcw = throttle(deadband(xBoxRightJoystickHorizontal()));
+    double str = -throttle(deadband(xBoxLeftJoystickHorizontal()));
+    double rcw = -throttle(deadband(xBoxRightJoystickHorizontal()));
     double angle = gyro.getYaw();
 
     swerve.drive(fwd, str, rcw, angle);
