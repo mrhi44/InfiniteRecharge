@@ -21,6 +21,8 @@ import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DriveTrain extends SwerveDrive {
   /* These are in centimeters, but unit really doesn't matter. */
   public static final double BASE_WIDTH = 51;
@@ -29,10 +31,10 @@ public class DriveTrain extends SwerveDrive {
   public static final double COUNTS_PER_PIVOT_REVOLUTION = 360;
 
   /* The encoder offsets tell us where zero is for each motor. */
-  public static final double FRONT_RIGHT_ENCODER_OFFSET = 91.054678;
-  public static final double FRONT_LEFT_ENCODER_OFFSET = 326.337857;
-  public static final double REAR_LEFT_ENCODER_OFFSET = 179.121075;
-  public static final double REAR_RIGHT_ENCODER_OFFSET = 26.71;
+  public static final double FRONT_RIGHT_ENCODER_OFFSET = 88.594;
+  public static final double FRONT_LEFT_ENCODER_OFFSET = 326.250;
+  public static final double REAR_LEFT_ENCODER_OFFSET = 187.646;
+  public static final double REAR_RIGHT_ENCODER_OFFSET = 26.719;
 
   // private static SparkMaxEncoder frontRightEncoder = new SparkMaxEncoder(true, FRONT_RIGHT_ENCODER_OFFSET);
   // private static SparkMaxEncoder frontLeftEncoder = new SparkMaxEncoder(true, FRONT_LEFT_ENCODER_OFFSET);
@@ -65,4 +67,11 @@ public class DriveTrain extends SwerveDrive {
 
     setDefaultCommand(new DriveWithJoystick(this, gyro, xbox));
   }
+
+    @Override
+    public void periodic() {
+      for (SwerveModule module : moduleMap.keySet()) {
+        SmartDashboard.putNumber("SwerveIO/" + module, moduleMap.get(module).getPivotMotorEncoder());
+      }
+    }
 }
