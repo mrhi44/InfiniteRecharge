@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2020.1.2"
+    id "org.ajoberstar.grgit" version "4.0.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -51,8 +52,26 @@ dependencies {
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 
     /* Add our dependencies here. */
-    implementation 'net.bancino.robotics:SwerveIO:1.2.1'
+
     implementation 'net.bancino.robotics:JLimelight:1.0.2'
+
+    /* SwerveIO is updated very often, so we usually prefer to download a copy of it and depend on a local copy. */
+    if (project.hasProperty('cloneSwerveIO')) {
+        def repoDir = file("$projectDir/SwerveIO")
+        if (repoDir.exists()) {
+            grgit.open(dir: repoDir)
+            grgit.pull();
+        } else {
+            grgit.clone {
+                dir = "$projectDir/SwerveIO"
+                uri = "https://github.com/Team6090/SwerveIO"
+            }
+        }
+        grgit.close();
+        implementation project(":SwerveIO")
+    } else {
+        implementation 'net.bancino.robotics:SwerveIO:1.2.2'
+    }
 }
 
 jar {
