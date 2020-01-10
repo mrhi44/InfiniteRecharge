@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -49,5 +49,10 @@ public class Gyro extends SubsystemBase {
 
   public boolean isConnected() {
     return navxGyro.isConnected();
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Gyro/Yaw", getYaw());
   }
 }

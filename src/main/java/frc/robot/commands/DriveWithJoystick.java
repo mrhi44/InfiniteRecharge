@@ -15,9 +15,9 @@ import net.bancino.robotics.swerveio.SwerveDrive;
 
 public class DriveWithJoystick extends CommandBase {
 
-  private final double MIN_THROTTLE = 0.3;
+  private final double MIN_THROTTLE = 0.5;
   private final double MAX_THROTTLE = 1;
-  private final double DEADBAND = 0.15;
+  private final double DEADBAND = 0.3;
 
   private XboxController xbox;
   private SwerveDrive swerve;
@@ -37,7 +37,7 @@ public class DriveWithJoystick extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.setDefaultNumber("throttle", 0.5);
+    SmartDashboard.setDefaultNumber("DB/Slider 0", 0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,6 +46,7 @@ public class DriveWithJoystick extends CommandBase {
     double fwd = throttle(deadband(xBoxLeftJoystickVertical()));
     double str = -throttle(deadband(xBoxLeftJoystickHorizontal()));
     double rcw = -throttle(deadband(xBoxRightJoystickHorizontal()));
+
     double angle = gyro.getYaw();
 
     swerve.drive(fwd, str, rcw, angle);
@@ -63,7 +64,7 @@ public class DriveWithJoystick extends CommandBase {
   }
 
   private double throttle(double raw) {
-    double throttle = SmartDashboard.getNumber("throttle", MAX_THROTTLE);
+    double throttle = SmartDashboard.getNumber("DB/Slider 0", MAX_THROTTLE);
     if (throttle > MAX_THROTTLE)
       throttle = MAX_THROTTLE;
     else if (throttle > MIN_THROTTLE)

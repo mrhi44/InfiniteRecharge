@@ -20,6 +20,7 @@ import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
+import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -66,12 +67,7 @@ public class DriveTrain extends SwerveDrive {
     });
 
     setDefaultCommand(new DriveWithJoystick(this, gyro, xbox));
-  }
 
-    @Override
-    public void periodic() {
-      for (SwerveModule module : moduleMap.keySet()) {
-        SmartDashboard.putNumber("SwerveIO/" + module, moduleMap.get(module).getPivotMotorEncoder());
-      }
-    }
+    startLogging(new DashboardSwerveLogger());
+  }
 }
