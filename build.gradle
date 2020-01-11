@@ -59,15 +59,20 @@ dependencies {
     if (project.hasProperty('cloneSwerveIO')) {
         def repoDir = file("$projectDir/SwerveIO")
         if (repoDir.exists()) {
-            grgit.open(dir: repoDir)
-            grgit.pull();
+            if (netIsAvailable()) {
+                grgit.open(dir: repoDir)
+                grgit.pull();
+                grgit.close();
+            } else {
+                println 'Warning: Unable to pull latest SwerveIO.'
+            }
         } else {
             grgit.clone {
                 dir = "$projectDir/SwerveIO"
                 uri = "https://github.com/Team6090/SwerveIO"
             }
+            grgit.close();
         }
-        grgit.close();
         implementation project(":SwerveIO")
     } else {
         implementation 'net.bancino.robotics:SwerveIO:1.2.2'
@@ -77,4 +82,19 @@ dependencies {
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
+
+private static boolean netIsAvailable() {
+    try {
+        final URL url = new URL("https://github.com");
+        final URLConnection conn = url.openConnection();
+        conn.setConnectTimeout(1000);
+        conn.connect();
+        conn.getInputStream().close();
+        return true;
+    } catch (MalformedURLException e) {
+        throw new RuntimeException(e);
+    } catch (IOException e) {
+        return false;
+    }
 }
