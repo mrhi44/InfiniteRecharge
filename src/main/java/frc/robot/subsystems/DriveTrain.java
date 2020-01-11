@@ -7,7 +7,9 @@
 
 package frc.robot.subsystems;
 
+import java.io.File;
 import java.util.HashMap;
+import java.io.IOException;
 
 import frc.robot.Constants;
 import frc.robot.commands.DriveWithJoystick;
@@ -21,6 +23,7 @@ import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
+import net.bancino.robotics.swerveio.log.CSVSwerveLogger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -64,5 +67,14 @@ public class DriveTrain extends SwerveDrive {
     setDefaultCommand(new DriveWithJoystick(this, gyro, xbox));
 
     startLogging(new DashboardSwerveLogger());
+
+    File logFile = new File("/home/lvuser/robot-" + System.currentTimeMillis() + ".csv");
+    try {
+      logFile.createNewFile();
+      startLogging(500, new CSVSwerveLogger(logFile));
+    } catch (IOException e) {
+      System.out.println("Error Creating Robot CSV: " + e);
+      e.printStackTrace();
+    }
   }
 }
