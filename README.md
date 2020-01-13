@@ -41,10 +41,6 @@ If the build fails due to files not existing, you may need to run the `jar` task
 
         $ gradle clean SwerveIO:jar build -PcloneSwerveIO
 
-If you want to deploy with a local dependency, make sure it's downloaded first, then use the `--offline` option:
-
-        $ gradle clean SwerveIO:jar build -PcloneSwerveIO --offline
-
 That will allow you to not be connected to the internet, but still use the local project, and deploy it to the robot.
 
 ## Limelight Configurations
