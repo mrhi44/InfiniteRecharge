@@ -162,3 +162,4 @@ imgui.ini
 
 # Begin InfiniteRecharge-specific ignores
 .vscode
+*.csv
