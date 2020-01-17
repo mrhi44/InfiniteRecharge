@@ -61,17 +61,19 @@ public class DriveTrain extends SwerveDrive {
           new MK2SwerveModule(Constants.REAR_RIGHT_DRIVE_MOTOR, Constants.REAR_RIGHT_PIVOT_MOTOR, rearRightEncoder));
       return modules; /* Return the module map for the constructor's use. */
     }, (module) -> {
-      module.setPivotClosedLoopRampRate(0);
+      module.getPivotPIDController().setOutputRampRate(0);
     });
 
     setDefaultCommand(new DriveWithJoystick(this, gyro, xbox));
 
+    setIdleAngle(0, false);
+
     startLogging(new DashboardSwerveLogger());
 
-    File logFile = new File("/home/lvuser/robot-" + System.currentTimeMillis() + ".csv");
+    File logFile = new File("/home/lvuser/robot-SwerveIO-" + System.currentTimeMillis() + ".csv");
     try {
       logFile.createNewFile();
-      startLogging(500, new CSVSwerveLogger(logFile));
+      startLogging(100, new CSVSwerveLogger(logFile));
     } catch (IOException e) {
       System.out.println("Error Creating Robot CSV: " + e);
       e.printStackTrace();
