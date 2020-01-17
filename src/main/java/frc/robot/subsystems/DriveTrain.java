@@ -23,7 +23,7 @@ import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
-import net.bancino.robotics.swerveio.log.CSVSwerveLogger;
+import net.bancino.robotics.swerveio.log.csv.CSVPIDSwerveLogger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -70,10 +70,10 @@ public class DriveTrain extends SwerveDrive {
 
     startLogging(new DashboardSwerveLogger());
 
-    File logFile = new File("/home/lvuser/robot-SwerveIO-" + System.currentTimeMillis() + ".csv");
+    File logFile = new File("/home/lvuser/pid.csv");
     try {
       logFile.createNewFile();
-      startLogging(100, new CSVSwerveLogger(logFile));
+      startLogging(100, new CSVPIDSwerveLogger(logFile, SwerveModule.FRONT_LEFT));
     } catch (IOException e) {
       System.out.println("Error Creating Robot CSV: " + e);
       e.printStackTrace();

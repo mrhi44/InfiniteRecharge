@@ -60,20 +60,22 @@ dependencies {
         def repoDir = file("$projectDir/SwerveIO")
         if (repoDir.exists()) {
             if (netIsAvailable()) {
-                grgit.open(dir: repoDir)
-                grgit.pull();
+                def repo = grgit.open(dir: repoDir)
+                repo.pull()
+                repo.close()
             } else {
                 println 'Warning: Unable to pull latest SwerveIO.'
             }
         } else {
-            grgit.clone {
+            def repo = grgit.clone {
                 dir = "$projectDir/SwerveIO"
                 uri = "https://github.com/Team6090/SwerveIO"
             }
+            repo.close()
         }
         implementation project(":SwerveIO")
     } else {
-        implementation 'net.bancino.robotics:SwerveIO:1.2.2'
+        implementation 'net.bancino.robotics:SwerveIO:1.3.0'
     }
 }
 
