@@ -62,7 +62,6 @@ dependencies {
             if (netIsAvailable()) {
                 grgit.open(dir: repoDir)
                 grgit.pull();
-                grgit.close();
             } else {
                 println 'Warning: Unable to pull latest SwerveIO.'
             }
@@ -71,7 +70,6 @@ dependencies {
                 dir = "$projectDir/SwerveIO"
                 uri = "https://github.com/Team6090/SwerveIO"
             }
-            grgit.close();
         }
         implementation project(":SwerveIO")
     } else {
