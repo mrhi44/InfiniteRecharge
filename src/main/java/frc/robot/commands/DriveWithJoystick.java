@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Gyro;
 import net.bancino.robotics.swerveio.SwerveDrive;
+import net.bancino.robotics.swerveio.pid.AbstractPIDController;
+import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 
 public class DriveWithJoystick extends CommandBase {
 
@@ -22,6 +24,11 @@ public class DriveWithJoystick extends CommandBase {
   private XboxController xbox;
   private SwerveDrive swerve;
   private Gyro gyro;
+
+  private double pidPIncrement = 0.0001;
+  private double pidIIncrement = 0.0000001;
+  private double pidP = 0.0058;
+  private double pidI = 0.0000345;
 
   /**
    * Creates a new DriveWithJoystick.
@@ -43,13 +50,36 @@ public class DriveWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    if (xbox.getXButton()) {
+      pidP -= pidPIncrement;
+    } else if (xbox.getBButton()) {
+      pidP += pidPIncrement;
+    }
+    if (pidP < 0) pidP = 0;
+
+    if (xbox.getAButton()) {
+      pidI -= pidIIncrement;
+    } else if (xbox.getYButton()) {
+      pidI += pidIIncrement;
+    }
+    if (pidI < 0) pidI = 0;
+
+    for (AbstractSwerveModule module : swerve.getModuleMap().values()) {
+      AbstractPIDController pid = module.getPivotPIDController();
+      pid.setP(pidP);
+      pid.setI(pidI);
+    }
+    SmartDashboard.putNumber("Joystick/PID/P", pidP);
+    SmartDashboard.putNumber("Joystick/PID/I", pidI);
+
     double fwd = throttle(deadband(xBoxLeftJoystickVertical()));
     double str = -throttle(deadband(xBoxLeftJoystickHorizontal()));
     double rcw = -throttle(deadband(xBoxRightJoystickHorizontal()));
 
     double angle = gyro.getYaw();
 
-    swerve.drive(fwd, str, rcw, angle);
+    swerve.drive(fwd, str, rcw, 0);
   }
 
   // Called once the command ends or is interrupted.
