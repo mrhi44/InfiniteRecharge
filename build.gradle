@@ -53,7 +53,7 @@ dependencies {
 
     /* Add our dependencies here. */
 
-    implementation 'net.bancino.robotics:JLimelight:1.0.2'
+    implementation 'net.bancino.robotics:JLimelight:1.0.3'
 
     /* SwerveIO is updated very often, so we usually prefer to download a copy of it and depend on a local copy. */
     if (project.hasProperty('cloneSwerveIO')) {
