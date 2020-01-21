@@ -66,7 +66,9 @@ public class DriveTrain extends SwerveDrive {
 
     setDefaultCommand(new DriveWithJoystick(this, gyro, xbox));
 
-    //setIdleAngle(0, false);
+    zeroDriveEncoders();
+
+    setIdleAngle(0, false);
 
     startLogging(new DashboardSwerveLogger());
 
