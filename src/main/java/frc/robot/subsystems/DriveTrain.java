@@ -29,16 +29,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends SwerveDrive {
   /* These are in centimeters, but unit really doesn't matter. */
-  public static final double BASE_WIDTH = 51;
-  public static final double BASE_LENGTH = 56;
+  public static final double BASE_WIDTH = 29;
+  public static final double BASE_LENGTH = 29;
   /* Our 1:1 Encoder. */
   public static final double COUNTS_PER_PIVOT_REVOLUTION = 360;
 
   /* The encoder offsets tell us where zero is for each motor. */
-  public static final double FRONT_RIGHT_ENCODER_OFFSET = 88.594;
-  public static final double FRONT_LEFT_ENCODER_OFFSET = 326.250;
-  public static final double REAR_LEFT_ENCODER_OFFSET = 187.646;
-  public static final double REAR_RIGHT_ENCODER_OFFSET = 26.719;
+  public static final double FRONT_RIGHT_ENCODER_OFFSET = 52.9;
+  public static final double FRONT_LEFT_ENCODER_OFFSET = 195.1;
+  public static final double REAR_LEFT_ENCODER_OFFSET = 350.8;
+  public static final double REAR_RIGHT_ENCODER_OFFSET = 328.35;
 
   private static AnalogEncoder frontRightEncoder = new AnalogEncoder(Constants.FRONT_RIGHT_ANALOG_ENCODER, FRONT_RIGHT_ENCODER_OFFSET);
   private static AnalogEncoder frontLeftEncoder = new AnalogEncoder(Constants.FRONT_LEFT_ANALOG_ENCODER, FRONT_LEFT_ENCODER_OFFSET);
