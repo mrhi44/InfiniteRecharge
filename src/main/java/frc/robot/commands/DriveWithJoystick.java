@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Gyro;
 import net.bancino.robotics.swerveio.SwerveDrive;
+import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.pid.AbstractPIDController;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
+
+import edu.wpi.first.wpilibj.GenericHID;
 
 public class DriveWithJoystick extends CommandBase {
 
@@ -25,11 +28,6 @@ public class DriveWithJoystick extends CommandBase {
   private SwerveDrive swerve;
   private Gyro gyro;
 
-  private double pidPIncrement = 0.0001;
-  private double pidIIncrement = 0.0000001;
-  private double pidP = 0.0058;
-  private double pidI = 0.0000345;
-
   /**
    * Creates a new DriveWithJoystick.
    */
@@ -39,47 +37,62 @@ public class DriveWithJoystick extends CommandBase {
     this.xbox = xbox;
     this.swerve = swerve;
     this.gyro = gyro;
+
+    SmartDashboard.putNumber("Joystick/PID/P", 0.003);
+    SmartDashboard.putNumber("Joystick/PID/I", 0.00000155);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.setDefaultNumber("DB/Slider 0", 0.5);
+      
   }
+
+  private int lastAngle = 0;
+  private boolean pivotPosOnly = false;
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if (xbox.getXButton()) {
-      pidP -= pidPIncrement;
-    } else if (xbox.getBButton()) {
-      pidP += pidPIncrement;
-    }
-    if (pidP < 0) pidP = 0;
-
-    if (xbox.getAButton()) {
-      pidI -= pidIIncrement;
-    } else if (xbox.getYButton()) {
-      pidI += pidIIncrement;
-    }
-    if (pidI < 0) pidI = 0;
-
     for (AbstractSwerveModule module : swerve.getModuleMap().values()) {
       AbstractPIDController pid = module.getPivotPIDController();
-      pid.setP(pidP);
-      pid.setI(pidI);
+      pid.setP(SmartDashboard.getNumber("Joystick/PID/P", 0));
+      pid.setI(SmartDashboard.getNumber("Joystick/PID/I", 0));
     }
-    SmartDashboard.putNumber("Joystick/PID/P", pidP);
-    SmartDashboard.putNumber("Joystick/PID/I", pidI);
+
+    SmartDashboard.putNumber("Joystick/XBoxVertical (Raw)", xBoxLeftJoystickVertical());
 
     double fwd = throttle(deadband(xBoxLeftJoystickVertical()));
+    //double fwd = xBoxLeftJoystickVertical();
     double str = -throttle(deadband(xBoxLeftJoystickHorizontal()));
-    double rcw = -throttle(deadband(xBoxRightJoystickHorizontal()));
+    double rcw = throttle(deadband(xBoxRightJoystickHorizontal()));
 
     double angle = gyro.getYaw();
+    
+    boolean xboxHand = xbox.getBumper(GenericHID.Hand.kRight);
+    if (xboxHand && !pivotPosOnly) {
+      pivotPosOnly = true;
+    } else if (xboxHand && pivotPosOnly) {
+      pivotPosOnly = false;
+    }
 
-    swerve.drive(fwd, str, rcw, 0);
+    if (pivotPosOnly) {
+      if (xbox.getAButton()) {
+      lastAngle = 180;
+    } else if (xbox.getBButton()) {
+      lastAngle = 90;
+    } else if (xbox.getXButton()) {
+      lastAngle = 270;
+    } else if (xbox.getYButton()) {
+      lastAngle = 0;
+    } else {
+      //swerve.drive(fwd, str, rcw, 0);
+      swerve.setAngle(lastAngle);
+    }
+    } else {
+      swerve.drive(fwd, str, rcw, 0);
+    }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -94,10 +107,11 @@ public class DriveWithJoystick extends CommandBase {
   }
 
   private double throttle(double raw) {
-    double throttle = SmartDashboard.getNumber("DB/Slider 0", MAX_THROTTLE);
+    //double throttle = SmartDashboard.getNumber("DB/Slider 0", MAX_THROTTLE);
+    double throttle = MAX_THROTTLE;
     if (throttle > MAX_THROTTLE)
       throttle = MAX_THROTTLE;
-    else if (throttle > MIN_THROTTLE)
+    else if (throttle < MIN_THROTTLE)
       throttle = MIN_THROTTLE;
     return raw * throttle;
   }
@@ -113,13 +127,13 @@ public class DriveWithJoystick extends CommandBase {
     /* Compute the deadband mod */
     if (raw < 0.0d) {
       if (raw <= -DEADBAND) {
-        mod = raw + DEADBAND;
+        mod = (raw + DEADBAND) / (1 - DEADBAND);
       } else {
         mod = 0.0d;
       }
     } else {
       if (raw >= DEADBAND) {
-        mod = raw - DEADBAND;
+        mod = (raw - DEADBAND) / (1 - DEADBAND);
       } else {
         mod = 0.0d;
       }
