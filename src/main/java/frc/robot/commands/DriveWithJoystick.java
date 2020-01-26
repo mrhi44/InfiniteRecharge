@@ -62,10 +62,14 @@ public class DriveWithJoystick extends CommandBase {
 
     SmartDashboard.putNumber("Joystick/XBoxVertical (Raw)", xBoxLeftJoystickVertical());
 
-    double fwd = throttle(deadband(xBoxLeftJoystickVertical()));
+    double fwd = -throttle(deadband(xBoxLeftJoystickVertical()));
     //double fwd = xBoxLeftJoystickVertical();
-    double str = -throttle(deadband(xBoxLeftJoystickHorizontal()));
+    double str = throttle(deadband(xBoxLeftJoystickHorizontal()));
     double rcw = throttle(deadband(xBoxRightJoystickHorizontal()));
+
+    if (xbox.getBumper(GenericHID.Hand.kLeft)) {
+      gyro.zero();
+    }
 
     double angle = gyro.getYaw();
     
@@ -90,7 +94,7 @@ public class DriveWithJoystick extends CommandBase {
       swerve.setAngle(lastAngle);
     }
     } else {
-      swerve.drive(fwd, str, rcw, 0);
+      swerve.drive(fwd, str, rcw, angle);
     }
 
   }
