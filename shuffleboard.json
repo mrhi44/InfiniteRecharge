@@ -10,9 +10,9 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
-          "3,0": {
+          "5,0": {
             "size": [
-              4,
+              2,
               2
             ],
             "content": {
@@ -102,15 +102,30 @@
               "_source0": "network_table:///SmartDashboard/Joystick/PID/I",
               "_title": "PID I"
             }
+          },
+          "3,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Gyro",
+              "_source0": "network_table:///LiveWindow/Ungrouped/navX-Sensor",
+              "_title": "Gyro",
+              "Visuals/Major tick spacing": 45.0,
+              "Visuals/Starting angle": 180.0,
+              "Visuals/Show tick mark ring": true,
+              "Visuals/Counter clockwise": false
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": 13.0,
-    "y": 5.0,
+    "x": 5.0,
+    "y": 3.0,
     "width": 1920.0,
-    "height": 723.0
+    "height": 893.0
   }
 }
