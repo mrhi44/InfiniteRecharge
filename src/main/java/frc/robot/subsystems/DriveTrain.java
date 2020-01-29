@@ -11,13 +11,12 @@ import java.io.File;
 import java.util.HashMap;
 import java.io.IOException;
 
-import frc.robot.Constants;
 import frc.robot.commands.DriveWithJoystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
-import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
+import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
@@ -62,10 +61,10 @@ public class DriveTrain extends SwerveDrive {
   public static final double REAR_LEFT_ENCODER_OFFSET = 351.45;
   public static final double REAR_RIGHT_ENCODER_OFFSET = 160.66;
 
-  private static AnalogEncoder frontRightEncoder = new AnalogEncoder(FRONT_RIGHT_ANALOG_ENCODER, FRONT_RIGHT_ENCODER_OFFSET);
-  private static AnalogEncoder frontLeftEncoder = new AnalogEncoder(FRONT_LEFT_ANALOG_ENCODER, FRONT_LEFT_ENCODER_OFFSET);
-  private static AnalogEncoder rearLeftEncoder = new AnalogEncoder(REAR_LEFT_ANALOG_ENCODER, REAR_LEFT_ENCODER_OFFSET);
-  private static AnalogEncoder rearRightEncoder = new AnalogEncoder(REAR_RIGHT_ANALOG_ENCODER, REAR_RIGHT_ENCODER_OFFSET);
+  private static AbstractEncoder frontRightEncoder = new SparkMaxEncoder(true, FRONT_RIGHT_ENCODER_OFFSET);
+  private static AbstractEncoder frontLeftEncoder = new SparkMaxEncoder(true, FRONT_LEFT_ENCODER_OFFSET);
+  private static AbstractEncoder rearLeftEncoder = new SparkMaxEncoder(true, REAR_LEFT_ENCODER_OFFSET);
+  private static AbstractEncoder rearRightEncoder = new SparkMaxEncoder(true, REAR_RIGHT_ENCODER_OFFSET);
 
   /**
    * Create the SwerveDrive with the default settings and the robot map.
