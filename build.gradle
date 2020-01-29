@@ -30,12 +30,6 @@ deploy {
 
 def includeDesktopSupport = false
 
-repositories {
-    maven {
-        url 'https://dump.bancino.net/maven'
-    }
-}
-
 dependencies {
     /* WPILib Dependencies, don't modify these. */
     implementation wpi.deps.wpilib()
@@ -52,7 +46,6 @@ dependencies {
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 
     /* Add our dependencies here. */
-
 
     /* SwerveIO is updated very often, so we usually prefer to download a copy of it and depend on a local copy. */
     if (project.hasProperty('cloneSwerveIO')) {
