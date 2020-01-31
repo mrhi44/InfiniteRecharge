@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Const;
+
 import java.io.File;
 import java.util.HashMap;
 import java.io.IOException;
@@ -23,23 +25,12 @@ import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
 import net.bancino.robotics.swerveio.log.csv.CSVPIDSwerveLogger;
+import net.bancino.robotics.swerveio.si.Length;
+import net.bancino.robotics.swerveio.si.Unit;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends SwerveDrive {
-
-  /*
-     * Motors - CAN IDs
-     */
-    public static final int FRONT_RIGHT_DRIVE_MOTOR = 5; /* Module 1 */
-    public static final int FRONT_LEFT_DRIVE_MOTOR = 6; /* Module 2 */
-    public static final int REAR_LEFT_DRIVE_MOTOR = 7; /* Module 3 */
-    public static final int REAR_RIGHT_DRIVE_MOTOR = 8; /* Module 4 */
-
-    public static final int FRONT_RIGHT_PIVOT_MOTOR = 1; /* Module 1 */
-    public static final int FRONT_LEFT_PIVOT_MOTOR = 2; /* Module 2 */
-    public static final int REAR_LEFT_PIVOT_MOTOR = 3; /* Module 3 */
-    public static final int REAR_RIGHT_PIVOT_MOTOR = 4; /* Module 4 */
 
     /*
      * Encoders - Analog Ports
@@ -49,9 +40,9 @@ public class DriveTrain extends SwerveDrive {
     public static final int REAR_LEFT_ANALOG_ENCODER = 2; /* Module 3 */
     public static final int REAR_RIGHT_ANALOG_ENCODER = 3; /* Module 4 */
 
-  /* These are in centimeters, but unit really doesn't matter. */
-  public static final double BASE_WIDTH = 29;
-  public static final double BASE_LENGTH = 29;
+  /* These are in inches, but unit really doesn't matter. */
+  public static final Length BASE_WIDTH = new Length(29, Unit.INCHES);
+  public static final Length BASE_LENGTH = new Length(29, Unit.INCHES);
   /* Our 1:1 Encoder. */
   public static final double COUNTS_PER_PIVOT_REVOLUTION = 360;
 
@@ -73,13 +64,13 @@ public class DriveTrain extends SwerveDrive {
     super(BASE_WIDTH, BASE_LENGTH, COUNTS_PER_PIVOT_REVOLUTION, () -> {
       var modules = new HashMap<SwerveModule, AbstractSwerveModule>();
       modules.put(SwerveModule.FRONT_RIGHT,
-          new MK2SwerveModule(FRONT_RIGHT_DRIVE_MOTOR, FRONT_RIGHT_PIVOT_MOTOR, frontRightEncoder));
+          new MK2SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR, Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, frontRightEncoder));
       modules.put(SwerveModule.FRONT_LEFT,
-          new MK2SwerveModule(FRONT_LEFT_DRIVE_MOTOR, FRONT_LEFT_PIVOT_MOTOR, frontLeftEncoder));
+          new MK2SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, frontLeftEncoder));
       modules.put(SwerveModule.REAR_LEFT,
-          new MK2SwerveModule(REAR_LEFT_DRIVE_MOTOR, REAR_LEFT_PIVOT_MOTOR, rearLeftEncoder));
+          new MK2SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, rearLeftEncoder));
       modules.put(SwerveModule.REAR_RIGHT,
-          new MK2SwerveModule(REAR_RIGHT_DRIVE_MOTOR, REAR_RIGHT_PIVOT_MOTOR, rearRightEncoder));
+          new MK2SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, rearRightEncoder));
       return modules; /* Return the module map for the constructor's use. */
     }, (module) -> {
       module.getPivotPIDController().setOutputRampRate(0);
