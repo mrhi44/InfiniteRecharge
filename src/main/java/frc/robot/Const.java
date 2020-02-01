@@ -14,5 +14,7 @@ public class Const {
         public static final int FRONT_LEFT_PIVOT_MOTOR = 2; /* Module 2 */
         public static final int REAR_LEFT_PIVOT_MOTOR = 3; /* Module 3 */
         public static final int REAR_RIGHT_PIVOT_MOTOR = 4; /* Module 4 */
+
+        public static final int POWER_DISTRIBUTION_PANEL = 59;
     }
 }
