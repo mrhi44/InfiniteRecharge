@@ -64,6 +64,7 @@ dependencies {
                 uri = "https://github.com/Team6090/SwerveIO"
             }
             repo.close()
+            println 'MAKE SURE YOU RUN THE EXACT SAME BUILD AGAIN TO INCLUDE THE PROJECT. IT SHOULD BE SUCCESSFUL NOW.'
         }
         implementation project(":SwerveIO")
     }

@@ -33,7 +33,8 @@ The following dependencies have been set up to also run locally:
 
 - [SwerveIO](https://github.com/Team6090/SwerveIO)
 
-In the even you want to use a local copy of any of the above projects, specify the `cloneProject` property to clone it to the project directory:
+In the even you want to use a local copy of any of the above projects, specify the `cloneProject` property to clone it to the project directory.
+For example:
 
         $ gradle clean build -PcloneSwerveIO
 
@@ -41,7 +42,8 @@ If the build fails due to files not existing, you may need to run the `jar` task
 
         $ gradle clean SwerveIO:jar build -PcloneSwerveIO
 
-That will allow you to not be connected to the internet, but still use the local project, and deploy it to the robot.
+This will compile and include a local copy of the project in so that you can make modifications and whatnot. **On the first run, you may have to run the build twice
+because the bootstrap routine may not successfully include the project**.
 
 ## Limelight Configurations
 As well as code, this repository contains the LimeLight configurations used at competitions. These are found in the `limelight-conf/` directory. Each `.vpr` file is a pipeline, and can be uploaded to a Limelight for immediate use. As the Limelight configurations change, these pipeline files are updated.
