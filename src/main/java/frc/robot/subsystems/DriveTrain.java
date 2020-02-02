@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
+import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
@@ -31,15 +32,6 @@ import net.bancino.robotics.swerveio.si.Unit;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends SwerveDrive {
-
-    /*
-     * Encoders - Analog Ports
-     */
-    public static final int FRONT_RIGHT_ANALOG_ENCODER = 0; /* Module 1 */
-    public static final int FRONT_LEFT_ANALOG_ENCODER = 1; /* Module 2 */
-    public static final int REAR_LEFT_ANALOG_ENCODER = 2; /* Module 3 */
-    public static final int REAR_RIGHT_ANALOG_ENCODER = 3; /* Module 4 */
-
   /* These are in inches, but unit really doesn't matter. */
   public static final Length BASE_WIDTH = new Length(29, Unit.INCHES);
   public static final Length BASE_LENGTH = new Length(29, Unit.INCHES);
@@ -47,15 +39,20 @@ public class DriveTrain extends SwerveDrive {
   public static final double COUNTS_PER_PIVOT_REVOLUTION = 360;
 
   /* The encoder offsets tell us where zero is for each motor. */
-  public static final double FRONT_RIGHT_ENCODER_OFFSET = 54.65;
-  public static final double FRONT_LEFT_ENCODER_OFFSET = 196.27;
-  public static final double REAR_LEFT_ENCODER_OFFSET = 351.45;
-  public static final double REAR_RIGHT_ENCODER_OFFSET = 160.66;
+  public static final double FRONT_RIGHT_ENCODER_OFFSET = 146.27;
+  public static final double FRONT_LEFT_ENCODER_OFFSET = 134.60;
+  public static final double REAR_LEFT_ENCODER_OFFSET = 59.34;
+  public static final double REAR_RIGHT_ENCODER_OFFSET = 267.2;
 
-  private static AbstractEncoder frontRightEncoder = new SparkMaxEncoder(true, FRONT_RIGHT_ENCODER_OFFSET);
-  private static AbstractEncoder frontLeftEncoder = new SparkMaxEncoder(true, FRONT_LEFT_ENCODER_OFFSET);
-  private static AbstractEncoder rearLeftEncoder = new SparkMaxEncoder(true, REAR_LEFT_ENCODER_OFFSET);
-  private static AbstractEncoder rearRightEncoder = new SparkMaxEncoder(true, REAR_RIGHT_ENCODER_OFFSET);
+  private static AbstractEncoder frontRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG, FRONT_RIGHT_ENCODER_OFFSET);
+  private static AbstractEncoder frontLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG, FRONT_LEFT_ENCODER_OFFSET);
+  private static AbstractEncoder rearLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG, REAR_LEFT_ENCODER_OFFSET);
+  private static AbstractEncoder rearRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG, REAR_RIGHT_ENCODER_OFFSET);
+
+  //private static AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, FRONT_RIGHT_ENCODER_OFFSET);
+  //private static AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, FRONT_LEFT_ENCODER_OFFSET);
+  //private static AbstractEncoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, REAR_LEFT_ENCODER_OFFSET);
+  //private static AbstractEncoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, REAR_RIGHT_ENCODER_OFFSET);
 
   /**
    * Create the SwerveDrive with the default settings and the robot map.
@@ -80,7 +77,7 @@ public class DriveTrain extends SwerveDrive {
 
     zeroDriveEncoders();
 
-    //setIdleAngle(0, false);
+    setIdleAngle(0, false);
 
     startLogging(new DashboardSwerveLogger());
 
