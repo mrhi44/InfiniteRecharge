@@ -38,7 +38,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends SwerveDrive {
 
-  public DriveTrain(XboxController xbox, Gyro gyro) throws SwerveException {
+  public DriveTrain(XboxController xbox, AbstractGyro gyro) throws SwerveException {
     super(new SwerveMeta() {
 
       /* The encoder offsets tell us where zero is for each motor. */

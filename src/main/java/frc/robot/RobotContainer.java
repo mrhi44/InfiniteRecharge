@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Gyro;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
+
+import net.bancino.robotics.swerveio.gyro.NavXGyro;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -32,7 +34,7 @@ public class RobotContainer {
 
   private final XboxController xbox0 = new XboxController(0);
 
-  private final Gyro gyro = new Gyro();
+  private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
