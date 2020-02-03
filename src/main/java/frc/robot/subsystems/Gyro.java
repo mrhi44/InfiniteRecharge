@@ -7,12 +7,14 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
 
+import net.bancino.robotics.swerveio.gyro.AbstractGyro;
+
 /**
  * The Gyro allows field centric navigation.
  * 
  * @author Jordan Bancino
  */
-public class Gyro extends SubsystemBase {
+public class Gyro extends SubsystemBase implements AbstractGyro {
 
   /* Create the AHRS NavX Gyro */
   private final AHRS navxGyro = new AHRS(SPI.Port.kMXP);

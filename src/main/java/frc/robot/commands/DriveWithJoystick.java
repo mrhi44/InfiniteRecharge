@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Gyro;
 import net.bancino.robotics.swerveio.SwerveDrive;
+import net.bancino.robotics.swerveio.SwerveVector;
 import net.bancino.robotics.swerveio.pid.AbstractPIDController;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 
@@ -69,9 +70,7 @@ public class DriveWithJoystick extends CommandBase {
     if (xbox.getBumper(GenericHID.Hand.kLeft)) {
       gyro.zero();
     }
-
-    double angle = gyro.getYaw();
-    
+        
     boolean xboxHand = xbox.getBumper(GenericHID.Hand.kRight);
     if (xboxHand && !pivotPosOnly) {
       pivotPosOnly = true;
@@ -93,7 +92,7 @@ public class DriveWithJoystick extends CommandBase {
       swerve.setAngle(lastAngle);
     }
     } else {
-      swerve.drive(fwd, str, rcw, angle);
+      swerve.drive(new SwerveVector(fwd, str, rcw));
     }
 
   }

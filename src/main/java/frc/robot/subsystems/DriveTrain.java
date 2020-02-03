@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveMeta;
 import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
-import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
+//import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
@@ -32,6 +32,7 @@ import net.bancino.robotics.swerveio.si.Length;
 import net.bancino.robotics.swerveio.si.Unit;
 import net.bancino.robotics.swerveio.si.ChassisDimension;
 import net.bancino.robotics.swerveio.si.SquareChassis;
+import net.bancino.robotics.swerveio.gyro.AbstractGyro;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -95,6 +96,11 @@ public class DriveTrain extends SwerveDrive {
         modules.put(SwerveModule.REAR_RIGHT,
             new MK2SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, rearRightEncoder));
         return modules; /* Return the module map for the constructor's use. */
+      }
+
+      @Override
+      public AbstractGyro gyro() {
+        return gyro;
       }
 
       @Override
