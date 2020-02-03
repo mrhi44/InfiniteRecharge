@@ -24,6 +24,7 @@ import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  @SuppressWarnings("unused")
   private final DriveTrain drivetrain;
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);

@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  @SuppressWarnings("unused")
   private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
 
   /**
