@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveMeta;
-import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
-//import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
+//import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
+import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
@@ -47,27 +47,19 @@ public class DriveTrain extends SwerveDrive {
       private final double REAR_LEFT_ENCODER_OFFSET = 59.34;
       private final double REAR_RIGHT_ENCODER_OFFSET = 267.2;
 
-      private final AbstractEncoder frontRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-          FRONT_RIGHT_ENCODER_OFFSET);
-      private final AbstractEncoder frontLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-          FRONT_LEFT_ENCODER_OFFSET);
-      private final AbstractEncoder rearLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-          REAR_LEFT_ENCODER_OFFSET);
-      private final AbstractEncoder rearRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-          REAR_RIGHT_ENCODER_OFFSET);
+      //private final AbstractEncoder frontRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
+      //    FRONT_RIGHT_ENCODER_OFFSET);
+      //private final AbstractEncoder frontLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
+      //    FRONT_LEFT_ENCODER_OFFSET);
+      //private final AbstractEncoder rearLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
+      //    REAR_LEFT_ENCODER_OFFSET);
+      //private final AbstractEncoder rearRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
+      //    REAR_RIGHT_ENCODER_OFFSET);
 
-      // private final AbstractEncoder frontRightEncoder = new
-      // AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER,
-      // FRONT_RIGHT_ENCODER_OFFSET);
-      // private final AbstractEncoder frontLeftEncoder = new
-      // AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER,
-      // FRONT_LEFT_ENCODER_OFFSET);
-      // private final AbstractEncoder rearLeftEncoder = new
-      // AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER,
-      // REAR_LEFT_ENCODER_OFFSET);
-      // private final AbstractEncoder rearRightEncoder = new
-      // AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER,
-      // REAR_RIGHT_ENCODER_OFFSET);
+      private final AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, FRONT_RIGHT_ENCODER_OFFSET);
+      private final AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, FRONT_LEFT_ENCODER_OFFSET);
+      private final AbstractEncoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, REAR_LEFT_ENCODER_OFFSET);
+      private final AbstractEncoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, REAR_RIGHT_ENCODER_OFFSET);
 
       @Override
       public String name() {
