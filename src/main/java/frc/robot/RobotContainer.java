@@ -17,6 +17,9 @@ import frc.robot.commands.Rotate;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 
+import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.IntakeWithJoystick;
+
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -33,7 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveTrain drivetrain;
-  private final Intake intake = new Intake(xbox0);
+  private final Intake intake = new Intake();
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final Command m_autoCommand = null;
@@ -46,13 +49,19 @@ public class RobotContainer {
   public RobotContainer() {
     /* Construct our subsystems if they throw exceptions. */
     try {
-      drivetrain = new DriveTrain(xbox0, gyro);
+      drivetrain = new DriveTrain(gyro);
     } catch (SwerveException e) {
       throw new SwerveRuntimeException(e);
     }
 
     // Configure the button bindings
     configureButtonBindings();
+    configureCommands();
+  }
+
+  private void configureCommands() {
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox0));
+    drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0));
   }
 
   /**

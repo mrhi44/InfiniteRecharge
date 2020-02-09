@@ -27,10 +27,9 @@ public class Intake extends SubsystemBase implements Stoppable, Runnable {
   /**
    * Creates a new Intake with the settings in the constants file.
    */
-  public Intake(XboxController xbox) {
+  public Intake() {
     motor = new WPI_TalonSRX(Const.CAN.INTAKE_MOTOR);
     setSpeed(Const.Intake.INTAKE_SPEED);
-    setDefaultCommand(new IntakeWithJoystick(this, xbox));
   }
 
   /**
