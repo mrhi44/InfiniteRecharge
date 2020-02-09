@@ -71,29 +71,7 @@ public class DriveWithJoystick extends CommandBase {
       gyro.zero();
     }
 
-    boolean xboxHand = xbox.getBumper(GenericHID.Hand.kRight);
-    if (xboxHand && !pivotPosOnly) {
-      pivotPosOnly = true;
-    } else if (xboxHand && pivotPosOnly) {
-      pivotPosOnly = false;
-    }
-
-    if (pivotPosOnly) {
-      if (xbox.getAButton()) {
-      lastAngle = 180;
-    } else if (xbox.getBButton()) {
-      lastAngle = 90;
-    } else if (xbox.getXButton()) {
-      lastAngle = 270;
-    } else if (xbox.getYButton()) {
-      lastAngle = 0;
-    } else {
-      //swerve.drive(fwd, str, rcw, 0);
-      swerve.setAngle(lastAngle);
-    }
-    } else {
-      swerve.drive(new SwerveVector(fwd, str, rcw));
-    }
+    swerve.drive(new SwerveVector(fwd, str, rcw));
 
   }
 
