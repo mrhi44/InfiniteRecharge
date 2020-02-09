@@ -106,7 +106,7 @@ public class DriveTrain extends SwerveDrive {
 
         swerve.zeroDriveEncoders();
 
-        swerve.setIdleAngle(0, false);
+        //swerve.setIdleAngle(0, false);
 
         swerve.startLogging(new DashboardSwerveLogger());
 
