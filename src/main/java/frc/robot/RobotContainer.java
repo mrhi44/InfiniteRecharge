@@ -9,8 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.commands.Rotate;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 
@@ -24,15 +27,16 @@ import edu.wpi.first.wpilibj.SPI;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+  private final XboxController xbox0 = new XboxController(0);
+
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  @SuppressWarnings("unused")
   private final DriveTrain drivetrain;
+  private final Intake intake = new Intake(xbox0);
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final Command m_autoCommand = null;
-
-  private final XboxController xbox0 = new XboxController(0);
 
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
 
@@ -40,15 +44,15 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-
     /* Construct our subsystems if they throw exceptions. */
     try {
       drivetrain = new DriveTrain(xbox0, gyro);
     } catch (SwerveException e) {
       throw new SwerveRuntimeException(e);
     }
+
+    // Configure the button bindings
+    configureButtonBindings();
   }
 
   /**
@@ -58,7 +62,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
+    xbox0A.whenPressed(new Rotate(drivetrain));
   }
 
 

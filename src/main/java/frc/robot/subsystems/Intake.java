@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.Const;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.IntakeWithJoystick;
 
 /**
  * The intake subsystem is responsible for taking power cells into the 
@@ -25,9 +27,10 @@ public class Intake extends SubsystemBase implements Stoppable, Runnable {
   /**
    * Creates a new Intake with the settings in the constants file.
    */
-  public Intake() {
+  public Intake(XboxController xbox) {
     motor = new WPI_VictorSPX(Const.CAN.INTAKE_MOTOR);
     setSpeed(Const.Intake.INTAKE_SPEED);
+    setDefaultCommand(new IntakeWithJoystick(this, xbox));
   }
 
   /**
