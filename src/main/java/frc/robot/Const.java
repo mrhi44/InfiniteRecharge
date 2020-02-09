@@ -15,6 +15,8 @@ public class Const {
         public static final int REAR_LEFT_PIVOT_MOTOR = 3; /* Module 3 */
         public static final int REAR_RIGHT_PIVOT_MOTOR = 4; /* Module 4 */
 
+        public static final int INTAKE_MOTOR = 11;
+
         public static final int POWER_DISTRIBUTION_PANEL = 59;
     }
 
@@ -26,5 +28,12 @@ public class Const {
         public static final int FRONT_LEFT_ANALOG_ENCODER = 1; /* Module 2 */
         public static final int REAR_LEFT_ANALOG_ENCODER = 2; /* Module 3 */
         public static final int REAR_RIGHT_ANALOG_ENCODER = 3; /* Module 4 */
+    }
+
+    /*
+     * Constants pertaining to the intake subsystem.
+     */
+    public static class Intake {
+        public static final double INTAKE_SPEED = 0.5;
     }
 }
