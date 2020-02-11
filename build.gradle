@@ -67,8 +67,6 @@ dependencies {
             println 'MAKE SURE YOU RUN THE EXACT SAME BUILD AGAIN TO INCLUDE THE PROJECT. IT SHOULD BE SUCCESSFUL NOW.'
         }
         implementation project(":SwerveIO")
-    } else {
-        implementation 'net.bancino.robotics:SwerveIO:2.0.1'
     }
 }
 
