@@ -32,17 +32,21 @@ them:
 The following dependencies have been set up to also run locally:
 
 - [SwerveIO](https://github.com/Team6090/SwerveIO)
+- [JLimelight](https://github.com/Team6090/JLimelight)
 
-In the even you want to use a local copy of any of the above projects, specify the `cloneProject` property to clone it to the project directory.
+In the even you want to use a local copy of any of the above projects, specify the `useLocalProject` property to clone it to the project directory.
 For example:
 
-        $ gradle clean build -PcloneSwerveIO
+        $ gradle clean build -PuseLocalSwerveIO
 
-If the build fails due to files not existing, you may need to run the `jar` task on the cloned project:
+or:
+        $ gradle clean build -PuseLocalJLimelight
 
-        $ gradle clean SwerveIO:jar build -PcloneSwerveIO
+You can also use any combination of the above commands, or you can run this command to include all known dependencies:
 
-This will compile and include a local copy of the project in so that you can make modifications and whatnot. **On the first run, you may have to run the build twice
+        $ gradle clean build -PallLocal
+
+These commands will compile and include a local copy of the project(s) so that you can make modifications and whatnot to the source code on your disk, then include the changes in your robot code. **On the first run, you may have to run the build twice
 because the bootstrap routine may not successfully include the project**.
 
 ## Limelight Configurations
