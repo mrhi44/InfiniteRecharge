@@ -46,46 +46,11 @@ dependencies {
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 
     /* Add our dependencies here. */
-
-    /* SwerveIO is updated very often, so we usually prefer to download a copy of it and depend on a local copy. */
-    if (project.hasProperty('cloneSwerveIO')) {
-        def repoDir = file("$projectDir/SwerveIO")
-        if (repoDir.exists()) {
-            if (netIsAvailable()) {
-                def repo = grgit.open(dir: repoDir)
-                repo.pull()
-                repo.close()
-            } else {
-                println 'Warning: Unable to pull latest SwerveIO.'
-            }
-        } else {
-            def repo = grgit.clone {
-                dir = "$projectDir/SwerveIO"
-                uri = "https://github.com/Team6090/SwerveIO"
-            }
-            repo.close()
-            println 'MAKE SURE YOU RUN THE EXACT SAME BUILD AGAIN TO INCLUDE THE PROJECT. IT SHOULD BE SUCCESSFUL NOW.'
-        }
-        implementation project(":SwerveIO")
-    }
+    apply from: 'localdeps.gradle'
+    localdeps.buildSetup()
 }
 
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
-}
-
-private static boolean netIsAvailable() {
-    try {
-        final URL url = new URL("https://github.com");
-        final URLConnection conn = url.openConnection();
-        conn.setConnectTimeout(1000);
-        conn.connect();
-        conn.getInputStream().close();
-        return true;
-    } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-    } catch (IOException e) {
-        return false;
-    }
 }

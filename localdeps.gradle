@@ -1,0 +1,62 @@
+ext.localdeps = [
+    list: ["SwerveIO", "JLimelight"],
+    repoPrefix: "https://github.com/Team6090",
+
+    settingsSetup: {
+        localdeps.list.eachWithIndex { item, index ->
+            localdeps.registerProjectIfExists(item)
+        }
+    },
+
+    buildSetup: {
+        localdeps.list.eachWithIndex { item, index -> 
+            if (project.hasProperty("useLocal$item") || project.hasProperty("allLocal")) {
+                println "Using local copy of $item."
+                localdeps.syncLocalDependency("${localdeps.repoPrefix}/$item", item)
+                dependencies.implementation project(":$item")
+                tasks.jar.dependsOn("$item:jar")
+            }
+        }
+    },
+
+    registerProjectIfExists: { proj ->
+        if (file(proj).exists()) {
+            include proj
+        }
+    },
+
+    syncLocalDependency: { url, name ->
+        def repoDir = file("$projectDir/$name")
+        if (repoDir.exists()) {
+            if (netIsAvailable()) {
+                def repo = grgit.open(dir: repoDir)
+                repo.pull()
+                repo.close()
+            } else {
+                println "Warning: Unable to pull latest $name."
+            }
+        } else {
+            def repo = grgit.clone {
+                dir = "$projectDir/$name"
+                uri = url
+            }
+            repo.close()
+            println 'MAKE SURE YOU RUN THE EXACT SAME BUILD AGAIN TO INCLUDE THE PROJECT. IT SHOULD BE SUCCESSFUL NOW.'
+        }
+    }
+]
+
+private static boolean netIsAvailable() {
+    try {
+        final URL url = new URL("https://github.com");
+        final URLConnection conn = url.openConnection();
+        conn.setConnectTimeout(1000);
+        conn.connect();
+        conn.getInputStream().close();
+        return true;
+    } catch (MalformedURLException e) {
+        throw new RuntimeException(e);
+    } catch (IOException e) {
+        return false;
+    }
+}
