@@ -1,13 +1,30 @@
+/*
+ * The localdeps object takes care of setting up our home-grown dependencies
+ * so that they can be compiled as source code. This allows us to, at competitions,
+ * build our code with local changes to any of our libraries, instead of having to
+ * push and pull to git and maven.
+ *
+ * This is an extremely rudimentary solution that depends on the grgit plugin.
+ */
+
 ext.localdeps = [
+    /* The list of local dependencies. This should be set before any functions are run. */
     list: ["SwerveIO", "JLimelight"],
+    /*
+     * The repoPrefix is the URL from which all the above dependencies are pulled.
+     * The format for dependencies is "$repoPrefix/$item" Where $item is the dependency
+     * in the list above.
+     */
     repoPrefix: "https://github.com/Team6090",
 
+    /* Run this in settings.gradle */
     settingsSetup: {
         localdeps.list.eachWithIndex { item, index ->
             localdeps.registerProjectIfExists(item)
         }
     },
 
+    /* Run this in build.gradle */
     buildSetup: {
         localdeps.list.eachWithIndex { item, index -> 
             if (project.hasProperty("useLocal$item") || project.hasProperty("allLocal")) {
@@ -19,12 +36,14 @@ ext.localdeps = [
         }
     },
 
+    /* Register the given directory as a gradle project, only if it exists. */
     registerProjectIfExists: { proj ->
         if (file(proj).exists()) {
             include proj
         }
     },
 
+    /* clone or pull the given git repository. URL is the remote, name is the local folder name.*/
     syncLocalDependency: { url, name ->
         def repoDir = file("$projectDir/$name")
         if (repoDir.exists()) {
@@ -46,9 +65,14 @@ ext.localdeps = [
     }
 ]
 
-private static boolean netIsAvailable() {
+/**
+ * Check if internet is available by trying to reach the repoPrefix.
+ *
+ * @return Whether or not the remote URL is accessible after a 1 second wait period.
+ */
+private boolean netIsAvailable() {
     try {
-        final URL url = new URL("https://github.com");
+        final URL url = new URL(repoPrefix);
         final URLConnection conn = url.openConnection();
         conn.setConnectTimeout(1000);
         conn.connect();
