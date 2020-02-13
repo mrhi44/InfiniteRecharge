@@ -27,37 +27,17 @@ import frc.robot.commands.IntakeWithJoystick;
  *
  * @author Jordan Bancino
  */
-public class Intake extends SubsystemBase {
+public class Intake extends SimpleMotorSubsystem {
 
   private final Solenoid intakeLift = new Solenoid(Const.Pneumatic.INTAKE);
   private final WPI_TalonSRX motor = new WPI_TalonSRX(Const.CAN.INTAKE_MOTOR);
-  private double speed = 0;
 
   /**
    * Creates a new Intake with the settings in the constants file.
    */
   public Intake() {
-    setSpeed(Const.Speed.INTAKE_SPEED);
+    super(Const.Speed.INTAKE_SPEED);
     lift(true);
-  }
-
-  /**
-   * Set the speed to run the intake at. Note that this does NOT 
-   * actually run the intake, but set the speed that the intake will be run at.
-   */
-  public void setSpeed(double speed) {
-    if (speed <= 1.0 && speed >= -1.0) {
-      this.speed = speed;
-    } else {
-      throw new IllegalArgumentException("Speed out of bounds: " + speed);
-    }
-  }
-
-  /**
-   * Run the intake at the default speed.
-   */
-  public void run() {
-    runAt(speed);
   }
 
   /**
@@ -67,15 +47,9 @@ public class Intake extends SubsystemBase {
    *              This will be passed directly into the motor
    *              with no checks.
    */
+  @Override
   public void runAt(double speed) {
     motor.set(speed);
-  }
-
-  /**
-   * Stop the intake motor by running it at zero current.
-   */
-  public void stop() {
-    runAt(0.0);
   }
 
   /**

@@ -17,41 +17,20 @@ import frc.robot.Const;
  * - Control the hood via a position loop
  * - Run the fly wheel.
  */
-public class Shooter extends SubsystemBase {
+public class Shooter extends SimpleMotorSubsystem {
 
     public final WPI_VictorSPX shooterMotor1 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_1);
     public final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_2);
     public final WPI_VictorSPX shooterMotorReversed = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_REVERSED);
 
-    private double speed = 0;
-
     public Shooter() {
-        setSpeed(Const.Speed.SHOOTER_SPEED);
+        super(Const.Speed.SHOOTER_SPEED);
     }
 
-    /**
-     * Set the speed to run the intake at. Note that this does NOT 
-     * actually run the intake, but set the speed that the intake will be run at.
-     */
-    public void setSpeed(double speed) {
-      if (speed <= 1.0 && speed >= -1.0) {
-        this.speed = speed;
-      } else {
-        throw new IllegalArgumentException("Speed out of bounds: " + speed);
-      }
-    }
-
-    public void run() {
-        runAt(speed);
-    }
-
+    @Override
     public void runAt(double speed) {
         shooterMotor1.set(speed);
         shooterMotor2.set(speed);
         shooterMotorReversed.set(-speed);
-    }
-
-    public void stop() {
-        runAt(0.0);
     }
 }
