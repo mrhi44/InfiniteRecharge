@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
+import frc.robot.Const;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 /**
  * The Elevator subsystem controls the elevator mechanism
@@ -15,6 +19,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * - Run a speed loop on the adjustment wheel
  */
 public class Elevator extends SubsystemBase {
+
+    private final CANSparkMax elevatorMotor = new CANSparkMax(Const.CAN.ELEVATOR_MOTOR, MotorType.kBrushless);
+    private final WPI_VictorSPX wheelMotor = new WPI_VictorSPX(Const.CAN.ELEVATOR_WHEEL);
+
     public Elevator() {
 
     }

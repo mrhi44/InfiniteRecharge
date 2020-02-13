@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Const;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.commands.IntakeWithJoystick;
 
 /**
@@ -28,15 +29,16 @@ import frc.robot.commands.IntakeWithJoystick;
  */
 public class Intake extends SubsystemBase {
 
-  private final WPI_TalonSRX motor;
-  private double speed;
+  private final Solenoid intakeLift = new Solenoid(Const.Pneumatic.INTAKE);
+  private final WPI_TalonSRX motor = new WPI_TalonSRX(Const.CAN.INTAKE_MOTOR);
+  private double speed = 0;
 
   /**
    * Creates a new Intake with the settings in the constants file.
    */
   public Intake() {
-    motor = new WPI_TalonSRX(Const.CAN.INTAKE_MOTOR);
     setSpeed(Const.Speed.INTAKE_SPEED);
+    lift(true);
   }
 
   /**
@@ -74,5 +76,14 @@ public class Intake extends SubsystemBase {
    */
   public void stop() {
     runAt(0.0);
+  }
+
+  /**
+   * Lift the intake, or put it down.
+   *
+   * @param liftIntake Whether or not the intake should be up or down.
+   */
+  public void lift(boolean liftIntake) {
+    intakeLift.set(!liftIntake);
   }
 }
