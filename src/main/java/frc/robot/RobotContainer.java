@@ -25,6 +25,7 @@ import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
+import net.bancino.robotics.jlimelight.Limelight;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
@@ -39,7 +40,7 @@ public class RobotContainer {
 
   private final XboxController xbox0 = new XboxController(0);
 
-  // The robot's subsystems and commands are defined here...
+  /* The robot's subsystems and commands are defined here */
   private final AirCompressor compressor = new AirCompressor();
   private final DriveTrain drivetrain;
   private final Elevator elevator = new Elevator();
@@ -47,8 +48,10 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
 
+  /* Additional global objects can go here. */
   private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
+  private final Limelight limelight = new Limelight();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
