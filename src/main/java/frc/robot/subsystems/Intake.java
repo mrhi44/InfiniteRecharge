@@ -14,8 +14,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.IntakeWithJoystick;
 
 /**
- * The intake subsystem is responsible for taking power cells into the 
- * robot feed.
+ * The Intake subsystem controls the intake of power cells.
+ *
+ * This subsystem consists of the following components:
+ * - The intake motor (1x Talon SRX on CAN)
+ * - Pneumatics to control the intake up and down.
+ *
+ * This subsystem should provide the following functions:
+ * - Run a speed loop on the intake motor.
+ * - Toggle the pneumatics to lift and lower the intake.
  *
  * @author Jordan Bancino
  */
