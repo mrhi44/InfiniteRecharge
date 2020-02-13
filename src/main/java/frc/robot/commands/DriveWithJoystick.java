@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Gyro;
 import net.bancino.robotics.swerveio.SwerveDrive;
-import net.bancino.robotics.swerveio.SwerveModule;
+import net.bancino.robotics.swerveio.SwerveVector;
 import net.bancino.robotics.swerveio.pid.AbstractPIDController;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
+import net.bancino.robotics.swerveio.gyro.AbstractGyro;
 
 import edu.wpi.first.wpilibj.GenericHID;
 
@@ -26,12 +26,12 @@ public class DriveWithJoystick extends CommandBase {
 
   private XboxController xbox;
   private SwerveDrive swerve;
-  private Gyro gyro;
+  private AbstractGyro gyro;
 
   /**
    * Creates a new DriveWithJoystick.
    */
-  public DriveWithJoystick(SwerveDrive swerve, Gyro gyro, XboxController xbox) {
+  public DriveWithJoystick(SwerveDrive swerve, AbstractGyro gyro, XboxController xbox) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve);
     this.xbox = xbox;
@@ -71,31 +71,7 @@ public class DriveWithJoystick extends CommandBase {
       gyro.zero();
     }
 
-    double angle = gyro.getYaw();
-    
-    boolean xboxHand = xbox.getBumper(GenericHID.Hand.kRight);
-    if (xboxHand && !pivotPosOnly) {
-      pivotPosOnly = true;
-    } else if (xboxHand && pivotPosOnly) {
-      pivotPosOnly = false;
-    }
-
-    if (pivotPosOnly) {
-      if (xbox.getAButton()) {
-      lastAngle = 180;
-    } else if (xbox.getBButton()) {
-      lastAngle = 90;
-    } else if (xbox.getXButton()) {
-      lastAngle = 270;
-    } else if (xbox.getYButton()) {
-      lastAngle = 0;
-    } else {
-      //swerve.drive(fwd, str, rcw, 0);
-      swerve.setAngle(lastAngle);
-    }
-    } else {
-      swerve.drive(fwd, str, rcw, angle);
-    }
+    swerve.drive(new SwerveVector(fwd, str, rcw));
 
   }
 

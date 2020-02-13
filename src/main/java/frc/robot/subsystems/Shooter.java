@@ -1,74 +1,39 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Const;
-import edu.wpi.first.wpilibj.XboxController;
-
 
 /**
- * The intake subsystem is responsible for taking power cells into the 
- * robot feed.
+ * The Shooter subsystem controls the shooting mechanism
+ * that will shoot power cells.
  *
- * @author Jordan Bancino
+ * This subsystem consists of the following components:
+ * - The fly wheel (3x Victor SPX controllers on CAN, note that one will be reversed)
+ * - The hood (1x Talon SRX controller with SRX magnetic encoder.)
+ *
+ * This subsystem should provide the following functions:
+ * - Calculate the hood position from distance from the target
+ * - Control the hood via a position loop
+ * - Run the fly wheel.
  */
-public class Shooter extends SubsystemBase implements Stoppable, Runnable {
+public class Shooter extends SimpleMotorSubsystem {
 
-  private final WPI_TalonSRX motorMaster;
-  private final WPI_VictorSPX motorFollower;
-  private double speed;
+    public final WPI_VictorSPX shooterMotor1 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_1);
+    public final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_2);
+    public final WPI_VictorSPX shooterMotorReversed = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_REVERSED);
 
-  /**
-   * Creates a new Intake with the settings in the constants file.
-   */
-  public Shooter() {
-    motorMaster = new WPI_TalonSRX(Const.CAN.SHOOTER_MASTER);
-    motorFollower = new WPI_VictorSPX(Const.CAN.SHOOTER_FOLLOWER);
-    setSpeed(Const.Shooter.SHOOTER_SPEED);
-  }
+    public final WPI_TalonSRX shooterHoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
 
-  /**
-   * Set the speed to run the intake at. Note that this does NOT 
-   * actually run the intake, but set the speed that the intake will be run at.
-   */
-  public void setSpeed(double speed) {
-    if (speed >= 0.0 && speed <= 1.0) {
-      this.speed = speed;
-    } else {
-      throw new IllegalArgumentException("Speed out of bounds: " + speed);
+    public Shooter() {
+        super(Const.Speed.SHOOTER_SPEED);
     }
-  }
 
-  /**
-   * Run the intake at the default speed.
-   */
-  public void run() {
-    runAt(speed);
-  }
-
-  /**
-   * Run the intake at the given speed.
-   *
-   * @param speed The speed in terms of current percentage.
-   *              This will be passed directly into the motor
-   *              with no checks.
-   */
-  public void runAt(double speed) {
-    motorMaster.set(speed);
-  }
-
-  /**
-   * Stop the intake motor by running it at zero current.
-   */
-  public void stop() {
-    runAt(0.0);
-  }
+    @Override
+    public void runAt(double speed) {
+        shooterMotor1.set(speed);
+        shooterMotor2.set(speed);
+        shooterMotorReversed.set(-speed);
+    }
 }

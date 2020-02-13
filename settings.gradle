@@ -26,11 +26,6 @@ pluginManagement {
     }
 }
 
-ext.registerProjectIfExists = { proj ->
-    if (file(proj).exists()) {
-        include proj
-    }
-}
-
 /* Below we register local projects if they exist. */
-registerProjectIfExists("SwerveIO")
+apply from: 'localdeps.gradle'
+localdeps.settingsSetup()

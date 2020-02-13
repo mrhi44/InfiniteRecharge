@@ -9,11 +9,26 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.AirCompressor;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Gyro;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Feed;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.commands.Rotate;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
+
+import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.IntakeWithJoystick;
+
+import net.bancino.robotics.swerveio.gyro.NavXGyro;
+import net.bancino.robotics.jlimelight.Limelight;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,30 +37,36 @@ import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final DriveTrain drivetrain;
-
-  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final Command m_autoCommand = null;
 
   private final XboxController xbox0 = new XboxController(0);
 
-  private final Gyro gyro = new Gyro();
+  /* The robot's subsystems and commands are defined here */
+  private final AirCompressor compressor = new AirCompressor();
+  private final DriveTrain drivetrain;
+  private final Elevator elevator = new Elevator();
+  private final Feed feed = new Feed();
+  private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
+
+  /* Additional global objects can go here. */
+  private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
+  private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
+  private final Limelight limelight = new Limelight();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-
-    /* Construct our subsystems if they throw exceptions. */
+    /* Construct our subsystems here if they throw exceptions. */
     try {
-      drivetrain = new DriveTrain(xbox0, gyro);
+      drivetrain = new DriveTrain(gyro);
     } catch (SwerveException e) {
       throw new SwerveRuntimeException(e);
     }
+
+    // Configure the button bindings
+    configureButtonBindings();
+    configureCommands();
   }
 
   /**
@@ -55,9 +76,14 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
+    xbox0A.whenPressed(new Rotate(drivetrain));
   }
 
+  private void configureCommands() {
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox0));
+    drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -66,6 +92,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // This command will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }
