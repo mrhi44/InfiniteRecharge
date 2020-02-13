@@ -35,7 +35,7 @@ public class Const {
     }
 
     public static class Pneumatic {
-        public static final int COMPRESSOR = 1;
+        public static final int CONTROL_MODULE = 1;
         public static final int INTAKE = 2;
         public static final int FEED_STOP = 3;
     }

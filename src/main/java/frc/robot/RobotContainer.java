@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.AirCompressor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Feed;
@@ -25,6 +26,8 @@ import frc.robot.commands.IntakeWithJoystick;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,13 +40,14 @@ public class RobotContainer {
   private final XboxController xbox0 = new XboxController(0);
 
   // The robot's subsystems and commands are defined here...
-  //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final AirCompressor compressor = new AirCompressor(Const.Pneumatic.CONTROL_MODULE);
   private final DriveTrain drivetrain;
   private final Elevator elevator = new Elevator();
   private final Feed feed = new Feed();
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
 
+  private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
 
   /**
