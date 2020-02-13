@@ -40,13 +40,6 @@ public class DriveTrain extends SwerveDrive {
 
   public DriveTrain(AbstractGyro gyro) throws SwerveException {
     super(new SwerveMeta() {
-
-      /* The encoder offsets tell us where zero is for each motor. */
-      private final double FRONT_RIGHT_ENCODER_OFFSET = 146.27;
-      private final double FRONT_LEFT_ENCODER_OFFSET = 134.60;
-      private final double REAR_LEFT_ENCODER_OFFSET = 59.34;
-      private final double REAR_RIGHT_ENCODER_OFFSET = 267.2;
-
       //private final AbstractEncoder frontRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
       //    FRONT_RIGHT_ENCODER_OFFSET);
       //private final AbstractEncoder frontLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
@@ -56,10 +49,10 @@ public class DriveTrain extends SwerveDrive {
       //private final AbstractEncoder rearRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
       //    REAR_RIGHT_ENCODER_OFFSET);
 
-      private final AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, FRONT_RIGHT_ENCODER_OFFSET);
-      private final AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, FRONT_LEFT_ENCODER_OFFSET);
-      private final AbstractEncoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, REAR_LEFT_ENCODER_OFFSET);
-      private final AbstractEncoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, REAR_RIGHT_ENCODER_OFFSET);
+      private final AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET);
+      private final AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET);
+      private final AbstractEncoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, Const.Encoder.REAR_LEFT_ENCODER_OFFSET);
+      private final AbstractEncoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, Const.Encoder.REAR_RIGHT_ENCODER_OFFSET);
 
       @Override
       public String name() {
