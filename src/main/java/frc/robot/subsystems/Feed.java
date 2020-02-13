@@ -18,12 +18,21 @@ import edu.wpi.first.wpilibj.Solenoid;
  * - Run the belt feed.
  * - Toggle the power cell-stopper
  */
-public class Feed extends SubsystemBase {
+public class Feed extends SimpleMotorSubsystem {
 
     private final CANSparkMax feedMotor = new CANSparkMax(Const.CAN.FEED_MOTOR, MotorType.kBrushless);
     private final Solenoid feedStop = new Solenoid(Const.Pneumatic.CONTROL_MODULE, Const.Pneumatic.FEED_STOP);
 
     public Feed() {
+        super(Const.Speed.FEED_SPEED);
+    }
 
+    @Override
+    public void runAt(double speed) {
+        feedMotor.set(speed);
+    }
+
+    public void closeFeed(boolean closeFeed) {
+        feedStop.set(closeFeed);
     }
 }
