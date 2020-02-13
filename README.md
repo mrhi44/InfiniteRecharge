@@ -5,7 +5,7 @@ The official repository of Team 6090's 2020 infinite recharge code, vision, and 
 - [ ] Update Laptops
     - [ ] Windows Update
     - [ ] Code (always ` git pull` and `git checkout` the current competition branch)
-    - [ ] **See versions table for software updates**
+    - [ ] **See [versions table](https://github.com/Team6090/Software-Table/blob/master/README.md) for software updates**
 - [ ] Ensure laptop functionality
     - [ ] Driver Station
     - [ ] Dashboard
