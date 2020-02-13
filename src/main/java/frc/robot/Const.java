@@ -30,6 +30,16 @@ public class Const {
         public static final int POWER_DISTRIBUTION_PANEL = 59;
     }
 
+    public static class PWM {
+
+    }
+
+    public static class Pneumatic {
+        public static final int COMPRESSOR = 1;
+        public static final int INTAKE = 2;
+        public static final int FEED_STOP = 3;
+    }
+
     /**
      * Encoders - Analog Ports and position offsets
      */
