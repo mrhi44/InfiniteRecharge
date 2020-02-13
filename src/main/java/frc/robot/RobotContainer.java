@@ -40,7 +40,7 @@ public class RobotContainer {
   private final XboxController xbox0 = new XboxController(0);
 
   // The robot's subsystems and commands are defined here...
-  private final AirCompressor compressor = new AirCompressor(Const.Pneumatic.CONTROL_MODULE);
+  private final AirCompressor compressor = new AirCompressor();
   private final DriveTrain drivetrain;
   private final Elevator elevator = new Elevator();
   private final Feed feed = new Feed();
