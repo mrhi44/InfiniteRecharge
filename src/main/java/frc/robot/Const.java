@@ -15,7 +15,17 @@ public class Const {
         public static final int REAR_LEFT_PIVOT_MOTOR = 3; /* Module 3 */
         public static final int REAR_RIGHT_PIVOT_MOTOR = 4; /* Module 4 */
 
+        public static final int ELEVATOR_MOTOR = 15;
+        public static final int ELEVATOR_WHEEL = 16;
+
+        public static final int FEED_MOTOR = 20;
+
         public static final int INTAKE_MOTOR = 11;
+
+        public static final int SHOOTER_MOTOR_1 = 25;
+        public static final int SHOOTER_MOTOR_2 = 26;
+        public static final int SHOOTER_MOTOR_REVERSED = 27;
+        public static final int SHOOTER_HOOD_MOTOR = 28;
 
         public static final int POWER_DISTRIBUTION_PANEL = 59;
     }
@@ -37,9 +47,11 @@ public class Const {
     }
 
     /*
-     * Constants pertaining to the intake subsystem.
+     * Constants pertaining to default speeds.
      */
-    public static class Intake {
+    public static class Speed {
         public static final double INTAKE_SPEED = 0.5;
+        public static final double FEED_SPEED = 0.5;
+        public static final double SHOOTER_SPEED = 1.0;
     }
 }

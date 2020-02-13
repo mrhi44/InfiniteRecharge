@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase {
    */
   public Intake() {
     motor = new WPI_TalonSRX(Const.CAN.INTAKE_MOTOR);
-    setSpeed(Const.Intake.INTAKE_SPEED);
+    setSpeed(Const.Speed.INTAKE_SPEED);
   }
 
   /**
