@@ -19,7 +19,7 @@ import frc.robot.commands.IntakeWithJoystick;
  *
  * @author Jordan Bancino
  */
-public class Intake extends SubsystemBase implements Stoppable, Runnable {
+public class Intake extends SubsystemBase {
 
   private final WPI_TalonSRX motor;
   private double speed;
