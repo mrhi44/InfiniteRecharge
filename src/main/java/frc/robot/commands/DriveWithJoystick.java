@@ -38,8 +38,8 @@ public class DriveWithJoystick extends CommandBase {
     this.swerve = swerve;
     this.gyro = gyro;
 
-    SmartDashboard.putNumber("Joystick/PID/P", 0.003);
-    SmartDashboard.putNumber("Joystick/PID/I", 0.00000155);
+    SmartDashboard.putNumber("Joystick/PID/P", Const.PID.SWERVE_MODULE_P);
+    SmartDashboard.putNumber("Joystick/PID/I", Const.PID.SWERVE_MODULE_I);
   }
 
   // Called when the command is initially scheduled.
