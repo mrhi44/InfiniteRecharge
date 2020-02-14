@@ -23,6 +23,7 @@ import net.bancino.robotics.swerveio.SwerveMeta;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
+import net.bancino.robotics.swerveio.pid.AbstractPIDController;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
@@ -90,7 +91,11 @@ public class DriveTrain extends SwerveDrive {
 
       @Override
       public void modifyModule(AbstractSwerveModule module) {
-        module.getPivotPIDController().setOutputRampRate(0);
+        AbstractPIDController modulePid = module.getPivotPIDController();
+        modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
+        modulePid.setP(Const.PID.SWERVE_MODULE_P);
+        modulePid.setI(Const.PID.SWERVE_MODULE_I);
+        modulePid.setD(Const.PID.SWERVE_MODULE_D);
       }
 
       @Override

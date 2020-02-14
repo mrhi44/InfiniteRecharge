@@ -30,8 +30,15 @@ public class Const {
         public static final int POWER_DISTRIBUTION_PANEL = 59;
     }
 
-    public static class PWM {
+    public static class PID {
+        public static final double SWERVE_MODULE_RAMP_RATE = 0;
+        public static final double SWERVE_MODULE_P = 0.0058;
+        public static final double SWERVE_MODULE_I = 0.0000345;
+        public static final double SWERVE_MODULE_D = 0;
 
+        public static final double ELEVATOR_P = 0;
+        public static final double ELEVATOR_I = 0;
+        public static final double ELEVATOR_D = 0;
     }
 
     public static class Pneumatic {
