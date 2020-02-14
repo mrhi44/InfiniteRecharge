@@ -25,15 +25,34 @@ public class Shooter extends SimpleMotorSubsystem {
     public final WPI_VictorSPX shooterMotorReversed = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_REVERSED);
 
     public final WPI_TalonSRX shooterHoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
+    shooterHoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
 
     public Shooter() {
         super(Const.Speed.SHOOTER_SPEED);
     }
 
+    public WPI_TalonSRX getMotor() {
+        return shooterHoodMotor;
+      }
+
+      public void zeroPosition() {
+        shooterHoodMotor.setSelectedSensorPosition(0);
+      }
+
+      public int getPosition() {
+        /* Get hood motor Position from Talon SRX */
+        return shooterHoodMotor.getSelectedSensorPosition(0);
+      }
+      
     @Override
     public void runAt(double speed) {
         shooterMotor1.set(speed);
         shooterMotor2.set(speed);
         shooterMotorReversed.set(-speed);
     }
+
+    public void stop() {
+        setSpeed(0.0d);
+      }
 }
