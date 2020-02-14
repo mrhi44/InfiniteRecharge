@@ -72,5 +72,6 @@ public class Const {
         public static final double INTAKE_SPEED  = 0.5;
         public static final double FEED_SPEED    = 0.5;
         public static final double SHOOTER_SPEED = 1.0;
+        public static final double COLOR_WHEEL_FIXED_SPEED = 0.7;
     }
 }
