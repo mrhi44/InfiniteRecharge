@@ -29,7 +29,8 @@ import frc.robot.commands.IntakeWithJoystick;
  */
 public class Intake extends SimpleMotorSubsystem {
 
-  private final Solenoid intakeLift = new Solenoid(Const.Pneumatic.INTAKE);
+  private final Solenoid intakeUp = new Solenoid(Const.Pneumatic.INTAKE_UP);
+  private final Solenoid intakeDown = new Solenoid(Const.Pneumatic.INTAKE_DOWN);
   private final WPI_TalonSRX motor = new WPI_TalonSRX(Const.CAN.INTAKE_MOTOR);
 
   /**
@@ -58,6 +59,7 @@ public class Intake extends SimpleMotorSubsystem {
    * @param liftIntake Whether or not the intake should be up or down.
    */
   public void lift(boolean liftIntake) {
-    intakeLift.set(!liftIntake);
+    intakeUp.set(liftIntake);
+    intakeDown.set(!liftIntake);
   }
 }
