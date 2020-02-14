@@ -31,6 +31,9 @@ public class Const {
     }
 
     public static class PID {
+        /*
+         * NOTICE: These constants may be overridden in the DriveWithJoystick command.
+         */
         public static final double SWERVE_MODULE_RAMP_RATE = 0;
         public static final double SWERVE_MODULE_P         = 0.0058;
         public static final double SWERVE_MODULE_I         = 0.0000345;
