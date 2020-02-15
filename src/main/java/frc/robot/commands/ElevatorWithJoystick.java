@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.Elevator;
@@ -16,14 +17,16 @@ public class ElevatorWithJoystick extends CommandBase {
 
     Elevator elevator;
     XboxController xbox1;
+    XboxController.Axis kLeftY;
     double position;
     double basePosition;
     double manualOffset;
     double speedRef;
 
-    public ElevatorWithJoystick(Elevator elevator, XboxController xbox1) {
-        this.elevator = elevator;
+    public ElevatorWithJoystick(Elevator elevator, XboxController xbox1, Axis kLeftY) {
         this.xbox1 = xbox1;
+        this.elevator = elevator;
+        this.kLeftY = kLeftY;
     }
 
     // Called when the command is initially scheduled.
@@ -35,7 +38,7 @@ public class ElevatorWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        speedRef = xbox1.getRawAxis(1);
+        speedRef = xbox1.getRawAxis(kLeftY.value);
         /**
          * Sets the cases for each button press. Y will unlock the position loop and
          * allow free control.

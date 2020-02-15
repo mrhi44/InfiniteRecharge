@@ -83,9 +83,12 @@ public class RobotContainer {
   }
 
   private void configureCommands() {
-    intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox0));
-    drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0));
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1));
+    /* The intake uses the given hand's trigger and bumper. */
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft));
+    /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
+    drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX));
+    /** The elevator uses the vertical axis of the left analog stick. */
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
   }
 
   /**
