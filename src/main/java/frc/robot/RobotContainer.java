@@ -22,6 +22,7 @@ import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 
 import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
@@ -39,6 +40,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 public class RobotContainer {
 
   private final XboxController xbox0 = new XboxController(0);
+  private final XboxController xbox1 = new XboxController(1);
 
   /* The robot's subsystems and commands are defined here */
   private final AirCompressor compressor = new AirCompressor();
@@ -83,6 +85,7 @@ public class RobotContainer {
   private void configureCommands() {
     intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox0));
     drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0));
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1));
   }
 
   /**
