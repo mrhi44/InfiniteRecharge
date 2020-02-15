@@ -19,6 +19,8 @@ import frc.robot.Const;
  * - Calculate the hood position from distance from the target
  * - Control the hood via a position loop
  * - Run the fly wheel.
+ *
+ * @author Jordan Bancino
  */
 public class Shooter extends SimpleMotorSubsystem {
 
