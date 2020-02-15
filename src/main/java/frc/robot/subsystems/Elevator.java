@@ -25,8 +25,7 @@ import com.revrobotics.ControlType;
  * - Run a position loop on the elevator
  * - Run a speed loop on the elevator
  * - Run a speed loop on the adjustment wheel
- * - Run a position loop for the color wheel (both matching
- *   color and rotations)
+ * - Run a position loop for the color wheel (both matching color and rotations)
  */
 public class Elevator extends SubsystemBase {
 
@@ -119,11 +118,10 @@ public class Elevator extends SubsystemBase {
 
     /**
      * Finds the color, offset by 2 counterclockwise, away from the given color.
-     * 
      * @param color The color you're really looking to put under the sensor. Input
-     *              as a single character: R, G, B, Y.
+     * as a single character: R, G, B, Y.
      * @return The offset color, the one the robot will be reading. Returns as a
-     *         WheelColor.
+     * WheelColor.
      */
     public WheelColor colorToTargetColor(WheelColor color) {
         switch (color) {
@@ -139,6 +137,10 @@ public class Elevator extends SubsystemBase {
         return targetColor;
     }
 
+    /**
+     * Spins the wheelMotor until you're on you're targeted color.
+     * @param offsetColor The desired color (Offset, not the actual game message color.)
+     */
     public void goToColor(WheelColor offsetColor) {
         if (convertToWheelColor(colorSensor.getColor()) != offsetColor) {
             wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
