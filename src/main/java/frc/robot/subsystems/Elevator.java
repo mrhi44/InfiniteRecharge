@@ -66,13 +66,6 @@ public class Elevator extends SubsystemBase {
     }
 
     /**
-     * Returns the encoder position of the elevator motor.
-     */
-    public double getElevatorEncoder() {
-        return elevatorMotor.getEncoder().getPosition();
-    }
-
-    /**
      * Sets the color wheels speed.
      * 
      * @param speed The speed, between -1 and 1, of the motor.
@@ -82,24 +75,23 @@ public class Elevator extends SubsystemBase {
     }
 
     /**
-     * Rotates the wheel three times.
-     * Returns true when the rotation is done.
+     * Used to rotate the wheel a set amount of times.
+     * 
+     * @param rotationCount Amount of times to rotate the wheel.
      */
-    public boolean rotateColorWheel() {
+    public void rotateColorWheel(int rotationCount) {
         /** Counts each new color, meaning the cheese slices. */
         if (colorSensor.getColor().toString() != startingColor) {
             revCount++;
             startingColor = colorSensor.getColor().toString();
         }
         /** If we haven't reached our rotation count, keep spinning, dude. */
-        if (revCount == Const.Elevator.NUMBER_OF_COLOR_CHANGES) {
+        if (revCount * 8 == rotationCount) {
             setWheelSpeed(0);
             revCount = 0;
-            return true;
         } else {
             setWheelSpeed(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         }
-        return false;
     }
 
     /**
@@ -147,22 +139,12 @@ public class Elevator extends SubsystemBase {
      * Spins the wheelMotor until you're on you're targeted color.
      * @param color The desired color, usually the game specific message.
      */
-    public boolean goToColor(WheelColor color) {
+    public void goToColor(WheelColor color) {
         if (convertToWheelColor(colorSensor.getColor()) != colorToTargetColor(color)) {
             wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         } else {
             wheelMotor.set(0);
-            return true;
         }
-        return false;
-    }
-
-    /**
-     * Finds the color from the color sensor.
-     * @return The color read from the sensor.
-     */
-    public Color getColor() {
-        return colorSensor.getColor();
     }
 
     /**
