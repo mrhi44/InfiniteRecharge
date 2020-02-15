@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -10,38 +11,29 @@ import com.revrobotics.ColorSensorV3;
 
 
 public class ColorFinder extends CommandBase {
-    private final I2C.Port i2cPort = I2C.Port.kOnboard;
-    private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
-    private final ColorMatch colorMatcher = new ColorMatch();
-    private boolean colorFound;
     private Elevator.WheelColor wheelColor;
-    
-    Color detectedColor = colorSensor.getColor();
-    ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
-    String desiredColor;
     Elevator elevator;
+
+    public void initialize(){
+        switch (DriverStation.getInstance().getGameSpecificMessage()) {
+            case "B":
+            wheelColor = Elevator.WheelColor.BLUE;
+            case "R":
+            wheelColor = Elevator.WheelColor.RED;
+            case "Y":
+            wheelColor = Elevator.WheelColor.YELLOW;
+            case "G":
+            wheelColor = Elevator.WheelColor.GREEN;
+        }
+    }
   
     public ColorFinder(Elevator elevator) {
         addRequirements(elevator);
     }
 
-    public void initialize() {
-    colorFound = false;
-      }
-
-    public void execute() {
-        if (colorFound = false){
-            elevator.goToColor(wheelColor);
-            colorFound = true;
-        }
-    }
-
-    public void end(boolean interrupted) {
-    }
-
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return colorFound;
+        return elevator.goToColor(elevator.colorToTargetColor(wheelColor));
         }
     }
