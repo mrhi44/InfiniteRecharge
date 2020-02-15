@@ -16,17 +16,17 @@ import frc.robot.subsystems.Elevator;
 public class ElevatorWithJoystick extends CommandBase {
 
     Elevator elevator;
-    XboxController xbox1;
-    XboxController.Axis kLeftY;
+    XboxController xbox;
+    XboxController.Axis axis;
     double position;
     double basePosition;
     double manualOffset;
     double speedRef;
 
-    public ElevatorWithJoystick(Elevator elevator, XboxController xbox1, Axis kLeftY) {
-        this.xbox1 = xbox1;
+    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, Axis axis) {
+        this.xbox = xbox;
         this.elevator = elevator;
-        this.kLeftY = kLeftY;
+        this.axis = axis;
     }
 
     // Called when the command is initially scheduled.
@@ -38,21 +38,21 @@ public class ElevatorWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        speedRef = xbox1.getRawAxis(kLeftY.value);
+        speedRef = xbox.getRawAxis(axis.value);
         /**
          * Sets the cases for each button press. Y will unlock the position loop and
          * allow free control.
          */
-        if (xbox1.getYButton()) {
+        if (xbox.getYButton()) {
             elevator.setElevatorSpeed(speedRef);
             manualOffset = 0;
             basePosition = elevator.getElevatorEncoder();
         } else {
-            if (xbox1.getXButton()) {
+            if (xbox.getXButton()) {
                 basePosition = Const.Elevator.MAX_HEIGHT;
-            } else if (xbox1.getAButton()) {
+            } else if (xbox.getAButton()) {
                 basePosition = Const.Elevator.COLOR_WHEEL_HEIGHT;
-            } else if (xbox1.getBButton()) {
+            } else if (xbox.getBButton()) {
                 basePosition = Const.Elevator.BOTTOM_HEIGHT;
             }
 
