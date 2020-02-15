@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Const;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.hal.sim.DriverStationSim;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
