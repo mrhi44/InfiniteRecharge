@@ -28,13 +28,7 @@ public class Shooter extends SimpleMotorSubsystem {
     public final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_2);
     public final WPI_VictorSPX shooterMotorReversed = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_REVERSED);
 
-<<<<<<< HEAD
-    public final WPI_TalonSRX shooterHoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
-    shooterHoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-
-=======
     public final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
->>>>>>> 814075d4d91ae9924059729f8c8817f84c87a466
 
     /**
      * Configure the shooter and hood motor.
@@ -50,27 +44,11 @@ public class Shooter extends SimpleMotorSubsystem {
         hoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Const.PID.HOOD_SLOT, Const.PID.HOOD_TIMEOUT);
     }
 
-<<<<<<< HEAD
-    public WPI_TalonSRX getMotor() {
-        return shooterHoodMotor;
-      }
-
-      public void zeroPosition() {
-        shooterHoodMotor.setSelectedSensorPosition(0);
-      }
-
-      public int getPosition() {
-        /* Get hood motor Position from Talon SRX */
-        return shooterHoodMotor.getSelectedSensorPosition(0);
-      }
-      
-=======
     /**
      * Run the shooter motors at the given speed.
      *
      * @param speed The speed to run the shooter motors.
      */
->>>>>>> 814075d4d91ae9924059729f8c8817f84c87a466
     @Override
     public void runAt(double speed) {
         shooterMotor1.set(speed);
@@ -78,11 +56,6 @@ public class Shooter extends SimpleMotorSubsystem {
         shooterMotorReversed.set(-speed);
     }
 
-<<<<<<< HEAD
-    public void stop() {
-        setSpeed(0.0d);
-      }
-=======
     /**
      * Use the Talon SRX's MotionMagic to achieve the given position.
      *
@@ -134,5 +107,4 @@ public class Shooter extends SimpleMotorSubsystem {
     public int calculateHoodPosition(double distanceAwayFromTarget) {
         throw new UnsupportedOperationException("Distance calculation isn't supported yet.");
     }
->>>>>>> 814075d4d91ae9924059729f8c8817f84c87a466
 }
