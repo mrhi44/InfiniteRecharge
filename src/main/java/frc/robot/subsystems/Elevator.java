@@ -34,7 +34,7 @@ public class Elevator extends SubsystemBase {
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final CANPIDController elevatorPID = new CANPIDController(elevatorMotor);
     private String startingColor = colorSensor.getColor().toString();
-    private WheelColor targetColor = null;
+    public WheelColor targetColor = null;
     private WheelColor wheelColor;
     private int revCount = 0;
 

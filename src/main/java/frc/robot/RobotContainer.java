@@ -19,7 +19,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
-
+import frc.robot.commands.ColorWheelWithJoystick;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
 
@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 public class RobotContainer {
 
   private final XboxController xbox0 = new XboxController(0);
+  private final XboxController xbox1 = new XboxController(1);
 
   /* The robot's subsystems and commands are defined here */
   private final AirCompressor compressor = new AirCompressor();
@@ -76,6 +77,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
+    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
+    JoystickButton xbox1X = new JoystickButton(xbox1, XboxController.Button.kX.value);
+    
+    xbox1X.whenPressed(new ColorWheelWithJoystick());
   }
 
   private void configureCommands() {
