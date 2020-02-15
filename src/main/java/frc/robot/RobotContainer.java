@@ -19,7 +19,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
-import frc.robot.commands.ColorWheelWithJoystick;
+import frc.robot.commands.ColorFinder;
+import frc.robot.commands.ColorWheelRotation;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
 
@@ -79,8 +80,9 @@ public class RobotContainer {
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
     JoystickButton xbox1X = new JoystickButton(xbox1, XboxController.Button.kX.value);
-    
-    xbox1X.whenPressed(new ColorWheelWithJoystick());
+    JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
+    xbox1X.whenPressed(new ColorWheelRotation());
+    xbox1Y.whenPressed(new ColorFinder());
   }
 
   private void configureCommands() {
