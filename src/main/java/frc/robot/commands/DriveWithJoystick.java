@@ -26,16 +26,20 @@ public class DriveWithJoystick extends CommandBase {
   private final double DEADBAND = 0.3;
 
   private XboxController xbox;
+  private XboxController.Axis forwardAxis, strafeAxis, angularAxis;
   private SwerveDrive swerve;
   private AbstractGyro gyro;
 
   /**
    * Creates a new DriveWithJoystick.
    */
-  public DriveWithJoystick(SwerveDrive swerve, AbstractGyro gyro, XboxController xbox) {
+  public DriveWithJoystick(SwerveDrive swerve, AbstractGyro gyro, XboxController xbox, XboxController.Axis forwardAxis, XboxController.Axis strafeAxis, XboxController.Axis angularAxis) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve);
     this.xbox = xbox;
+    this.forwardAxis = forwardAxis;
+    this.strafeAxis = strafeAxis;
+    this.angularAxis = angularAxis;
     this.swerve = swerve;
     this.gyro = gyro;
 
@@ -63,10 +67,9 @@ public class DriveWithJoystick extends CommandBase {
 
     SmartDashboard.putNumber("Joystick/XBoxVertical (Raw)", xBoxLeftJoystickVertical());
 
-    double fwd = -throttle(deadband(xBoxLeftJoystickVertical()));
-    //double fwd = xBoxLeftJoystickVertical();
-    double str = throttle(deadband(xBoxLeftJoystickHorizontal()));
-    double rcw = throttle(deadband(xBoxRightJoystickHorizontal()));
+    double fwd = -throttle(deadband(xbox.getRawAxis(forwardAxis.value)));
+    double str = throttle(deadband(xbox.getRawAxis(strafeAxis.value)));
+    double rcw = throttle(deadband(xbox.getRawAxis(angularAxis.value)));
 
     if (xbox.getBumper(GenericHID.Hand.kLeft)) {
       gyro.zero();
