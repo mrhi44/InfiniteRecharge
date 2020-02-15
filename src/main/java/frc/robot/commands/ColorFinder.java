@@ -21,7 +21,8 @@ public class ColorFinder extends CommandBase {
     String desiredColor;
     Elevator elevator;
   
-    public ColorFinder() {
+    public ColorFinder(Elevator elevator) {
+        addRequirements(elevator);
     }
 
     public void initialize() {

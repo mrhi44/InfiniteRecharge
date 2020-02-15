@@ -81,8 +81,8 @@ public class RobotContainer {
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
     JoystickButton xbox1X = new JoystickButton(xbox1, XboxController.Button.kX.value);
     JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
-    xbox1X.whenPressed(new ColorWheelRotation());
-    xbox1Y.whenPressed(new ColorFinder());
+    xbox1X.whenPressed(new ColorWheelRotation(elevator));
+    xbox1Y.whenPressed(new ColorFinder(elevator));
   }
 
   private void configureCommands() {

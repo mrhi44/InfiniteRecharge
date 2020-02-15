@@ -23,7 +23,8 @@ public class ColorWheelRotation extends CommandBase {
     String desiredColor;
     Elevator elevator;
   
-    public ColorWheelRotation() {
+    public ColorWheelRotation(Elevator elevator) {
+      addRequirements(elevator);
     }
 
     public void initialize() {
