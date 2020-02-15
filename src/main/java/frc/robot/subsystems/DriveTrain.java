@@ -37,6 +37,18 @@ import net.bancino.robotics.swerveio.gyro.AbstractGyro;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * The drivetrain subsystem drives the robot! (wow!).
+ *
+ * This subsystem consists of the following components:
+ * - Swerve module (4x drive + pivot motor)
+ *
+ * This subsystem should provide the following functions:
+ * - Run the drivetrain with joystick
+ * - Run the drivetrain autonomously
+ *
+ * @author Jordan Bancino
+ */
 public class DriveTrain extends SwerveDrive {
 
   public DriveTrain(AbstractGyro gyro) throws SwerveException {
