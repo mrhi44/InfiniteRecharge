@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.IOException;
+import java.util.List;
 
 
 import net.bancino.robotics.swerveio.SwerveDrive;
@@ -32,6 +33,7 @@ import net.bancino.robotics.swerveio.si.Unit;
 import net.bancino.robotics.swerveio.si.ChassisDimension;
 import net.bancino.robotics.swerveio.si.SquareChassis;
 import net.bancino.robotics.swerveio.gyro.AbstractGyro;
+import net.bancino.robotics.swerveio.SwerveFlag;
 
 
 /**
@@ -105,6 +107,11 @@ public class DriveTrain extends SwerveDrive {
         modulePid.setP(Const.PID.SWERVE_MODULE_P);
         modulePid.setI(Const.PID.SWERVE_MODULE_I);
         modulePid.setD(Const.PID.SWERVE_MODULE_D);
+      }
+
+      @Override
+      public List<SwerveFlag> applyFlags() {
+        return List.of(SwerveFlag.ENABLE_PIVOT_OPTIMIZE);
       }
 
       @Override
