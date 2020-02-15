@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Compressor;
 
 /**
- * The Elevator subsystem controls the elevator mechanism
+ * The AirCompressor subsystem controls the air compressor
  *
  * This subsystem consists of the following components:
  * - The Pneumatic Compressor

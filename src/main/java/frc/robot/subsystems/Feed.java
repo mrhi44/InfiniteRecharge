@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.Solenoid;
  * This subsystem should provide the following functions:
  * - Run the belt feed.
  * - Toggle the power cell-stopper
+ *
+ * @author Jordan Bancino
  */
 public class Feed extends SimpleMotorSubsystem {
 

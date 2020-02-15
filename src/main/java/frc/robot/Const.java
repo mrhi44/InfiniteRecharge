@@ -30,8 +30,21 @@ public class Const {
         public static final int POWER_DISTRIBUTION_PANEL = 59;
     }
 
-    public static class PWM {
+    public static class PID {
+        public static final double SWERVE_MODULE_RAMP_RATE = 0;
+        public static final double SWERVE_MODULE_P         = 0.003;
+        public static final double SWERVE_MODULE_I         = 0.00000155;
+        public static final double SWERVE_MODULE_D         = 0;
 
+        public static final double ELEVATOR_P = 0;
+        public static final double ELEVATOR_I = 0;
+        public static final double ELEVATOR_D = 0;
+
+        public static final int HOOD_SLOT    = 0;
+        public static final int HOOD_TIMEOUT = 10;
+        public static final double HOOD_P    = 0;
+        public static final double HOOD_I    = 0;
+        public static final double HOOD_D    = 0;
     }
 
     public static class Pneumatic {
@@ -64,6 +77,7 @@ public class Const {
     public static class Speed {
         public static final double INTAKE_SPEED  = 0.5;
         public static final double FEED_SPEED    = 0.5;
-        public static final double SHOOTER_SPEED = 1.0;
+        public static final double SHOOTER_SPEED = 0.5;
+        public static final double HOOD_SPEED    = 0.5;
     }
 }

@@ -23,6 +23,7 @@ import net.bancino.robotics.swerveio.SwerveMeta;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
+import net.bancino.robotics.swerveio.pid.AbstractPIDController;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
@@ -36,6 +37,18 @@ import net.bancino.robotics.swerveio.gyro.AbstractGyro;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * The drivetrain subsystem drives the robot! (wow!).
+ *
+ * This subsystem consists of the following components:
+ * - Swerve module (4x drive + pivot motor)
+ *
+ * This subsystem should provide the following functions:
+ * - Run the drivetrain with joystick
+ * - Run the drivetrain autonomously
+ *
+ * @author Jordan Bancino
+ */
 public class DriveTrain extends SwerveDrive {
 
   public DriveTrain(AbstractGyro gyro) throws SwerveException {
@@ -90,7 +103,11 @@ public class DriveTrain extends SwerveDrive {
 
       @Override
       public void modifyModule(AbstractSwerveModule module) {
-        module.getPivotPIDController().setOutputRampRate(0);
+        AbstractPIDController modulePid = module.getPivotPIDController();
+        modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
+        modulePid.setP(Const.PID.SWERVE_MODULE_P);
+        modulePid.setI(Const.PID.SWERVE_MODULE_I);
+        modulePid.setD(Const.PID.SWERVE_MODULE_D);
       }
 
       @Override
