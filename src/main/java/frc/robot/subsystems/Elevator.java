@@ -37,8 +37,6 @@ public class Elevator extends SubsystemBase {
     private WheelColor targetColor = null;
     private WheelColor wheelColor;
     private int revCount = 0;
-    private boolean colorFound = false;
-    private boolean rotationDone = false;
 
     public static enum WheelColor {
         RED, GREEN, BLUE, YELLOW
@@ -97,11 +95,11 @@ public class Elevator extends SubsystemBase {
         if (revCount == Const.Elevator.NUMBER_OF_COLOR_CHANGES) {
             setWheelSpeed(0);
             revCount = 0;
-            rotationDone = true;
+            return true;
         } else {
             setWheelSpeed(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         }
-        return rotationDone;
+        return false;
     }
 
     /**
@@ -154,9 +152,17 @@ public class Elevator extends SubsystemBase {
             wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         } else {
             wheelMotor.set(0);
-            colorFound = true;
+            return true;
         }
-        return colorFound;
+        return false;
+    }
+
+    /**
+     * Finds the color from the color sensor.
+     * @return The color read from the sensor.
+     */
+    public Color getColor() {
+        return colorSensor.getColor();
     }
 
     /**

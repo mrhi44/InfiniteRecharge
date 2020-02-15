@@ -16,9 +16,6 @@ public class ElevatorWithJoystick extends CommandBase {
 
     Elevator elevator;
     XboxController xbox1;
-    double minElevatorHeight = 0;
-    /** TODO: Find this value */
-    double maxElevatorHeight = 300;
     double position;
     double basePosition;
     double manualOffset;
@@ -66,11 +63,11 @@ public class ElevatorWithJoystick extends CommandBase {
              * These two statements serve to moderate the movement of the elevator
              * from a sudden change from manual movement to a setpoint.
              */
-            if ((manualOffset + basePosition) < minElevatorHeight) {
-                manualOffset = (minElevatorHeight - basePosition);
+            if ((manualOffset + basePosition) < Const.Elevator.BOTTOM_HEIGHT) {
+                manualOffset = (Const.Elevator.BOTTOM_HEIGHT - basePosition);
             }
-            if ((manualOffset + basePosition) > maxElevatorHeight) {
-                manualOffset = (maxElevatorHeight - basePosition);
+            if ((manualOffset + basePosition) > Const.Elevator.MAX_HEIGHT) {
+                manualOffset = (Const.Elevator.MAX_HEIGHT - basePosition);
             }
 
             /** Finally, the position is both the manual offset and the setpoint. */
