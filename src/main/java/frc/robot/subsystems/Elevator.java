@@ -37,6 +37,8 @@ public class Elevator extends SubsystemBase {
     private WheelColor targetColor = null;
     private WheelColor wheelColor;
     private int revCount = 0;
+    private boolean colorFound = false;
+    private boolean rotationDone = false;
 
     public static enum WheelColor {
         RED, GREEN, BLUE, YELLOW
@@ -82,11 +84,10 @@ public class Elevator extends SubsystemBase {
     }
 
     /**
-     * Used to rotate the wheel a set amount of times.
-     * 
-     * @param rotationCount Amount of times to rotate the wheel.
+     * Rotates the wheel three times.
+     * Returns true when the rotation is done.
      */
-    public void rotateColorWheel() {
+    public boolean rotateColorWheel() {
         /** Counts each new color, meaning the cheese slices. */
         if (colorSensor.getColor().toString() != startingColor) {
             revCount++;
@@ -96,9 +97,11 @@ public class Elevator extends SubsystemBase {
         if (revCount == Const.Elevator.NUMBER_OF_COLOR_CHANGES) {
             setWheelSpeed(0);
             revCount = 0;
+            rotationDone = true;
         } else {
             setWheelSpeed(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         }
+        return rotationDone;
     }
 
     /**
@@ -146,12 +149,14 @@ public class Elevator extends SubsystemBase {
      * Spins the wheelMotor until you're on you're targeted color.
      * @param color The desired color, usually the game specific message.
      */
-    public void goToColor(WheelColor color) {
+    public boolean goToColor(WheelColor color) {
         if (convertToWheelColor(colorSensor.getColor()) != colorToTargetColor(color)) {
             wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         } else {
             wheelMotor.set(0);
+            colorFound = true;
         }
+        return colorFound;
     }
 
     /**
