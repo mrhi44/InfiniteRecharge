@@ -66,6 +66,13 @@ public class Elevator extends SubsystemBase {
     }
 
     /**
+     * Returns the encoder position of the elevator motor.
+     */
+    public double getElevatorEncoder() {
+        return elevatorMotor.getEncoder().getPosition();
+    }
+
+    /**
      * Sets the color wheels speed.
      * 
      * @param speed The speed, between -1 and 1, of the motor.
