@@ -17,7 +17,6 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Rotate;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 
@@ -77,7 +76,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
-    xbox0A.whenPressed(new Rotate(drivetrain));
   }
 
   private void configureCommands() {
