@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.robot.Const;
 
 /**
@@ -24,16 +26,83 @@ public class Shooter extends SimpleMotorSubsystem {
     public final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_2);
     public final WPI_VictorSPX shooterMotorReversed = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_REVERSED);
 
-    public final WPI_TalonSRX shooterHoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
+    public final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
 
+    /**
+     * Configure the shooter and hood motor.
+     */
     public Shooter() {
         super(Const.Speed.SHOOTER_SPEED);
+        /* Make it do the super fancy blinky thingy. */
+        hoodMotor.setSensorPhase(true);
+        hoodMotor.config_kP(Const.PID.HOOD_SLOT, Const.PID.HOOD_P, Const.PID.HOOD_TIMEOUT);
+        hoodMotor.config_kI(Const.PID.HOOD_SLOT, Const.PID.HOOD_I, Const.PID.HOOD_TIMEOUT);
+        hoodMotor.config_kD(Const.PID.HOOD_SLOT, Const.PID.HOOD_D, Const.PID.HOOD_TIMEOUT);
+        hoodMotor.selectProfileSlot(Const.PID.HOOD_SLOT, Const.PID.HOOD_SLOT);
+        hoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Const.PID.HOOD_SLOT, Const.PID.HOOD_TIMEOUT);
     }
 
+    /**
+     * Run the shooter motors at the given speed.
+     *
+     * @param speed The speed to run the shooter motors.
+     */
     @Override
     public void runAt(double speed) {
         shooterMotor1.set(speed);
         shooterMotor2.set(speed);
         shooterMotorReversed.set(-speed);
+    }
+
+    /**
+     * Use the Talon SRX's MotionMagic to achieve the given position.
+     *
+     * @param position The position (in encoder counts) to set the hood to.
+     */
+    public void setHoodPosition(int position) {
+        hoodMotor.set(ControlMode.MotionMagic, position);
+    }
+
+    /**
+     * Run the hood motor, but at half the speed passed in here.
+     *
+     * @param speed The speed, scaled -1 to 1, to run the hood motor at.
+     *              Note that this will be cut in half because the hood doesn't move
+     *              very much or very fast.
+     */
+    public void setHoodSpeed(double speed) {
+        hoodMotor.set(speed * 0.5);
+    }
+
+    /**
+     * Get the hood's position.
+     *
+     * @return The hood position, in encoder counts.
+     */
+    public int getHoodPosition() {
+        return hoodMotor.getSelectedSensorPosition(0);
+    }
+
+    /**
+     * Set the hood position based on the provided distance away from the target.
+     * 
+     * @param distanceAwayFromTarget The distance the robot is away from the target.
+     *                               The hood position will be calculated from this
+     *                               and passed into the Motion Magic profile.
+     */
+    public void setHoodPosition(double distanceAwayFromTarget) {
+        setHoodPosition(calculateHoodPosition(distanceAwayFromTarget));
+    }
+
+    /**
+     * Calculate the hood position based on the distance the robot is from the target.
+     *
+     * @param distanceAwayFromTarget The distance the robot is away from the target.
+     *                               The hood position will be calculated from this.
+     * @return The encoder reading that represents the position that the hood should
+     *         be set to for the given distance.
+     */
+    public int calculateHoodPosition(double distanceAwayFromTarget) {
+        throw new UnsupportedOperationException("Distance calculation isn't supported yet.");
     }
 }
