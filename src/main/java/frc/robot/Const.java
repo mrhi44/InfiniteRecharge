@@ -81,4 +81,12 @@ public class Const {
         public static final double HOOD_SPEED    = 0.5;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.7;
     }
+
+    public static class Elevator {
+        public static final double MAX_HEIGHT = 0;
+        public static final double COLOR_WHEEL_HEIGHT = 0;
+        public static final double BOTTOM_HEIGHT = 0;
+        public static final double INCREMENT = 2; //Max encoder counts per scan
+        public static final int NUMBER_OF_COLOR_CHANGES = 25;
+    }
 }
