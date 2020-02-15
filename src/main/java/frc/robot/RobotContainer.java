@@ -22,6 +22,7 @@ import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import frc.robot.commands.ColorFinder;
 import frc.robot.commands.ColorWheelRotation;
 import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
@@ -90,6 +91,8 @@ public class RobotContainer {
     intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft));
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
     drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX));
+
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
   }
 
   /**
