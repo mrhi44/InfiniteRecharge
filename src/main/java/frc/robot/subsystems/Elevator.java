@@ -54,18 +54,16 @@ public class Elevator extends SubsystemBase {
     public void setElevatorPosition(double position) {
         elevatorPID.setP(Const.PID.ELEVATOR_P);
         elevatorPID.setI(Const.PID.ELEVATOR_I);
-        elevatorPID.setReference(position, ControlType.kPosition);
+        elevatorPID.setReference(position, ControlType.kSmartMotion);
     }
 
     /**
      * Velocity loop control for the elevator.
      * 
-     * @param velocity Speed reference for elevator.
+     * @param speed Speed reference for elevator.
      */
-    public void setElevatorVelocity(double velocity) {
-        elevatorPID.setP(Const.PID.ELEVATOR_P);
-        elevatorPID.setI(Const.PID.ELEVATOR_I);
-        elevatorPID.setReference(velocity, ControlType.kVelocity);
+    public void setElevatorVelocity(double speed) {
+        elevatorMotor.set(speed);
     }
 
     /**
