@@ -38,12 +38,13 @@ public class Elevator extends SubsystemBase {
     private WheelColor wheelColor;
     private int revCount = 0;
 
-    private static enum WheelColor {
+    public static enum WheelColor {
         RED, GREEN, BLUE, YELLOW
     };
 
     public Elevator() {
-
+        elevatorPID.setP(Const.PID.ELEVATOR_P);
+        elevatorPID.setI(Const.PID.ELEVATOR_I);
     }
 
     /**
@@ -52,8 +53,6 @@ public class Elevator extends SubsystemBase {
      * @param position Encoder reference for elevator setpoint.
      */
     public void setElevatorPosition(double position) {
-        elevatorPID.setP(Const.PID.ELEVATOR_P);
-        elevatorPID.setI(Const.PID.ELEVATOR_I);
         elevatorPID.setReference(position, ControlType.kSmartMotion);
     }
 
@@ -62,7 +61,7 @@ public class Elevator extends SubsystemBase {
      * 
      * @param speed Speed reference for elevator.
      */
-    public void setElevatorVelocity(double speed) {
+    public void setElevatorSpeed(double speed) {
         elevatorMotor.set(speed);
     }
 
@@ -88,9 +87,10 @@ public class Elevator extends SubsystemBase {
         }
         /** If we haven't reached our rotation count, keep spinning, dude. */
         if (revCount * 8 == rotationCount) {
-            wheelMotor.set(0);
+            setWheelSpeed(0);
+            revCount = 0;
         } else {
-            wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
+            setWheelSpeed(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         }
     }
 
@@ -137,13 +137,26 @@ public class Elevator extends SubsystemBase {
 
     /**
      * Spins the wheelMotor until you're on you're targeted color.
-     * @param offsetColor The desired color (Offset, not the actual game message color.)
+     * @param color The desired color, usually the game specific message.
      */
-    public void goToColor(WheelColor offsetColor) {
-        if (convertToWheelColor(colorSensor.getColor()) != offsetColor) {
+    public void goToColor(WheelColor color) {
+        if (convertToWheelColor(colorSensor.getColor()) != colorToTargetColor(color)) {
             wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         } else {
             wheelMotor.set(0);
+        }
+    }
+
+    /**
+     * Returns true if the sensor is reading the specified color.
+     * @param color The specified color.
+     * @return True or false, whichever happens to be accurate.
+     */
+    public boolean atColor(WheelColor color) {
+        if (convertToWheelColor(colorSensor.getColor()) == colorToTargetColor(color)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
