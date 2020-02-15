@@ -29,7 +29,7 @@ import com.revrobotics.ControlType;
  */
 public class Elevator extends SubsystemBase {
 
-    private final CANSparkMax elevatorMotor = new CANSparkMax(Const.CAN.ELEVATOR_MOTOR, MotorType.kBrushless);
+    public final CANSparkMax elevatorMotor = new CANSparkMax(Const.CAN.ELEVATOR_MOTOR, MotorType.kBrushless);
     private final WPI_VictorSPX wheelMotor = new WPI_VictorSPX(Const.CAN.ELEVATOR_WHEEL);
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final CANPIDController elevatorPID = new CANPIDController(elevatorMotor);
@@ -79,14 +79,14 @@ public class Elevator extends SubsystemBase {
      * 
      * @param rotationCount Amount of times to rotate the wheel.
      */
-    public void rotateColorWheel(int rotationCount) {
+    public void rotateColorWheel() {
         /** Counts each new color, meaning the cheese slices. */
         if (colorSensor.getColor().toString() != startingColor) {
             revCount++;
             startingColor = colorSensor.getColor().toString();
         }
         /** If we haven't reached our rotation count, keep spinning, dude. */
-        if (revCount * 8 == rotationCount) {
+        if (revCount == Const.Elevator.NUMBER_OF_COLOR_CHANGES) {
             setWheelSpeed(0);
             revCount = 0;
         } else {
