@@ -2,8 +2,10 @@ package frc.robot.subsystems;
 
 import frc.robot.Const;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -16,15 +18,17 @@ import com.revrobotics.ControlType;
 /**
  * The Elevator subsystem controls the elevator mechanism
  *
- * This subsystem consists of the following components: - The elevator motor (1x
- * Spark Max using internal NEO encoder.) - The adjustment wheel (1x Talon
- * SRX/Victor SPX controller on either CAN or PWM) - The color sensor for the
- * color wheel
+ * This subsystem consists of the following components: 
+ * - The elevator motor (1x Spark Max using internal NEO encoder.) 
+ * - The adjustment wheel (1x Talon SRX/Victor SPX controller on either CAN or PWM)
+ * - The color sensor for the color wheel
  *
- * This subsystem should provide the following functions: - Run a position loop
- * on the elevator - Run a speed loop on the elevator - Run a speed loop on the
- * adjustment wheel - Run a position loop for the color wheel (both matching
- * color and rotations)
+ * This subsystem should provide the following functions: 
+ * - Run a position loop on the elevator
+ * - Run a speed loop on the elevator
+ * - Run a speed loop on the adjustment wheel
+ * - Run a position loop for the color wheel (both matching
+ *   color and rotations)
  */
 public class Elevator extends SubsystemBase {
 
@@ -32,10 +36,14 @@ public class Elevator extends SubsystemBase {
     private final WPI_VictorSPX wheelMotor = new WPI_VictorSPX(Const.CAN.ELEVATOR_WHEEL);
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final CANPIDController elevatorPID = new CANPIDController(elevatorMotor);
-    private String targetColor = "";
+    private String startingColor = colorSensor.getColor().toString();
+    private WheelColor targetColor = null;
+    private WheelColor wheelColor;
     private int revCount = 0;
-    private boolean done = false;
 
+    private static enum WheelColor {
+        RED, GREEN, BLUE, YELLOW
+    };
 
     public Elevator() {
 
@@ -73,52 +81,71 @@ public class Elevator extends SubsystemBase {
     }
 
     /**
-     * Spins color wheel to meet color and revolution needs.
+     * Used to rotate the wheel a set amount of times.
      * 
-     * @param targetRevs Number of revolutions desired.
-     * @param colorMode  Set true if we need to match the color on the wheel.
+     * @param rotationCount Amount of times to rotate the wheel.
      */
-    public void spinColorWheel(int targetRevs, boolean colorMode) {
-        /** Counts revs with every color change. */
-        String color = colorSensor.getColor().toString();
-        if (colorSensor.getColor().toString() != color) {
+    public void rotateColorWheel(int rotationCount) {
+        /** Counts each new color, meaning the cheese slices. */
+        if (colorSensor.getColor().toString() != startingColor) {
             revCount++;
-            color = colorSensor.getColor().toString();
+            startingColor = colorSensor.getColor().toString();
         }
-        /** Only counting revolutions, no color. */
-        if (!colorMode) {
-            while (revCount < targetRevs * 8) {
-                wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
-            }
-        /** Counting revolutions with the color. */
-        } else if (colorMode) {
-            if (color != colorToTargetColor() && !done) {
-                wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
-            } else {
-                done = true;
-                while (revCount < targetRevs * 8) {
-                    wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
-                }
-            }
+        /** If we haven't reached our rotation count, keep spinning, dude. */
+        if (revCount * 8 == rotationCount) {
+            wheelMotor.set(0);
+        } else {
+            wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
         }
     }
 
     /**
-     * Serves only the purpose of finding the offset targeted color for the function
-     * spinColorWheel().
+     * A convertor to feed color sensor data through to the enum WheelColor.
+     * 
+     * @param color Raw color output data from the Color Sensor.
+     * @return The enum, RED, GREEN, BLUE, RED, to match that color.
      */
-    public String colorToTargetColor() {
-        String color = DriverStation.getInstance().getGameSpecificMessage();
+    public WheelColor convertToWheelColor(Color color) {
+        switch (color.toString()) {
+        case "Red":
+            wheelColor = WheelColor.RED;
+        case "Green":
+            wheelColor = WheelColor.GREEN;
+        case "Blue":
+            wheelColor = WheelColor.BLUE;
+        case "Yellow":
+            wheelColor = WheelColor.YELLOW;
+        }
+        return wheelColor;
+    }
+
+    /**
+     * Finds the color, offset by 2 counterclockwise, away from the given color.
+     * 
+     * @param color The color you're really looking to put under the sensor. Input
+     *              as a single character: R, G, B, Y.
+     * @return The offset color, the one the robot will be reading. Returns as a
+     *         WheelColor.
+     */
+    public WheelColor colorToTargetColor(WheelColor color) {
         switch (color) {
-        case "R":
-            targetColor = "B";
-        case "G":
-            targetColor = "Y";
-        case "B":
-            targetColor = "R";
-        case "Y":
-            targetColor = "G";
+        case RED:
+            targetColor = WheelColor.BLUE;
+        case GREEN:
+            targetColor = WheelColor.YELLOW;
+        case BLUE:
+            targetColor = WheelColor.RED;
+        case YELLOW:
+            targetColor = WheelColor.GREEN;
         }
         return targetColor;
+    }
+
+    public void goToColor(WheelColor offsetColor) {
+        if (convertToWheelColor(colorSensor.getColor()) != offsetColor) {
+            wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
+        } else {
+            wheelMotor.set(0);
+        }
     }
 }
