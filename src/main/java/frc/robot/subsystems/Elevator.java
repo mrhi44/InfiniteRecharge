@@ -149,14 +149,9 @@ public class Elevator extends SubsystemBase {
 
     /**
      * Returns true if the sensor is reading the specified color.
-     * @param color The specified color.
      * @return True or false, whichever happens to be accurate.
      */
     public boolean atColor(WheelColor color) {
-        if (convertToWheelColor(colorSensor.getColor()) == colorToTargetColor(color)) {
-            return true;
-        } else {
-            return false;
-        }
+        return convertToWheelColor(colorSensor.getColor()) == colorToTargetColor(color);
     }
 }
