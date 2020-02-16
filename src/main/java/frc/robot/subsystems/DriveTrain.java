@@ -114,12 +114,16 @@ public class DriveTrain extends SwerveDrive {
 
       @Override
       public List<SwerveFlag> applyFlags() {
-        return List.of(SwerveFlag.ENABLE_PIVOT_OPTIMIZE);
+        return List.of(
+          SwerveFlag.ENABLE_PIVOT_OPTIMIZE,
+          SwerveFlag.ENABLE_PIVOT_LAST_ANGLE
+        );
       }
 
       @Override
       public void initialize(SwerveDrive swerve) {
         swerve.zeroDriveEncoders();
+        swerve.setFieldCentric(false);
 
         //swerve.setIdleAngle(0, false);
 
