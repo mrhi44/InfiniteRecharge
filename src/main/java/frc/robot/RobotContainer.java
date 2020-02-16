@@ -24,6 +24,7 @@ import frc.robot.commands.ColorWheelRotation;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
+import frc.robot.commands.RunnableCommand;
 
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
@@ -80,10 +81,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
-    JoystickButton xbox1X = new JoystickButton(xbox1, XboxController.Button.kX.value);
-    JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
-    xbox1X.whenPressed(new ColorWheelRotation(elevator));
-    xbox1Y.whenPressed(new ColorFinder(elevator));
+    xbox0X.whenPressed(new RunnableCommand(() -> {
+      drivetrain.setIdleAngle(0, false);
+    }, drivetrain));
+
+    JoystickButton xbox0Y = new JoystickButton(xbox0, XboxController.Button.kY.value);
+    xbox0Y.whenPressed(new RunnableCommand(() -> {
+      drivetrain.setIdleAngle(135, true);
+    }, drivetrain));
   }
 
   private void configureCommands() {
