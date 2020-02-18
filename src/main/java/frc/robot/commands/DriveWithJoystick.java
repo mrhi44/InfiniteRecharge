@@ -67,9 +67,9 @@ public class DriveWithJoystick extends CommandBase {
 
     SmartDashboard.putNumber("Joystick/XBoxVertical (Raw)", xBoxLeftJoystickVertical());
 
-    double fwd = -throttle(deadband(xbox.getRawAxis(forwardAxis.value)));
-    double str = throttle(deadband(xbox.getRawAxis(strafeAxis.value)));
-    double rcw = throttle(deadband(xbox.getRawAxis(angularAxis.value)));
+    double fwd = -throttle(deadband(xbox.getRawAxis(forwardAxis.value))) * 0.4;
+    double str = throttle(deadband(xbox.getRawAxis(strafeAxis.value))) * 0.4;
+    double rcw = throttle(deadband(xbox.getRawAxis(angularAxis.value)) * 0.4);
 
     if (xbox.getBumper(GenericHID.Hand.kLeft)) {
       gyro.zero();
