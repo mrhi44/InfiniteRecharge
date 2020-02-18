@@ -89,4 +89,11 @@ public class Const {
         public static final double INCREMENT = 2; //Max encoder counts per scan
         public static final int NUMBER_OF_COLOR_CHANGES = 25;
     }
+
+    public static class AutonBallGetter {
+        public static final double CAMERA_ANGLE_X = 61;
+        public static final double CAMERA_ANGLE_Y = 31.16;
+        public static final double CAMERA_RES_X = 320;
+        public static final double CAMERA_RES_Y = 240;
+    }
 }
