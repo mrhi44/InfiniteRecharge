@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AirCompressor;
 import frc.robot.subsystems.DriveTrain;
@@ -19,7 +20,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
-
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
@@ -88,6 +88,16 @@ public class RobotContainer {
     xbox0Y.whenPressed(new RunnableCommand(() -> {
       drivetrain.setIdleAngle(135, true);
     }, drivetrain));
+    /** Change the limelight stream to the main feed with an UP on xbox0's dpad. */
+    POVButton xboxPOV0 = new POVButton(xbox0, 0);
+    xboxPOV0.toggleWhenPressed(new RunnableCommand(() -> {
+      limelight.setStreamingMode(net.bancino.robotics.jlimelight.StreamMode.PIP_MAIN);
+    } ));
+    /** Change the limelight stream to the secondary feed with a DOWN on the xbox0's dpad. */
+    POVButton xboxPOV180 = new POVButton(xbox0, 180);
+    xboxPOV180.toggleWhenPressed(new RunnableCommand(() -> {
+      limelight.setStreamingMode(net.bancino.robotics.jlimelight.StreamMode.PIP_SECONDARY);
+    }));
   }
 
   private void configureCommands() {
