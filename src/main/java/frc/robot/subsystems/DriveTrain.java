@@ -14,8 +14,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.io.IOException;
 import java.util.List;
-
-
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveMeta;
 //import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
@@ -34,7 +32,6 @@ import net.bancino.robotics.swerveio.si.ChassisDimension;
 import net.bancino.robotics.swerveio.si.SquareChassis;
 import net.bancino.robotics.swerveio.gyro.AbstractGyro;
 import net.bancino.robotics.swerveio.SwerveFlag;
-
 
 /**
  * The drivetrain subsystem drives the robot! (wow!).
@@ -112,8 +109,7 @@ public class DriveTrain extends SwerveDrive {
       @Override
       public List<SwerveFlag> applyFlags() {
         return List.of(
-          SwerveFlag.ENABLE_PIVOT_OPTIMIZE,
-          SwerveFlag.ENABLE_PIVOT_LAST_ANGLE
+          SwerveFlag.ENABLE_PIVOT_OPTIMIZE
         );
       }
 

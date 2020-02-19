@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Const;
 import edu.wpi.first.wpilibj.Solenoid;
 
-
 /**
  * The Intake subsystem controls the intake of power cells.
  *
