@@ -17,7 +17,6 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Rotate;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 
@@ -25,7 +24,7 @@ import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
 import frc.robot.commands.RunnableCommand;
-
+import frc.robot.commands.ShooterWithJoystick;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
 import edu.wpi.first.wpilibj.SPI;
@@ -79,8 +78,6 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
-    xbox0A.whenPressed(new Rotate(drivetrain));
 
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
     xbox0X.whenPressed(new RunnableCommand(() -> {
@@ -94,12 +91,14 @@ public class RobotContainer {
   }
 
   private void configureCommands() {
-    /* The intake uses the given hand's trigger and bumper */
-    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft));
+    /* The intake uses the given hand's trigger and bumper. */
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
     drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX));
     /** The elevator uses the y axis of the left joystick. */
     elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
+    /** The shooter uses the right trigger. */
+    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Axis.kRightTrigger));
   }
 
   /**

@@ -9,9 +9,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import frc.robot.subsystems.Intake;
+import frc.robot.Const;
 import frc.robot.subsystems.Feed;
 
 public class IntakeWithJoystick extends CommandBase {
@@ -20,17 +22,19 @@ public class IntakeWithJoystick extends CommandBase {
   private Feed feed;
   private XboxController xbox;
   private GenericHID.Hand triggerAndBumperHand;
+  private GenericHID.Hand rightBumperHand;
 
   /**
    * Creates a new IntakeWithJoystick.
    */
-  public IntakeWithJoystick(Intake intake, Feed feed, XboxController xbox, GenericHID.Hand triggerAndBumperHand) {
+  public IntakeWithJoystick(Intake intake, Feed feed, XboxController xbox, GenericHID.Hand triggerAndBumperHand, GenericHID.Hand rightBumperHand) {
     addRequirements(intake);
     addRequirements(feed);
     this.intake = intake;
     this.feed = feed;
     this.xbox = xbox;
     this.triggerAndBumperHand = triggerAndBumperHand;
+    this.rightBumperHand = rightBumperHand;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +42,7 @@ public class IntakeWithJoystick extends CommandBase {
   public void execute() {
     boolean xBoxBumper = xbox.getBumper(triggerAndBumperHand);
     double xBoxTrigger = xbox.getTriggerAxis(triggerAndBumperHand);
+    boolean kBumperRight = xbox.getBumper(rightBumperHand);
     boolean doRun = xBoxBumper || xBoxTrigger != 0;
     if (doRun) {
       feed.closeFeed(true);
@@ -46,6 +51,12 @@ public class IntakeWithJoystick extends CommandBase {
       } else {
         intake.runAt(xBoxTrigger);
       }
+    }
+    if (kBumperRight) {
+      feed.closeFeed(false);
+      feed.runAt(Const.Speed.FEED_SPEED);
+    } else {
+      feed.stop();
     }
   }
 
