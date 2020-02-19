@@ -20,6 +20,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
+import frc.robot.commands.ColorFinder;
+import frc.robot.commands.ColorWheelRotation;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
@@ -78,7 +80,6 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
     xbox0X.whenPressed(new RunnableCommand(() -> {
       drivetrain.setIdleAngle(0, false);

@@ -53,8 +53,8 @@ public class DriveWithJoystick extends CommandBase {
       
   }
 
-  private int lastAngle = 0;
-  private boolean pivotPosOnly = false;
+  //private int lastAngle = 0;
+  //private boolean pivotPosOnly = false;
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
