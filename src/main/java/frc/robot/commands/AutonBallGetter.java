@@ -11,7 +11,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
-import net.bancino.robotics.swerveio.SwerveVector;
+import net.bancino.robotics.swerveio.geometry.SwerveVector;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 
 /**

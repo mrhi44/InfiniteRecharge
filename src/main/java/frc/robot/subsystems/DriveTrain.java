@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.io.IOException;
 import java.util.List;
+
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveMeta;
 //import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
@@ -26,11 +27,12 @@ import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
 import net.bancino.robotics.swerveio.log.csv.CSVPIDSwerveLogger;
-import net.bancino.robotics.swerveio.si.Length;
-import net.bancino.robotics.swerveio.si.Unit;
-import net.bancino.robotics.swerveio.si.ChassisDimension;
-import net.bancino.robotics.swerveio.si.SquareChassis;
+import net.bancino.robotics.swerveio.geometry.Length;
+import net.bancino.robotics.swerveio.geometry.Unit;
+import net.bancino.robotics.swerveio.geometry.SquareChassis;
 import net.bancino.robotics.swerveio.gyro.AbstractGyro;
+import net.bancino.robotics.swerveio.kinematics.DefaultSwerveKinematics;
+import net.bancino.robotics.swerveio.kinematics.SwerveKinematicsProvider;
 import net.bancino.robotics.swerveio.SwerveFlag;
 
 /**
@@ -49,14 +51,6 @@ public class DriveTrain extends SwerveDrive {
 
   public DriveTrain(AbstractGyro gyro) throws SwerveException {
     super(new SwerveMeta() {
-      //private final AbstractEncoder frontRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-      //    FRONT_RIGHT_ENCODER_OFFSET);
-      //private final AbstractEncoder frontLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-      //    FRONT_LEFT_ENCODER_OFFSET);
-      //private final AbstractEncoder rearLeftEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-      //    REAR_LEFT_ENCODER_OFFSET);
-      //private final AbstractEncoder rearRightEncoder = new SparkMaxEncoder(SparkMaxEncoder.EncoderMode.ANALOG,
-      //    REAR_RIGHT_ENCODER_OFFSET);
 
       private final AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET);
       private final AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET);
@@ -69,8 +63,8 @@ public class DriveTrain extends SwerveDrive {
       }
 
       @Override
-      public ChassisDimension chassisDimensions() {
-        return new SquareChassis(new Length(29, Unit.INCHES));
+      public SwerveKinematicsProvider kinematicsProvider() {
+        return new DefaultSwerveKinematics(new SquareChassis(new Length(29, Unit.INCHES)));
       }
 
       @Override
@@ -94,6 +88,7 @@ public class DriveTrain extends SwerveDrive {
 
       @Override
       public AbstractGyro gyro() {
+        gyro.zero();
         return gyro;
       }
 
@@ -116,7 +111,7 @@ public class DriveTrain extends SwerveDrive {
       @Override
       public void initialize(SwerveDrive swerve) {
         swerve.zeroDriveEncoders();
-        swerve.setFieldCentric(false);
+        //swerve.setFieldCentric(false);
 
         //swerve.setIdleAngle(0, false);
 
