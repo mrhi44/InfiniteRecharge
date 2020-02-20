@@ -20,12 +20,12 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
+import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
+import net.bancino.robotics.swerveio.command.RunnableCommand;
 import frc.robot.commands.ColorFinder;
 import frc.robot.commands.ColorWheelRotation;
-import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
-import frc.robot.commands.RunnableCommand;
 import frc.robot.commands.ShooterWithJoystick;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
@@ -105,7 +105,9 @@ public class RobotContainer {
     /* The intake uses the given hand's trigger and bumper. */
     intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
-    drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX));
+    SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
+    swerveDriveTeleop.setThrottle(0.4);
+    drivetrain.setDefaultCommand(swerveDriveTeleop);
     /** The elevator uses the y axis of the left joystick. */
     elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
     /** The shooter uses the right trigger. */
