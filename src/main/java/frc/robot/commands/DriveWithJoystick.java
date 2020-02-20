@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import net.bancino.robotics.swerveio.SwerveDrive;
-import net.bancino.robotics.swerveio.SwerveVector;
+import net.bancino.robotics.swerveio.geometry.SwerveVector;
 import net.bancino.robotics.swerveio.pid.AbstractPIDController;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 import net.bancino.robotics.swerveio.gyro.AbstractGyro;
