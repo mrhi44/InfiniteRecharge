@@ -95,5 +95,6 @@ public class Const {
         public static final double CAMERA_ANGLE_Y = 31.16;
         public static final double CAMERA_RES_X = 320;
         public static final double CAMERA_RES_Y = 240;
+        public static final double BALL_ADJUST_SPEED = 0.15; //To be multiplied by angle difference
     }
 }
