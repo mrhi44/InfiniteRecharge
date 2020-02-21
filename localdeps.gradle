@@ -38,6 +38,8 @@ ext.localdeps = [
     /* Run this in settings.gradle */
     settingsSetup: {
         localdeps.list.eachWithIndex { item, index ->
+            println "Fetching preemptively: $item"
+            localdeps.syncLocalDependency("${localdeps.repoPrefix}/$item", item)
             localdeps.registerProjectIfExists(item)
         }
     },
@@ -47,7 +49,6 @@ ext.localdeps = [
         localdeps.list.eachWithIndex { item, index -> 
             if (project.hasProperty("useLocal$item") || project.hasProperty("allLocal")) {
                 println "Using local copy of $item."
-                localdeps.syncLocalDependency("${localdeps.repoPrefix}/$item", item)
                 dependencies.implementation project(":$item")
                 tasks.jar.dependsOn("$item:jar")
             }
@@ -63,25 +64,15 @@ ext.localdeps = [
 
     /* clone or pull the given git repository. URL is the remote, name is the local folder name.*/
     syncLocalDependency: { url, name ->
-        def repoDir = file("$projectDir/$name")
+        def repoDir = file("$name")
         if (repoDir.exists()) {
             if (netIsAvailable()) {
-                //def repo = grgit.open(dir: repoDir)
-                //repo.pull()
-                //repo.close()
                 git(repoDir, ['pull'])
-                println "Updated $name."
             } else {
                 println "Warning: Unable to pull latest $name."
             }
         } else {
-            //def repo = grgit.clone {
-            //    dir = "$projectDir/$name"
-            //    uri = url
-            //}
-            //repo.close()
             git(null, ['clone', url, name])
-            println 'MAKE SURE YOU RUN THE EXACT SAME BUILD AGAIN TO INCLUDE THE PROJECT. IT SHOULD BE SUCCESSFUL NOW.'
         }
     }
 ]
