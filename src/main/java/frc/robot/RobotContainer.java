@@ -20,10 +20,11 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
-import frc.robot.commands.DriveWithJoystick;
+import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
+import net.bancino.robotics.swerveio.command.RunnableCommand;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
-import frc.robot.commands.RunnableCommand;
+import frc.robot.commands.LimelightAlign;
 import frc.robot.commands.ShooterWithJoystick;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
@@ -44,12 +45,12 @@ public class RobotContainer {
   private final XboxController xbox1 = new XboxController(1);
 
   /* The robot's subsystems and commands are defined here */
-  private final AirCompressor compressor = new AirCompressor();
+  //private final AirCompressor compressor = new AirCompressor();
   private final DriveTrain drivetrain;
-  private final Elevator elevator = new Elevator();
-  private final Feed feed = new Feed();
-  private final Intake intake = new Intake();
-  private final Shooter shooter = new Shooter();
+  //private final Elevator elevator = new Elevator();
+  //private final Feed feed = new Feed();
+  //private final Intake intake = new Intake();
+  //private final Shooter shooter = new Shooter();
 
   /* Additional global objects can go here. */
   private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
@@ -79,15 +80,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
-    xbox0X.whenPressed(new RunnableCommand(() -> {
-      drivetrain.setIdleAngle(0, false);
-    }, drivetrain));
 
-    JoystickButton xbox0Y = new JoystickButton(xbox0, XboxController.Button.kY.value);
-    xbox0Y.whenPressed(new RunnableCommand(() -> {
-      drivetrain.setIdleAngle(135, true);
-    }, drivetrain));
+    JoystickButton xbox0LeftBumper = new JoystickButton(xbox0, XboxController.Button.kBumperLeft.value);
+    xbox0LeftBumper.whenPressed(new RunnableCommand(() -> {
+      drivetrain.getGyro().zero();
+    }));
     /** Change the limelight stream to the main feed with an UP on xbox0's dpad. */
     POVButton xboxPOV0 = new POVButton(xbox0, 0);
     xboxPOV0.toggleWhenPressed(new RunnableCommand(() -> {
@@ -98,17 +95,23 @@ public class RobotContainer {
     xboxPOV180.toggleWhenPressed(new RunnableCommand(() -> {
       limelight.setStreamingMode(net.bancino.robotics.jlimelight.StreamMode.PIP_SECONDARY);
     }));
+
+    /** Uses xbox0's X button to activate LimelightAlign while held. */
+    JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
+    xbox0X.whileHeld(new LimelightAlign(drivetrain, limelight));
   }
 
   private void configureCommands() {
     /* The intake uses the given hand's trigger and bumper. */
-    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
+    //intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
-    drivetrain.setDefaultCommand(new DriveWithJoystick(drivetrain, gyro, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX));
+    SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
+    swerveDriveTeleop.setThrottle(0.4);
+    drivetrain.setDefaultCommand(swerveDriveTeleop);
     /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
+    //elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
     /** The shooter uses the right trigger. */
-    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Axis.kRightTrigger));
+    //shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Axis.kRightTrigger));
   }
 
   /**

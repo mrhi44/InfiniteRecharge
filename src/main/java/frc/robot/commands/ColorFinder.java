@@ -6,8 +6,13 @@ import frc.robot.subsystems.Elevator;
 
 
 public class ColorFinder extends CommandBase {
+    
     private Elevator.WheelColor wheelColor;
     Elevator elevator;
+
+    public ColorFinder(Elevator elevator) {
+        addRequirements(elevator);
+    }
 
     public void initialize(){
         switch (DriverStation.getInstance().getGameSpecificMessage()) {
@@ -20,10 +25,6 @@ public class ColorFinder extends CommandBase {
             case "G":
             wheelColor = Elevator.WheelColor.GREEN;
         }
-    }
-  
-    public ColorFinder(Elevator elevator) {
-        addRequirements(elevator);
     }
 
     // Returns true when the command should end.
