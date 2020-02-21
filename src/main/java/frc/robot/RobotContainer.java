@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
+@SuppressWarnings("unused")
 public class RobotContainer {
 
   private final XboxController xbox0 = new XboxController(0);
