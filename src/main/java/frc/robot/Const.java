@@ -97,4 +97,14 @@ public class Const {
         public static final double CAMERA_RES_Y = 240;
         public static final double BALL_ADJUST_SPEED = 0.15; //To be multiplied by angle difference
     }
+
+    public static class LimelightAlign {
+        public static final double DISTANCE_TO_TARGET = 60; //In inches
+        public static final double STRAFE_ADJUST_SPEED = 0.025; //In inches
+        public static final double FORWARD_ADJUST_SPEED = 0.008; //Again, in inches
+        public static final double ROTATE_ADJUST_SPEED = 0.09; // Inches, oh yeah
+        public static final double ACCEPTABLE_ERROR_STRAFE = 2; //Incheroos
+        public static final double ACCEPTABLE_ERROR_FORWARD = 3; //Incheronis
+        public static final double ACCEPTABLE_ERROR_ROTATE = 1; //Incherochos
+    }
 }
