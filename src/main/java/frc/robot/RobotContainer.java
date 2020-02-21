@@ -22,8 +22,6 @@ import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.RunnableCommand;
-import frc.robot.commands.ColorFinder;
-import frc.robot.commands.ColorWheelRotation;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
 import frc.robot.commands.ShooterWithJoystick;

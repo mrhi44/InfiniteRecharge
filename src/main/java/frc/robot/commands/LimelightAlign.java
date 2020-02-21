@@ -31,7 +31,6 @@ public class LimelightAlign extends CommandBase {
 
     @Override
     public void initialize() {
-        double[] camtran = limelight.getCamTran();
     }
 
     @Override
