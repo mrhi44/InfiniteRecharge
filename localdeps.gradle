@@ -1,10 +1,28 @@
+ext.runCommand = { dir, command, arguments ->
+    new ByteArrayOutputStream().withStream { os ->
+        exec {
+            workingDir = dir
+            executable = command
+            args = arguments  
+            standardOutput = os
+        }
+        return os.toString()
+    }
+}
+
+
+ext.git = { repo, args ->
+    if (repo == null) repo = '.'
+    return runCommand(repo, 'git', args)
+}
 /*
  * The localdeps object takes care of setting up our home-grown dependencies
  * so that they can be compiled as source code. This allows us to, at competitions,
  * build our code with local changes to any of our libraries, instead of having to
  * push and pull to git and maven.
  *
- * This is an extremely rudimentary solution that depends on the grgit plugin.
+ * This is an extremely rudimentary solution that often requires multiple builds to be
+ * successful.
  */
 
 ext.localdeps = [
@@ -48,18 +66,21 @@ ext.localdeps = [
         def repoDir = file("$projectDir/$name")
         if (repoDir.exists()) {
             if (netIsAvailable()) {
-                def repo = grgit.open(dir: repoDir)
-                repo.pull()
-                repo.close()
+                //def repo = grgit.open(dir: repoDir)
+                //repo.pull()
+                //repo.close()
+                git(repoDir, ['pull'])
+                println "Updated $name."
             } else {
                 println "Warning: Unable to pull latest $name."
             }
         } else {
-            def repo = grgit.clone {
-                dir = "$projectDir/$name"
-                uri = url
-            }
-            repo.close()
+            //def repo = grgit.clone {
+            //    dir = "$projectDir/$name"
+            //    uri = url
+            //}
+            //repo.close()
+            git(null, ['clone', url, name])
             println 'MAKE SURE YOU RUN THE EXACT SAME BUILD AGAIN TO INCLUDE THE PROJECT. IT SHOULD BE SUCCESSFUL NOW.'
         }
     }
