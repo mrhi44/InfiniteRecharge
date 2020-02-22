@@ -36,7 +36,7 @@ public class IntakeWithJoystick extends CommandBase {
   public void execute() {
     boolean xBoxBumper = xbox.getBumper(bumper);
     if (xBoxBumper) {
-      feed.closeFeed(true);
+      //feed.closeFeed(true);
       feed.run();
       intake.run();
     } else {

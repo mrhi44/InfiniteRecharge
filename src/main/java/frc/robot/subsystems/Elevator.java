@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 /**
  * The Elevator subsystem controls the elevator mechanism
@@ -43,6 +44,8 @@ public class Elevator extends SubsystemBase {
     private WheelColor wheelColor;
     private int revCount = 0;
 
+    private boolean locked = false;
+
     public static enum WheelColor {
         RED, GREEN, BLUE, YELLOW
     };
@@ -50,6 +53,8 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
         elevatorPID.setP(Const.PID.ELEVATOR_P);
         elevatorPID.setI(Const.PID.ELEVATOR_I);
+        elevatorMotor.setIdleMode(IdleMode.kBrake);
+        setLocked(true);
     }
 
     /**
@@ -186,5 +191,10 @@ public class Elevator extends SubsystemBase {
     public void setLocked(boolean locked) {
         lockDisable.set(!locked);
         lockEnable.set(locked);
+        this.locked = locked;
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 }

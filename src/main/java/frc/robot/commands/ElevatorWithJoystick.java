@@ -43,7 +43,7 @@ public class ElevatorWithJoystick extends CommandBase {
         /**
          * TODO: remove all constants
          */
-        elevator.setElevatorSpeed(xbox.getRawAxis(axis.value) * 0.4);
+        elevator.setElevatorSpeed(xbox.getRawAxis(axis.value) * -1);
 
         if (xbox.getRawAxis(wheelAxis.value) > 0.1) {
             elevator.setWheelSpeed(Const.Speed.ENDGAME_BAR_SPEED);

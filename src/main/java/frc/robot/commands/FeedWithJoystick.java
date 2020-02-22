@@ -12,24 +12,28 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.Feed;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class ShooterWithJoystick extends CommandBase {
+public class FeedWithJoystick extends CommandBase {
 
     private Shooter shooter;
     private Feed feed;
-    private GenericHID.Hand bumper;
+    private Intake intake;
+    private GenericHID.Hand intakeBumper, shooterBumper;
     private XboxController xbox;
     private long currentTime, timePressed = 0;
     private boolean firstPress = true;
 
     /** Creates a new ShooterWithJoystick, of course. */
-    public ShooterWithJoystick(Shooter shooter, Feed feed, XboxController xbox, GenericHID.Hand bumper) {
+    public FeedWithJoystick(Intake intake, Feed feed, Shooter shooter, XboxController xbox, GenericHID.Hand intakeBumper, GenericHID.Hand shooterBumper) {
         this.shooter = shooter;
         this.feed = feed;
+        this.intake = intake;
         this.xbox = xbox;
-        this.bumper = bumper;
-        addRequirements(shooter, feed);
+        this.intakeBumper = intakeBumper;
+        this.shooterBumper = shooterBumper;
+        addRequirements(shooter, feed, intake);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -37,7 +41,7 @@ public class ShooterWithJoystick extends CommandBase {
     public void execute() {
         currentTime = System.currentTimeMillis();
 
-        if (xbox.getBumper(bumper)) {
+        if (xbox.getBumper(shooterBumper)) {
             shooter.run();
 
             if (firstPress) {
@@ -49,10 +53,14 @@ public class ShooterWithJoystick extends CommandBase {
                 feed.run();
                 //feed.closeFeed(false);
             }
+        } else if (xbox.getBumper(intakeBumper)) {
+            //feed.closeFeed(true);
+            feed.run();
+            intake.run();
         } else {
             shooter.stop();
             feed.stop();
-            //feed.closeFeed(true);
+            intake.stop();
             firstPress = true;
         }
 

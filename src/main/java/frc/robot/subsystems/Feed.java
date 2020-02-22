@@ -24,9 +24,11 @@ public class Feed extends SimpleMotorSubsystem {
     private final CANSparkMax feedMotor = new CANSparkMax(Const.CAN.FEED_MOTOR, MotorType.kBrushless);
     private final Solenoid feedStopEnable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.FEED_STOP_ENABLE);
     private final Solenoid feedStopDisable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.FEED_STOP_DISABLE);
+    private boolean feedStopped = false;
 
     public Feed() {
         super(Const.Speed.FEED_SPEED);
+        closeStopper(false);
     }
 
     @Override
@@ -34,8 +36,13 @@ public class Feed extends SimpleMotorSubsystem {
         feedMotor.set(speed);
     }
 
-    public void closeFeed(boolean closeFeed) {
+    public void closeStopper(boolean closeFeed) {
         feedStopEnable.set(closeFeed);
         feedStopDisable.set(!closeFeed);
+        feedStopped = closeFeed;
+    }
+
+    public boolean isStopped() {
+        return feedStopped;
     }
 }

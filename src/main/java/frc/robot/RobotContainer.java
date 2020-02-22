@@ -26,6 +26,7 @@ import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
 import net.bancino.robotics.swerveio.command.RunnableCommand;
 import frc.robot.commands.ElevatorWithJoystick;
+import frc.robot.commands.FeedWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
 import frc.robot.commands.LimelightAlign;
 import frc.robot.commands.ShooterWithJoystick;
@@ -110,6 +111,16 @@ public class RobotContainer {
     xbox1B.whenPressed(new RunnableCommand(() -> {
       intake.lift(!intake.isUp());
     }));
+
+    JoystickButton xbox1X = new JoystickButton(xbox1, XboxController.Button.kX.value);
+    xbox1X.whenPressed(new RunnableCommand(() -> {
+      elevator.setLocked(!elevator.isLocked());
+    }));
+
+    //JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
+    //xbox1Y.whenPressed(new RunnableCommand(() -> {
+    //  feed.closeStopper(!feed.isStopped());
+    //}));
   }
 
   private void configureCommands() {
@@ -119,15 +130,16 @@ public class RobotContainer {
      */
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY,
         XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
-    swerveDriveTeleop.setThrottle(0.6);
+    swerveDriveTeleop.setThrottle(0.8);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
     /** The elevator uses the y axis of the left joystick. */
     elevator.setDefaultCommand(
         new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kRightX));
     /* The intake uses the given hand's trigger and bumper. */
-    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, GenericHID.Hand.kLeft));
+    //intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, GenericHID.Hand.kLeft));
     /** The shooter uses the right trigger. */
-    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, feed, xbox1, GenericHID.Hand.kRight));
+    //shooter.setDefaultCommand(new ShooterWithJoystick(shooter, feed, xbox1, GenericHID.Hand.kRight));
+    feed.setDefaultCommand(new FeedWithJoystick(intake, feed, shooter, xbox1, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
   }
 
   /**
