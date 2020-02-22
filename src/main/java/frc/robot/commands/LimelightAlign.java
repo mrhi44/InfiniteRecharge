@@ -41,8 +41,8 @@ public class LimelightAlign extends CommandBase {
         rcw = camtran[4] * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
         fwd = (Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET) * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
 
-        //SwerveVector alignmentVector = new SwerveVector(fwd, -str, -rcw);
-        SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw);
+        SwerveVector alignmentVector = new SwerveVector(fwd, -str, rcw);
+        //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw);
         drivetrain.drive(alignmentVector);
     }
 
