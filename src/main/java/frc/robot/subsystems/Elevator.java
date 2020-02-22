@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Const;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.CANPIDController;
@@ -33,6 +34,10 @@ public class Elevator extends SubsystemBase {
     private final WPI_VictorSPX wheelMotor = new WPI_VictorSPX(Const.CAN.ELEVATOR_WHEEL);
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final CANPIDController elevatorPID = new CANPIDController(elevatorMotor);
+
+    private final Solenoid lockEnable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_ENABLE);
+    private final Solenoid lockDisable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_DISABLE);
+    
     private String startingColor = colorSensor.getColor().toString();
     private WheelColor targetColor = null;
     private WheelColor wheelColor;
@@ -171,5 +176,15 @@ public class Elevator extends SubsystemBase {
      */
     public boolean atColor(WheelColor color) {
         return convertToWheelColor(colorSensor.getColor()) == colorToTargetColor(color);
+    }
+
+    /**
+     * Lock the elevator with the solenoid to keep it from falling in endgame.
+     * @param locked Whether or not the elevator is locked, locked should be
+     * the default configuration.
+     */
+    public void setLocked(boolean locked) {
+        lockDisable.set(!locked);
+        lockEnable.set(locked);
     }
 }
