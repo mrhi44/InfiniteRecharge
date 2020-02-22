@@ -1,9 +1,13 @@
 package frc.robot;
 
 /**
- * The constants class stores all of our robot wiring constants.
+ * The constants class stores all of our robot wiring, speed, pneumatic, and
+ * encoder constants.
  */
 public class Const {
+    /**
+     * CAN IDs of all the motor controllers, the PCM and PDP are here.
+     */
     public static class CAN {
         public static final int FRONT_RIGHT_DRIVE_MOTOR = 5; /* Module 1 */
         public static final int FRONT_LEFT_DRIVE_MOTOR  = 2; /* Module 2 */
@@ -31,6 +35,9 @@ public class Const {
         public static final int PNEUMATIC_CONTROL_MODULE = 58;
     }
 
+    /**
+     * PID Coefficients
+     */
     public static class PID {
         public static final double SWERVE_MODULE_RAMP_RATE = 0;
         public static final double SWERVE_MODULE_P         = 0.003;
@@ -48,6 +55,9 @@ public class Const {
         public static final double HOOD_D    = 0;
     }
 
+    /**
+     * Pneumatic components
+     */
     public static class Pneumatic {
         public static final int ELEVATOR_LOCK_ENABLE     = 5;
         public static final int ELEVATOR_LOCK_DISABLE    = 4;
@@ -67,10 +77,10 @@ public class Const {
         public static final int REAR_RIGHT_ANALOG_ENCODER  = 3; /* Module 4 */
 
         /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 146.27;
-        public static final double FRONT_LEFT_ENCODER_OFFSET  = 134.60;
-        public static final double REAR_LEFT_ENCODER_OFFSET   = 59.34;
-        public static final double REAR_RIGHT_ENCODER_OFFSET  = 267.2;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 0;
+        public static final double FRONT_LEFT_ENCODER_OFFSET  = 0;
+        public static final double REAR_LEFT_ENCODER_OFFSET   = 0;
+        public static final double REAR_RIGHT_ENCODER_OFFSET  = 0;
     }
 
     /*
@@ -84,6 +94,9 @@ public class Const {
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
     }
 
+    /**
+     * Elevator constants..
+     */
     public static class Elevator {
         public static final double MAX_HEIGHT = 0;
         public static final double COLOR_WHEEL_HEIGHT = 0;
@@ -92,6 +105,9 @@ public class Const {
         public static final int NUMBER_OF_COLOR_CHANGES = 25;
     }
 
+    /**
+     * Ball-fetching parameters.
+     */
     public static class AutonBallGetter {
         public static final double CAMERA_ANGLE_X = 61;
         public static final double CAMERA_ANGLE_Y = 31.16;
@@ -100,6 +116,9 @@ public class Const {
         public static final double BALL_ADJUST_SPEED = 0.15; //To be multiplied by angle difference
     }
 
+    /**
+     * Limelight alignment parameters.
+     */
     public static class LimelightAlign {
         public static final double DISTANCE_TO_TARGET = 140; //In inches
         public static final double STRAFE_ADJUST_SPEED = 0.0025; //In inches

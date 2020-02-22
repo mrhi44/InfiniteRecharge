@@ -26,8 +26,7 @@ public class IntakeWithJoystick extends CommandBase {
    * Creates a new IntakeWithJoystick.
    */
   public IntakeWithJoystick(Intake intake, Feed feed, XboxController xbox, GenericHID.Hand triggerAndBumperHand, GenericHID.Hand rightBumperHand) {
-    addRequirements(intake);
-    addRequirements(feed);
+    addRequirements(intake, feed);
     this.intake = intake;
     this.feed = feed;
     this.xbox = xbox;
