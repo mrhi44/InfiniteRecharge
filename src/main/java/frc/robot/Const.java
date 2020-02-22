@@ -77,19 +77,19 @@ public class Const {
         public static final int REAR_RIGHT_ANALOG_ENCODER  = 3; /* Module 4 */
 
         /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 0;
-        public static final double FRONT_LEFT_ENCODER_OFFSET  = 0;
-        public static final double REAR_LEFT_ENCODER_OFFSET   = 0;
-        public static final double REAR_RIGHT_ENCODER_OFFSET  = 0;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 217.5;
+        public static final double FRONT_LEFT_ENCODER_OFFSET  = 51.15;
+        public static final double REAR_LEFT_ENCODER_OFFSET   = 339.7;
+        public static final double REAR_RIGHT_ENCODER_OFFSET  = 281.15;
     }
 
     /*
      * Constants pertaining to default speeds.
      */
     public static class Speed {
-        public static final double INTAKE_SPEED  = 0.25;
-        public static final double FEED_SPEED    = 0.25;
-        public static final double SHOOTER_SPEED = 0.25;
+        public static final double INTAKE_SPEED  = 0.40;
+        public static final double FEED_SPEED    = 0.80;
+        public static final double SHOOTER_SPEED = 0.90;
         public static final double HOOD_SPEED    = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
     }
