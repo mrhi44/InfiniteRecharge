@@ -27,6 +27,7 @@ public class ElevatorWithJoystick extends CommandBase {
         this.xbox = xbox;
         this.elevator = elevator;
         this.axis = axis;
+        addRequirements(elevator);
     }
 
     // Called when the command is initially scheduled.
