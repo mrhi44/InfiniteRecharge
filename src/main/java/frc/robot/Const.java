@@ -59,10 +59,10 @@ public class Const {
      * Pneumatic components
      */
     public static class Pneumatic {
-        public static final int ELEVATOR_LOCK_ENABLE     = 5;
-        public static final int ELEVATOR_LOCK_DISABLE    = 4;
-        public static final int INTAKE_DOWN              = 1;
-        public static final int INTAKE_UP                = 0;
+        public static final int ELEVATOR_LOCK_ENABLE     = 1;
+        public static final int ELEVATOR_LOCK_DISABLE    = 0;
+        public static final int INTAKE_DOWN              = 5;
+        public static final int INTAKE_UP                = 4;
         public static final int FEED_STOP_ENABLE         = 2;
         public static final int FEED_STOP_DISABLE        = 3;
     }
@@ -92,7 +92,7 @@ public class Const {
         public static final double SHOOTER_SPEED = 0.90;
         public static final double HOOD_SPEED    = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
-        public static final double ENDGAME_BAR_SPEED = 0.2;
+        public static final double ENDGAME_BAR_SPEED = 0.5;
     }
 
     public static class Time {
