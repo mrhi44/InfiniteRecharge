@@ -50,14 +50,21 @@ public class FeedWithJoystick extends CommandBase {
             }
 
             if (currentTime - timePressed >= Const.Time.SHOOTER_FEED_DELAY_MS) {
-                feed.run();
+                //feed.run();
                 //feed.closeFeed(false);
             }
-        } else if (xbox.getBumper(intakeBumper)) {
+        } 
+        if (xbox.getBumper(intakeBumper)) {
             //feed.closeFeed(true);
-            feed.run();
+            double speed = Const.Speed.FEED_SPEED;
+            if (xbox.getAButton()) {
+                speed *= -1;
+            }
+            feed.runAt(speed);
             intake.run();
-        } else {
+        }
+
+        if (!xbox.getBumper(intakeBumper) && !xbox.getBumper(shooterBumper)) {
             shooter.stop();
             feed.stop();
             intake.stop();

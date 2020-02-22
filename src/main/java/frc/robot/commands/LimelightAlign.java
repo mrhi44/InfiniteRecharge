@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
+import net.bancino.robotics.jlimelight.LedState;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
 
@@ -29,6 +30,7 @@ public class LimelightAlign extends CommandBase {
     @Override
     public void initialize() {
         drivetrain.setFieldCentric(false);
+        limelight.setLedMode(LedState.FORCE_ON);
     }
 
     @Override
@@ -48,6 +50,7 @@ public class LimelightAlign extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drivetrain.setFieldCentric(true);
+        limelight.setLedMode(LedState.FORCE_OFF);
     }
     @Override
     public boolean isFinished() {
