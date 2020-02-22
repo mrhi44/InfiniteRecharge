@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.Const;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -26,9 +26,9 @@ import edu.wpi.first.wpilibj.Solenoid;
  */
 public class Intake extends SimpleMotorSubsystem {
 
-  private final Solenoid intakeUp = new Solenoid(Const.Pneumatic.INTAKE_UP);
-  private final Solenoid intakeDown = new Solenoid(Const.Pneumatic.INTAKE_DOWN);
-  private final WPI_TalonSRX motor = new WPI_TalonSRX(Const.CAN.INTAKE_MOTOR);
+  private final Solenoid intakeUp = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.INTAKE_UP);
+  private final Solenoid intakeDown = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.INTAKE_DOWN);
+  private final WPI_VictorSPX motor = new WPI_VictorSPX(Const.CAN.INTAKE_MOTOR);
 
   /**
    * Creates a new Intake with the settings in the constants file.
