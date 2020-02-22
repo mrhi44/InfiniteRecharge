@@ -30,7 +30,7 @@ public class ShooterWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (kRightTrigger.value > 0.3) {
+        if (xbox1.getRawAxis(kRightTrigger.value) > 0.1) {
             shooter.runAt(Const.Speed.SHOOTER_SPEED);
         } else {
             shooter.runAt(0);
