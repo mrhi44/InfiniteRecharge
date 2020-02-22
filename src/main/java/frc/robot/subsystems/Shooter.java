@@ -25,7 +25,7 @@ public class Shooter extends SimpleMotorSubsystem {
 
     public final WPI_VictorSPX shooterMotor1 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_1);
     public final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_2);
-    public final WPI_VictorSPX shooterMotorReversed = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_REVERSED);
+    //public final WPI_VictorSPX shooterMotorReversed = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_REVERSED);
 
     public final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
 
@@ -50,9 +50,9 @@ public class Shooter extends SimpleMotorSubsystem {
      */
     @Override
     public void runAt(double speed) {
-        shooterMotor1.set(speed);
-        shooterMotor2.set(speed);
-        shooterMotorReversed.set(-speed);
+        shooterMotor1.set(-speed);
+        shooterMotor2.set(-speed);
+        //shooterMotorReversed.set(speed);
     }
 
     /**
