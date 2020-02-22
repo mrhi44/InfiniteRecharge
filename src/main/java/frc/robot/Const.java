@@ -28,6 +28,7 @@ public class Const {
         public static final int SHOOTER_HOOD_MOTOR     = 28;
 
         public static final int POWER_DISTRIBUTION_PANEL = 59;
+        public static final int PNEUMATIC_CONTROL_MODULE = 58;
     }
 
     public static class PID {
@@ -48,7 +49,6 @@ public class Const {
     }
 
     public static class Pneumatic {
-        public static final int CONTROL_MODULE    = 1;
         public static final int INTAKE_DOWN       = 2;
         public static final int INTAKE_UP         = 3;
         public static final int FEED_STOP_ENABLE  = 4;
@@ -75,10 +75,10 @@ public class Const {
      * Constants pertaining to default speeds.
      */
     public static class Speed {
-        public static final double INTAKE_SPEED  = 0.5;
-        public static final double FEED_SPEED    = 0.5;
-        public static final double SHOOTER_SPEED = 0.5;
-        public static final double HOOD_SPEED    = 0.5;
+        public static final double INTAKE_SPEED  = 0.25;
+        public static final double FEED_SPEED    = 0.25;
+        public static final double SHOOTER_SPEED = 0.25;
+        public static final double HOOD_SPEED    = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
     }
 

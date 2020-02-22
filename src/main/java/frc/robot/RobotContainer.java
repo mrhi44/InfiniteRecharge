@@ -45,12 +45,12 @@ public class RobotContainer {
   private final XboxController xbox1 = new XboxController(1);
 
   /* The robot's subsystems and commands are defined here */
-  //private final AirCompressor compressor = new AirCompressor();
+  private final AirCompressor compressor = new AirCompressor();
   private final DriveTrain drivetrain;
-  //private final Elevator elevator = new Elevator();
-  //private final Feed feed = new Feed();
-  //private final Intake intake = new Intake();
-  //private final Shooter shooter = new Shooter();
+  private final Elevator elevator = new Elevator();
+  private final Feed feed = new Feed();
+  private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
 
   /* Additional global objects can go here. */
   private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
@@ -103,15 +103,15 @@ public class RobotContainer {
 
   private void configureCommands() {
     /* The intake uses the given hand's trigger and bumper. */
-    //intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
     swerveDriveTeleop.setThrottle(0.4);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
     /** The elevator uses the y axis of the left joystick. */
-    //elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
     /** The shooter uses the right trigger. */
-    //shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Axis.kRightTrigger));
+    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Axis.kRightTrigger));
   }
 
   /**
