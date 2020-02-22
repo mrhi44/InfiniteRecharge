@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.io.IOException;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -21,6 +23,7 @@ import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
+import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
 import net.bancino.robotics.swerveio.command.RunnableCommand;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
@@ -31,12 +34,12 @@ import net.bancino.robotics.jlimelight.Limelight;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
-
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 @SuppressWarnings("unused")
 public class RobotContainer {
@@ -58,7 +61,7 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight();
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     /* Construct our subsystems here if they throw exceptions. */
@@ -74,10 +77,10 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
 
@@ -89,8 +92,11 @@ public class RobotContainer {
     POVButton xboxPOV0 = new POVButton(xbox0, 0);
     xboxPOV0.toggleWhenPressed(new RunnableCommand(() -> {
       limelight.setStreamingMode(net.bancino.robotics.jlimelight.StreamMode.PIP_MAIN);
-    } ));
-    /** Change the limelight stream to the secondary feed with a DOWN on the xbox0's dpad. */
+    }));
+    /**
+     * Change the limelight stream to the secondary feed with a DOWN on the xbox0's
+     * dpad.
+     */
     POVButton xboxPOV180 = new POVButton(xbox0, 180);
     xboxPOV180.toggleWhenPressed(new RunnableCommand(() -> {
       limelight.setStreamingMode(net.bancino.robotics.jlimelight.StreamMode.PIP_SECONDARY);
@@ -102,12 +108,17 @@ public class RobotContainer {
   }
 
   private void configureCommands() {
-    /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
-    SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
+    /*
+     * The drivetrain uses three axes: forward, strafe, and angular velocity, in
+     * that order.
+     */
+    SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY,
+        XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
     swerveDriveTeleop.setThrottle(0.6);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
     /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kRightX));
+    elevator.setDefaultCommand(
+        new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kRightX));
     /* The intake uses the given hand's trigger and bumper. */
     intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, GenericHID.Hand.kLeft));
     /** The shooter uses the right trigger. */
@@ -121,6 +132,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // This command will run in autonomous
-    return null;
+    try {
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/Kettering.wpilib.json");
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      return null;
+    }
   }
 }
