@@ -49,10 +49,12 @@ public class Const {
     }
 
     public static class Pneumatic {
-        public static final int INTAKE_DOWN       = 2;
-        public static final int INTAKE_UP         = 3;
-        public static final int FEED_STOP_ENABLE  = 4;
-        public static final int FEED_STOP_DISABLE = 5;
+        public static final int ELEVATOR_LOCK_ENABLE     = 5;
+        public static final int ELEVATOR_LOCK_DISABLE    = 4;
+        public static final int INTAKE_DOWN              = 1;
+        public static final int INTAKE_UP                = 0;
+        public static final int FEED_STOP_ENABLE         = 2;
+        public static final int FEED_STOP_DISABLE        = 3;
     }
 
     /**
