@@ -87,8 +87,8 @@ public class Const {
      * Constants pertaining to default speeds.
      */
     public static class Speed {
-        public static final double INTAKE_SPEED  = 0.40;
-        public static final double FEED_SPEED    = 0.80;
+        public static final double INTAKE_SPEED  = 0.55;
+        public static final double FEED_SPEED    = 1.0;
         public static final double SHOOTER_SPEED = 0.90;
         public static final double HOOD_SPEED    = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
