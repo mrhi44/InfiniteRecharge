@@ -150,9 +150,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // This command will run in autonomous
     try {
+      drivetrain.getGyro().zero();
       return new PathweaverSwerveDrive(drivetrain, "paths/output/Kettering.wpilib.json");
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
       return null;
     }
