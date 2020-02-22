@@ -43,17 +43,19 @@ public class IntakeWithJoystick extends CommandBase {
     boolean doRun = xBoxBumper || xBoxTrigger != 0;
     if (doRun) {
       feed.closeFeed(true);
+      feed.runAt(Const.Speed.FEED_SPEED);
       if (xBoxBumper) {
         intake.run();
       } else {
         intake.runAt(xBoxTrigger);
       }
+    } else {
+      intake.stop();
+      feed.stop();
     }
     if (kBumperRight) {
       feed.closeFeed(false);
       feed.runAt(Const.Speed.FEED_SPEED);
-    } else {
-      feed.stop();
     }
   }
 
