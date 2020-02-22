@@ -28,6 +28,7 @@ public class Intake extends SimpleMotorSubsystem {
 
   private final Solenoid intakeUp = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.INTAKE_UP);
   private final Solenoid intakeDown = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.INTAKE_DOWN);
+  private boolean intakeIsUp = true;
   private final WPI_VictorSPX motor = new WPI_VictorSPX(Const.CAN.INTAKE_MOTOR);
 
   /**
@@ -58,5 +59,10 @@ public class Intake extends SimpleMotorSubsystem {
   public void lift(boolean liftIntake) {
     intakeUp.set(liftIntake);
     intakeDown.set(!liftIntake);
+    intakeIsUp = liftIntake;
+  }
+
+  public boolean isUp() {
+    return intakeIsUp;
   }
 }

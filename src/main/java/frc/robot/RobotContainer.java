@@ -105,6 +105,11 @@ public class RobotContainer {
     /** Uses xbox0's X button to activate LimelightAlign while held. */
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
     xbox0X.whileHeld(new LimelightAlign(drivetrain, limelight));
+
+    JoystickButton xbox1B = new JoystickButton(xbox1, XboxController.Button.kB.value);
+    xbox1B.whenPressed(new RunnableCommand(() -> {
+      intake.lift(!intake.isUp());
+    }));
   }
 
   private void configureCommands() {
