@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Const;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorWithJoystick extends CommandBase {
@@ -41,49 +40,10 @@ public class ElevatorWithJoystick extends CommandBase {
     @Override
     public void execute() {
         elevator.setWheelSpeed(xbox.getRawAxis(wheelAxis.value));
-
-
-        speedRef = xbox.getRawAxis(axis.value);
         /**
-         * Sets the cases for each button press. Y will unlock the position loop and
-         * allow free control.
+         * TODO: Either remove the throttle or put it in the constants.
          */
-        if (xbox.getYButton()) {
-            elevator.setElevatorSpeed(speedRef);
-            manualOffset = 0;
-            basePosition = elevator.getElevatorEncoder();
-        } else {
-            if (xbox.getXButton()) {
-                basePosition = Const.Elevator.MAX_HEIGHT;
-            } else if (xbox.getAButton()) {
-                basePosition = Const.Elevator.COLOR_WHEEL_HEIGHT;
-            } else if (xbox.getBButton()) {
-                basePosition = Const.Elevator.BOTTOM_HEIGHT;
-            }
-
-            /**
-             * Creates a manual offset based off of current position and the (modified)
-             * joystick input.
-             */
-            manualOffset = manualOffset + (Const.Elevator.INCREMENT * speedRef);
-
-            /**
-             * These two statements serve to moderate the movement of the elevator
-             * from a sudden change from manual movement to a setpoint.
-             */
-            if ((manualOffset + basePosition) < Const.Elevator.BOTTOM_HEIGHT) {
-                manualOffset = (Const.Elevator.BOTTOM_HEIGHT - basePosition);
-            }
-            if ((manualOffset + basePosition) > Const.Elevator.MAX_HEIGHT) {
-                manualOffset = (Const.Elevator.MAX_HEIGHT - basePosition);
-            }
-
-            /** Finally, the position is both the manual offset and the setpoint. */
-            position = basePosition + manualOffset;
-
-            /** Feed that sweet sweet position into the actual motor control. */
-            elevator.setElevatorPosition(position);
-        }
+        elevator.setElevatorSpeed(xbox.getRawAxis(axis.value) * 0.4);
     }
 
     // Called once the command ends or is interrupted.
