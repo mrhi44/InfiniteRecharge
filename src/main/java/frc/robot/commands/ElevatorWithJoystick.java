@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Const;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorWithJoystick extends CommandBase {
@@ -39,11 +40,16 @@ public class ElevatorWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        elevator.setWheelSpeed(xbox.getRawAxis(wheelAxis.value));
         /**
-         * TODO: Either remove the throttle or put it in the constants.
+         * TODO: remove all constants
          */
         elevator.setElevatorSpeed(xbox.getRawAxis(axis.value) * 0.4);
+
+        if (xbox.getRawAxis(wheelAxis.value) > 0.1) {
+            elevator.setWheelSpeed(Const.Speed.ENDGAME_BAR_SPEED);
+        } else if (xbox.getRawAxis(wheelAxis.value) < -0.1) {
+            elevator.setWheelSpeed(-Const.Speed.ENDGAME_BAR_SPEED);
+        }
     }
 
     // Called once the command ends or is interrupted.

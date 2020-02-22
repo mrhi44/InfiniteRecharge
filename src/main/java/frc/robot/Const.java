@@ -92,6 +92,11 @@ public class Const {
         public static final double SHOOTER_SPEED = 0.90;
         public static final double HOOD_SPEED    = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
+        public static final double ENDGAME_BAR_SPEED = 0.2;
+    }
+
+    public static class Time {
+        public static final long SHOOTER_FEED_DELAY_MS = 1000;
     }
 
     /**

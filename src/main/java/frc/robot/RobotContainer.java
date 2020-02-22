@@ -102,16 +102,16 @@ public class RobotContainer {
   }
 
   private void configureCommands() {
-    /* The intake uses the given hand's trigger and bumper. */
-    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox0, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
     /* The drivetrain uses three axes: forward, strafe, and angular velocity, in that order. */
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
-    swerveDriveTeleop.setThrottle(0.4);
+    swerveDriveTeleop.setThrottle(0.6);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
     /** The elevator uses the y axis of the left joystick. */
     elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kRightX));
+    /* The intake uses the given hand's trigger and bumper. */
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, GenericHID.Hand.kLeft));
     /** The shooter uses the right trigger. */
-    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Axis.kRightTrigger));
+    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, feed, xbox1, GenericHID.Hand.kRight));
   }
 
   /**

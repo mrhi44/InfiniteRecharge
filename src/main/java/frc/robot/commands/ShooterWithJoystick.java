@@ -7,33 +7,53 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
+import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterWithJoystick extends CommandBase {
 
-    Shooter shooter;
-    Axis kRightTrigger;
-    XboxController xbox1;
+    private Shooter shooter;
+    private Feed feed;
+    private GenericHID.Hand bumper;
+    private XboxController xbox;
+    private long currentTime, timePressed = 0;
+    private boolean firstPress = true;
 
     /** Creates a new ShooterWithJoystick, of course. */
-    public ShooterWithJoystick(Shooter shooter, XboxController xbox1, Axis kRightTrigger) {
+    public ShooterWithJoystick(Shooter shooter, Feed feed, XboxController xbox, GenericHID.Hand bumper) {
         this.shooter = shooter;
-        this.xbox1 = xbox1;
-        this.kRightTrigger = kRightTrigger;
-        addRequirements(shooter);
+        this.feed = feed;
+        this.xbox = xbox;
+        this.bumper = bumper;
+        addRequirements(shooter, feed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (xbox1.getRawAxis(kRightTrigger.value) > 0.1) {
-            shooter.runAt(Const.Speed.SHOOTER_SPEED);
+        currentTime = System.currentTimeMillis();
+
+        if (xbox.getBumper(bumper)) {
+            shooter.run();
+
+            if (firstPress) {
+                firstPress = false;
+                timePressed = currentTime;
+            }
+
+            if (currentTime - timePressed >= Const.Time.SHOOTER_FEED_DELAY_MS) {
+                feed.run();
+                feed.closeFeed(false);
+            }
         } else {
-            shooter.runAt(0);
+            shooter.stop();
+            feed.stop();
+            feed.closeFeed(true);
+            firstPress = true;
         }
 
     }
