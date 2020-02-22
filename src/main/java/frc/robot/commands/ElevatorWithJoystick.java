@@ -17,16 +17,17 @@ public class ElevatorWithJoystick extends CommandBase {
 
     Elevator elevator;
     XboxController xbox;
-    XboxController.Axis axis;
+    XboxController.Axis axis, wheelAxis;
     double position;
     double basePosition;
     double manualOffset;
     double speedRef;
 
-    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, Axis axis) {
+    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, Axis axis, Axis wheelAxis) {
         this.xbox = xbox;
         this.elevator = elevator;
         this.axis = axis;
+        this.wheelAxis = wheelAxis;
         addRequirements(elevator);
     }
 
@@ -39,6 +40,9 @@ public class ElevatorWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        elevator.setWheelSpeed(xbox.getRawAxis(wheelAxis.value));
+
+
         speedRef = xbox.getRawAxis(axis.value);
         /**
          * Sets the cases for each button press. Y will unlock the position loop and

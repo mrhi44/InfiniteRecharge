@@ -109,7 +109,7 @@ public class RobotContainer {
     swerveDriveTeleop.setThrottle(0.4);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
     /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY));
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kRightX));
     /** The shooter uses the right trigger. */
     shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Axis.kRightTrigger));
   }
