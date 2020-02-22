@@ -35,7 +35,7 @@ public class Feed extends SimpleMotorSubsystem {
     }
 
     public void closeFeed(boolean closeFeed) {
-        feedStopEnable.set(!closeFeed);
-        feedStopDisable.set(closeFeed);
+        feedStopEnable.set(closeFeed);
+        feedStopDisable.set(!closeFeed);
     }
 }
