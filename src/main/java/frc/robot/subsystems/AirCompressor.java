@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.Compressor;
  */
 public class AirCompressor extends SubsystemBase {
 
-    private final Compressor compressor = new Compressor(Const.Pneumatic.CONTROL_MODULE);
+    private final Compressor compressor = new Compressor(Const.CAN.PNEUMATIC_CONTROL_MODULE);
 
     /**
      * Create an air compressor on the specified control module.

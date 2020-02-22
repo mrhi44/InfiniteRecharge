@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Feed extends SimpleMotorSubsystem {
 
     private final CANSparkMax feedMotor = new CANSparkMax(Const.CAN.FEED_MOTOR, MotorType.kBrushless);
-    private final Solenoid feedStopEnable = new Solenoid(Const.Pneumatic.CONTROL_MODULE, Const.Pneumatic.FEED_STOP_ENABLE);
-    private final Solenoid feedStopDisable = new Solenoid(Const.Pneumatic.CONTROL_MODULE, Const.Pneumatic.FEED_STOP_DISABLE);
+    private final Solenoid feedStopEnable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.FEED_STOP_ENABLE);
+    private final Solenoid feedStopDisable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.FEED_STOP_DISABLE);
 
     public Feed() {
         super(Const.Speed.FEED_SPEED);
