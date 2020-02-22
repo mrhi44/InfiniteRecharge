@@ -61,8 +61,8 @@ public class Const {
      * Encoders - Analog Ports and position offsets
      */
     public static class Encoder {
-        public static final int FRONT_RIGHT_ANALOG_ENCODER = 1; /* Module 1 */
-        public static final int FRONT_LEFT_ANALOG_ENCODER  = 0; /* Module 2 */
+        public static final int FRONT_RIGHT_ANALOG_ENCODER = 0; /* Module 1 */
+        public static final int FRONT_LEFT_ANALOG_ENCODER  = 1; /* Module 2 */
         public static final int REAR_LEFT_ANALOG_ENCODER   = 2; /* Module 3 */
         public static final int REAR_RIGHT_ANALOG_ENCODER  = 3; /* Module 4 */
 
