@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.Const;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The Intake subsystem controls the intake of power cells.
@@ -64,5 +65,11 @@ public class Intake extends SimpleMotorSubsystem {
 
   public boolean isUp() {
     return intakeIsUp;
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putBoolean("Subsystems/Intake/Up", isUp());
+    SmartDashboard.putNumber("Subsystems/Intake/Speed", motor.get());
   }
 }

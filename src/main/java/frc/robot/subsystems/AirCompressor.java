@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Const;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The AirCompressor subsystem controls the air compressor
@@ -47,5 +48,10 @@ public class AirCompressor extends SubsystemBase {
      */
     public void stop() {
         compressor.stop();
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putBoolean("Subsystems/AirCompressor/Closed-Loop Control", compressor.getClosedLoopControl());
     }
 }

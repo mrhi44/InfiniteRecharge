@@ -4,6 +4,7 @@ import frc.robot.Const;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The Feed subsystem controls the belt that will feed
@@ -42,7 +43,13 @@ public class Feed extends SimpleMotorSubsystem {
         feedStopped = closeFeed;
     }
 
-    public boolean isStopped() {
+    public boolean stopperEngaged() {
         return feedStopped;
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putBoolean("Subsystems/Feed/Stopper Engaged", stopperEngaged());
+        SmartDashboard.putNumber("Subsystems/Feed/Speed", feedMotor.get());
     }
 }

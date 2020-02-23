@@ -4,6 +4,7 @@ import frc.robot.Const;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.CANPIDController;
@@ -160,11 +161,11 @@ public class Elevator extends SubsystemBase {
     public boolean goToColor(WheelColor color) {
         if (convertToWheelColor(colorSensor.getColor()) != colorToTargetColor(color)) {
             wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
+            return false;
         } else {
             wheelMotor.set(0);
             return true;
         }
-        return false;
     }
 
     /**
@@ -196,5 +197,14 @@ public class Elevator extends SubsystemBase {
 
     public boolean isLocked() {
         return locked;
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putBoolean("Subsystems/Elevator/Locked", isLocked());
+        SmartDashboard.putNumber("Subsystems/Elevator/Speed", elevatorMotor.get());
+        SmartDashboard.putNumber("Subsystems/Elevator/Position", elevatorMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("Subsystems/Elevator/Wheel Speed", wheelMotor.get());
+        SmartDashboard.putString("Subsystems/Elevator/Color Sensor", colorSensor.getColor().toString());
     }
 }

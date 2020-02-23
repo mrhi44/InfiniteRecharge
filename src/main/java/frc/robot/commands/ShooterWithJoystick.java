@@ -15,13 +15,15 @@ public class ShooterWithJoystick extends CommandBase {
 
     private Shooter shooter;
     private XboxController.Button shooterButton;
+    private XboxController.Axis hoodAxis;
     private XboxController xbox;
 
     /** Creates a new ShooterWithJoystick, of course. */
-    public ShooterWithJoystick(Shooter shooter, XboxController xbox, XboxController.Button shooterButton) {
+    public ShooterWithJoystick(Shooter shooter, XboxController xbox, XboxController.Button shooterButton, XboxController.Axis hoodAxis) {
         this.shooter = shooter;
         this.xbox = xbox;
         this.shooterButton = shooterButton;
+        this.hoodAxis = hoodAxis;
         addRequirements(shooter);
     }
 
@@ -33,6 +35,7 @@ public class ShooterWithJoystick extends CommandBase {
         } else {
             shooter.stop();
         }
+        shooter.setHoodSpeed(xbox.getRawAxis(hoodAxis.value));
     }
 
     // Returns true when the command should end.

@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -105,5 +108,12 @@ public class Shooter extends SimpleMotorSubsystem {
      */
     public int calculateHoodPosition(double distanceAwayFromTarget) {
         throw new UnsupportedOperationException("Distance calculation isn't supported yet.");
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Subsystems/Shooter/Hood Position", getHoodPosition());
+        SmartDashboard.putNumber("Subsystems/Shooter/Hood Speed", hoodMotor.get());
+        SmartDashboard.putNumber("Subsystems/Shooter/Shooter Speed", shooterMotor1.get());
     }
 }

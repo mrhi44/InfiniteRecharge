@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
-import net.bancino.robotics.swerveio.gyro.NavXGyro;
 
 /**
  * Gets the BloberooX value from the raspberry pi and the onboard camera
@@ -22,16 +21,14 @@ import net.bancino.robotics.swerveio.gyro.NavXGyro;
 public class AutonBallGetter extends CommandBase {
 
     DriveTrain drivetrain;
-    NavXGyro navXGyro;
     double[] bloberooX, defaultBloberoo;
     double ballAngle, gyroAngle, angleDiff;
     boolean isFinished = false;
     int scanTracker = 0;
     int maxTrackScans = 10;
 
-    public AutonBallGetter(DriveTrain drivetrain, NavXGyro navXGyro) {
+    public AutonBallGetter(DriveTrain drivetrain) {
         this.drivetrain = drivetrain;
-        this.navXGyro = navXGyro;
     }
 
     // Called when the command is initially scheduled.
@@ -39,7 +36,7 @@ public class AutonBallGetter extends CommandBase {
     public void initialize() {
         isFinished = false;
         bloberooX = NetworkTableInstance.getDefault().getEntry("BloberooX").getDoubleArray(defaultBloberoo);
-        gyroAngle = navXGyro.getAngle();
+        gyroAngle = drivetrain.getGyro().getAngle();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

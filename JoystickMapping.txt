@@ -18,6 +18,7 @@ X (Hold)                     : Limelight Align with target
 -------------------------- XBox 1 -----------------------------
 Left Bumper                  : Intake
 Right Bumper                 : Shoot
+Right Joystick (Y)           : Move hood forward and backward.
 Left Joystick (Y)            : Elevator Up/Down
 Right Joystick (X)           : Elevator Left/Right
 B                            : Intake Up/Down

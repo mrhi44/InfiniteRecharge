@@ -123,7 +123,7 @@ public class RobotContainer {
     /* Toggle the feed stop. */
     JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
     xbox1Y.whenPressed(new RunnableCommand(() -> {
-      feed.closeStopper(!feed.isStopped());
+      feed.closeStopper(!feed.stopperEngaged());
     }));
   }
 
@@ -149,7 +149,7 @@ public class RobotContainer {
     feed.setDefaultCommand(new FeedWithJoystick(feed, xbox1, XboxController.Button.kBumperLeft, XboxController.Button.kA));
 
     /** The shooter uses the right bumper. */
-    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Button.kBumperRight));
+    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Button.kBumperRight, XboxController.Axis.kRightY));
   }
 
   /**
