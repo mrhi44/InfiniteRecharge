@@ -29,10 +29,11 @@ them:
 - Gradle may not be able to find Java. Make sure you add `java` to the system path, and set the `JAVA_HOME` environment variable. You may have to restart your IDE after making these changes.
 
 ### Local Dependencies
-The following dependencies have been set up to also run locally:
+The following dependencies have been set up to allow the option of running locally:
 
 - [SwerveIO](https://github.com/Team6090/SwerveIO)
 - [JLimelight](https://github.com/Team6090/JLimelight)
+- [LibOI](https://github.com/Team6090/LibOI)
 
 In the even you want to use a local copy of any of the above projects, specify the `useLocalProject` property to clone it to the project directory.
 For example:
@@ -41,7 +42,7 @@ For example:
 
 or:
         
-        $ gradle clean build -PuseLocalJLimelight
+        $ gradle clean build -PuseLocalJLimelight -PuseLocalLibOI
 
 You can also use any combination of the above commands, or you can run this command to include all known dependencies:
 
