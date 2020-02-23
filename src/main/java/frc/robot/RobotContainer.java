@@ -134,18 +134,22 @@ public class RobotContainer {
      */
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY,
         XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
-    swerveDriveTeleop.setThrottle(0.8);
+    swerveDriveTeleop.setThrottle(Const.Speed.DRIVETRAIN_THROTTLE);
     /* The joystick is deadbanded, no need to deadband here. */
     swerveDriveTeleop.setDeadband(0);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
+
     /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(
-        new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kRightX));
-    /* The intake uses the given hand's trigger and bumper. */
-    //intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, GenericHID.Hand.kLeft));
-    /** The shooter uses the right trigger. */
-    //shooter.setDefaultCommand(new ShooterWithJoystick(shooter, feed, xbox1, GenericHID.Hand.kRight));
-    feed.setDefaultCommand(new FeedWithJoystick(intake, feed, shooter, xbox1, GenericHID.Hand.kLeft, GenericHID.Hand.kRight));
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kRightX));
+
+    /* The intake uses the given hand's bumper. */
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox1, XboxController.Button.kBumperLeft));
+    
+    /* The feed will use the left bumper and the A button for reverse. Notice the overlap; The feed will run at the same time as the intake. */
+    feed.setDefaultCommand(new FeedWithJoystick(feed, xbox1, XboxController.Button.kBumperLeft, XboxController.Button.kA));
+
+    /** The shooter uses the right bumper. */
+    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Button.kBumperRight));
   }
 
   /**

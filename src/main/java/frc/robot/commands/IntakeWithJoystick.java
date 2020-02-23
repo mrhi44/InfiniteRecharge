@@ -9,39 +9,31 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Feed;
 
 public class IntakeWithJoystick extends CommandBase {
 
   private Intake intake;
-  private Feed feed;
   private XboxController xbox;
-  private GenericHID.Hand bumper;
+  private XboxController.Button intakeButton;
 
   /**
    * Creates a new IntakeWithJoystick.
    */
-  public IntakeWithJoystick(Intake intake, Feed feed, XboxController xbox, GenericHID.Hand bumper) {
-    addRequirements(intake, feed);
+  public IntakeWithJoystick(Intake intake, XboxController xbox, XboxController.Button intakeButton) {
+    addRequirements(intake);
     this.intake = intake;
-    this.feed = feed;
     this.xbox = xbox;
-    this.bumper = bumper;
+    this.intakeButton = intakeButton;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean xBoxBumper = xbox.getBumper(bumper);
-    if (xBoxBumper) {
-      //feed.closeFeed(true);
-      feed.run();
+    if (xbox.getRawButton(intakeButton.value)) {
       intake.run();
     } else {
       intake.stop();
-      feed.stop();
     }
   }
 

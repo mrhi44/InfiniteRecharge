@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.Elevator;
@@ -23,7 +22,7 @@ public class ElevatorWithJoystick extends CommandBase {
     double manualOffset;
     double speedRef;
 
-    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, Axis axis, Axis wheelAxis) {
+    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Axis wheelAxis) {
         this.xbox = xbox;
         this.elevator = elevator;
         this.axis = axis;
