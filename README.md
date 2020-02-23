@@ -1,6 +1,8 @@
 # Infinite Recharge
 The official repository of Team 6090's 2020 infinite recharge code, vision, and dashboard configurations.
 
+To whom it may concern, a text file of all of our joystick button and axis mappings can be found in [`JoystickMapping.txt`](JoystickMapping.txt)
+
 ## Competition Checklist
 - [ ] Update Laptops
     - [ ] Windows Update
