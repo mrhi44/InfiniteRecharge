@@ -108,8 +108,8 @@ public class Elevator extends SubsystemBase {
             return true;
         } else {
             setWheelSpeed(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
+            return false;
         }
-        return false;
     }
 
     /**
