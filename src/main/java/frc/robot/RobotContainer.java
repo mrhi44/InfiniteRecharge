@@ -161,7 +161,7 @@ public class RobotContainer {
     // This command will run in autonomous
     try {
       drivetrain.getGyro().zero();
-      return new PathweaverSwerveDrive(drivetrain, "paths/output/Kettering.wpilib.json");
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/Kettering.wpilib.json", PathweaverSwerveDrive.PathExecutionMode.ROBOT_BACKWARDS);
     } catch (IOException e) {
       e.printStackTrace();
       return null;
