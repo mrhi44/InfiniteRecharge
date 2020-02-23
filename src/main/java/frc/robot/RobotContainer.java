@@ -32,6 +32,7 @@ import frc.robot.commands.LimelightAlign;
 import frc.robot.commands.ShooterWithJoystick;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
+import net.bancino.robotics.liboi.DeadbandedXboxController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
@@ -45,8 +46,8 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 @SuppressWarnings("unused")
 public class RobotContainer {
 
-  private final XboxController xbox0 = new XboxController(0);
-  private final XboxController xbox1 = new XboxController(1);
+  private final DeadbandedXboxController xbox0 = new DeadbandedXboxController(0);
+  private final DeadbandedXboxController xbox1 = new DeadbandedXboxController(1);
 
   /* The robot's subsystems and commands are defined here */
   private final AirCompressor compressor = new AirCompressor();

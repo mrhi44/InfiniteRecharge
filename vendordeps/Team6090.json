@@ -10,7 +10,12 @@
         {
             "artifactId": "SwerveIO",
             "groupId": "net.bancino.robotics",
-            "version": "2.1.0"
+            "version": "2.1.1"
+        },
+        {
+            "artifactId": "LibOI",
+            "groupId": "net.bancino.robotics",
+            "version": "1.0.0"
         }
     ],
     "jniDependencies": [],
@@ -20,5 +25,5 @@
     ],
     "name": "Team6090",
     "uuid": "b6ef44ee-67ef-4886-a3c9-2d5391a0c75a",
-    "version": "1.0.7"
+    "version": "1.0.9"
 }

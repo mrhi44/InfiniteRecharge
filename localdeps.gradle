@@ -27,7 +27,7 @@ ext.git = { repo, args ->
 
 ext.localdeps = [
     /* The list of local dependencies. This should be set before any functions are run. */
-    list: ["SwerveIO", "JLimelight"],
+    list: ["SwerveIO", "JLimelight", "LibOI"],
     /*
      * The repoPrefix is the URL from which all the above dependencies are pulled.
      * The format for dependencies is "$repoPrefix/$item" Where $item is the dependency
