@@ -1,0 +1,26 @@
+***************************************************************
+* Team 6090 INFINITE RECHARGE Joystick Button & Axis Mappings *
+***************************************************************
+
+(Hold) indicates the the button must be held for the duration
+ of the action's execution. Therefore, the action is cancelled
+ as soon as the button is released.
+
+-------------------------- XBox 0 -----------------------------
+Left Joystick                : Swerve Drive X & Y movement
+Right Joystick               : Swerve drive rotation
+Left Bumper                  : Zero the Gyro
+POV (D-PAD) Up               : Show Limelight feed
+POV (D-PAD) Down             : Show Limelight USB camera feed
+X (Hold)                     : Limelight Align with target
+---------------------------------------------------------------
+
+-------------------------- XBox 1 -----------------------------
+Left Bumper                  : Intake
+Right Bumper                 : Shoot
+Left Joystick (Y)            : Elevator Up/Down
+Right Joystick (X)           : Elevator Left/Right
+B                            : Intake Up/Down
+X                            : Elevator Lock/Unlock
+Y                            : Feed stopper Engaged/Disengaged
+---------------------------------------------------------------

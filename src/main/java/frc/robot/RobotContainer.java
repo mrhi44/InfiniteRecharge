@@ -108,20 +108,23 @@ public class RobotContainer {
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
     xbox0X.whileHeld(new LimelightAlign(drivetrain, limelight));
 
+    /* Toggle the intake. */
     JoystickButton xbox1B = new JoystickButton(xbox1, XboxController.Button.kB.value);
     xbox1B.whenPressed(new RunnableCommand(() -> {
       intake.lift(!intake.isUp());
     }));
 
+    /* Toggle the elevator lock. */
     JoystickButton xbox1X = new JoystickButton(xbox1, XboxController.Button.kX.value);
     xbox1X.whenPressed(new RunnableCommand(() -> {
       elevator.setLocked(!elevator.isLocked());
     }));
 
-    //JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
-    //xbox1Y.whenPressed(new RunnableCommand(() -> {
-    //  feed.closeStopper(!feed.isStopped());
-    //}));
+    /* Toggle the feed stop. */
+    JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
+    xbox1Y.whenPressed(new RunnableCommand(() -> {
+      feed.closeStopper(!feed.isStopped());
+    }));
   }
 
   private void configureCommands() {
@@ -132,6 +135,8 @@ public class RobotContainer {
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY,
         XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
     swerveDriveTeleop.setThrottle(0.8);
+    /* The joystick is deadbanded, no need to deadband here. */
+    swerveDriveTeleop.setDeadband(0);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
     /** The elevator uses the y axis of the left joystick. */
     elevator.setDefaultCommand(
