@@ -3,19 +3,25 @@ name: Java CI
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  build_local:
+    name: "Build (With Local Dependencies)"
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
-    - name: Build with Gradle (Local Dependencies)
-      run: ./gradlew clean build -PallLocal
+      run: gradlew.bat build -PallLocal
+  build_remote:
+    name: "Build (With Remote Dependencies)"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build with Gradle
+        run: gradlew.bat build
