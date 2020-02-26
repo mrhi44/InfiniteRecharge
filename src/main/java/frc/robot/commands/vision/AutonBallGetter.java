@@ -58,6 +58,7 @@ public class AutonBallGetter extends CommandBase {
         /** Some math to find the real, actual angle of the blob from the camera. */
         ballAngle = bloberooX[0] * (Const.AutonBallGetter.CAMERA_ANGLE_X / Const.AutonBallGetter.CAMERA_RES_X);
         angleDiff = gyroAngle - ballAngle;
+        /** Actually drive with the vector made from calculations. */
         SwerveVector trackWithZ = new SwerveVector(0, 0, (angleDiff * Const.AutonBallGetter.BALL_ADJUST_SPEED));
         drivetrain.drive(trackWithZ);
     }
