@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
@@ -29,6 +29,7 @@ public class LimelightAlignFrontHatch extends CommandBase {
         this.drivetrain = drivetrain;
         this.limelight = limelight;
         this.shooter = shooter;
+        addRequirements(drivetrain, shooter);
     }
 
     @Override
@@ -42,7 +43,11 @@ public class LimelightAlignFrontHatch extends CommandBase {
     public void execute() {
         camtran = limelight.getCamTran();
 
+        /** Assigns rotation and assigns acceptable offset conditions. */
         rcw = camtran[4] * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
+        if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+            rcw = 0;
+        }
 
         SwerveVector alignmentVector = new SwerveVector(0, 0, rcw);
         //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
