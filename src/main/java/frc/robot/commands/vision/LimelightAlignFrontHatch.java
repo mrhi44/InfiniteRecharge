@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import net.bancino.robotics.jlimelight.LedState;
+import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
 
@@ -35,7 +35,7 @@ public class LimelightAlignFrontHatch extends CommandBase {
     @Override
     public void initialize() {
         drivetrain.setFieldCentric(false);
-        limelight.setLedMode(LedState.FORCE_ON);
+        limelight.setLedMode(LedMode.FORCE_ON);
         limelight.setPipeline(0);
     }
 
@@ -59,7 +59,7 @@ public class LimelightAlignFrontHatch extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drivetrain.setFieldCentric(true);
-        limelight.setLedMode(LedState.FORCE_OFF);
+        limelight.setLedMode(LedMode.FORCE_OFF);
     }
     @Override
     public boolean isFinished() {

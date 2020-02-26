@@ -34,6 +34,7 @@ import frc.robot.commands.vision.LimelightAlignBackHatch;
 import frc.robot.commands.vision.LimelightAlignFrontHatch;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
+import net.bancino.robotics.jlimelight.StreamMode;
 import net.bancino.robotics.liboi.DeadbandedXboxController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -96,7 +97,7 @@ public class RobotContainer {
     POVButton xboxPOV0 = new POVButton(xbox0, 0);
     xboxPOV0.toggleWhenPressed(new RunnableCommand(() -> {
       
-      limelight.setStreamingMode(net.bancino.robotics.jlimelight.StreamMode.PIP_MAIN);
+      limelight.setStreamMode(StreamMode.PIP_MAIN);
     }));
     /**
      * Change the limelight stream to the secondary feed with a DOWN on the xbox0's
@@ -104,7 +105,7 @@ public class RobotContainer {
      */
     POVButton xboxPOV180 = new POVButton(xbox0, 180);
     xboxPOV180.toggleWhenPressed(new RunnableCommand(() -> {
-      limelight.setStreamingMode(net.bancino.robotics.jlimelight.StreamMode.PIP_SECONDARY);
+      limelight.setStreamMode(StreamMode.PIP_SECONDARY);
     }));
 
     /** Uses xbox0's X button to activate LimelightAlignBackHatch while held. */
