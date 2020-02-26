@@ -10,8 +10,8 @@
 Left Joystick                : Swerve Drive X & Y movement
 Right Joystick               : Swerve drive rotation
 Left Bumper                  : Zero the Gyro
-POV (D-PAD) Up               : Show Limelight feed
-POV (D-PAD) Down             : Show Limelight USB camera feed
+POV (D-PAD) Up               : Toggle Limelight/USB Camera
+POV (D-PAD) Down             : Toggle Raspberry Pi/Limelight
 X (Hold)                     : Limelight align with back target
 A (Hold)                     : Limelight rotate to front target
 ---------------------------------------------------------------
