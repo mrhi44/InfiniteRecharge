@@ -5,41 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.joystick;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Const;
-import frc.robot.subsystems.Feed;
+import frc.robot.subsystems.Shooter;
 
-public class FeedWithJoystick extends CommandBase {
+public class ShooterWithJoystick extends CommandBase {
 
-    private Feed feed;
-    private XboxController.Button runButton, reverseButton;
+    private Shooter shooter;
+    private XboxController.Button shooterButton;
+    private XboxController.Axis hoodAxis;
     private XboxController xbox;
 
-    public FeedWithJoystick(Feed feed, XboxController xbox, XboxController.Button runButton, XboxController.Button reverseButton) {
-        this.feed = feed;
+    /** Creates a new ShooterWithJoystick, of course. */
+    public ShooterWithJoystick(Shooter shooter, XboxController xbox, XboxController.Button shooterButton, XboxController.Axis hoodAxis) {
+        this.shooter = shooter;
         this.xbox = xbox;
-        this.runButton = runButton;
-        this.reverseButton = reverseButton;
-
-        addRequirements(feed);
+        this.shooterButton = shooterButton;
+        this.hoodAxis = hoodAxis;
+        addRequirements(shooter);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-
-        if (xbox.getRawButton(runButton.value)) {
-            double speed = Const.Speed.FEED_SPEED;
-            if (xbox.getRawButton(reverseButton.value)) {
-                speed *= -1;
-            }
-            feed.runAt(speed);
+        if (xbox.getRawButton(shooterButton.value)) {
+            shooter.run();
         } else {
-            feed.stop();
+            shooter.stop();
         }
+        shooter.setHoodSpeed(xbox.getRawAxis(hoodAxis.value));
     }
 
     // Returns true when the command should end.
