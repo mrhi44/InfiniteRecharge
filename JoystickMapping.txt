@@ -12,7 +12,8 @@ Right Joystick               : Swerve drive rotation
 Left Bumper                  : Zero the Gyro
 POV (D-PAD) Up               : Show Limelight feed
 POV (D-PAD) Down             : Show Limelight USB camera feed
-X (Hold)                     : Limelight Align with target
+X (Hold)                     : Limelight align with back target
+A (Hold)                     : Limelight rotate to front target
 ---------------------------------------------------------------
 
 -------------------------- XBox 1 -----------------------------
