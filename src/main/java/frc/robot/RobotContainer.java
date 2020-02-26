@@ -29,6 +29,7 @@ import frc.robot.commands.joystick.ElevatorWithJoystick;
 import frc.robot.commands.joystick.FeedWithJoystick;
 import frc.robot.commands.joystick.IntakeWithJoystick;
 import frc.robot.commands.joystick.ShooterWithJoystick;
+import frc.robot.commands.vision.AutonBallGetter;
 import frc.robot.commands.vision.LimelightAlignBackHatch;
 import frc.robot.commands.vision.LimelightAlignFrontHatch;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
@@ -112,6 +113,10 @@ public class RobotContainer {
     /** Uses xbox0's A button to activate LimelightAlignFrontHatch while held. */
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
     xbox0A.whileHeld(new LimelightAlignFrontHatch(drivetrain, limelight, shooter));
+
+    /** Usex xbox0's B button to activate AutonBallGetter while held. */
+    JoystickButton xbox0B = new JoystickButton(xbox0, XboxController.Button.kB.value);
+    xbox0B.whileHeld(new AutonBallGetter(drivetrain));
 
     /* Toggle the intake. */
     JoystickButton xbox1B = new JoystickButton(xbox1, XboxController.Button.kB.value);

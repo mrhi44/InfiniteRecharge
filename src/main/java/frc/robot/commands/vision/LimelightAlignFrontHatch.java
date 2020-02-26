@@ -43,7 +43,11 @@ public class LimelightAlignFrontHatch extends CommandBase {
     public void execute() {
         camtran = limelight.getCamTran();
 
+        /** Assigns rotation and assigns acceptable offset conditions. */
         rcw = camtran[4] * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
+        if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+            rcw = 0;
+        }
 
         SwerveVector alignmentVector = new SwerveVector(0, 0, rcw);
         //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio

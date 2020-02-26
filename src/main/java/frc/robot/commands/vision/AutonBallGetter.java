@@ -29,13 +29,13 @@ public class AutonBallGetter extends CommandBase {
 
     public AutonBallGetter(DriveTrain drivetrain) {
         this.drivetrain = drivetrain;
+        addRequirements(drivetrain);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         isFinished = false;
-        bloberooX = NetworkTableInstance.getDefault().getEntry("BloberooX").getDoubleArray(defaultBloberoo);
         gyroAngle = drivetrain.getGyro().getAngle();
     }
 
@@ -58,6 +58,9 @@ public class AutonBallGetter extends CommandBase {
         /** Some math to find the real, actual angle of the blob from the camera. */
         ballAngle = bloberooX[0] * (Const.AutonBallGetter.CAMERA_ANGLE_X / Const.AutonBallGetter.CAMERA_RES_X);
         angleDiff = gyroAngle - ballAngle;
+        if ((angleDiff <= Const.AutonBallGetter.ACCEPTED_OFFSET_BOUNDS) && (angleDiff >= Const.AutonBallGetter.ACCEPTED_OFFSET_BOUNDS)) {
+            angleDiff = 0;
+        }
         /** Actually drive with the vector made from calculations. */
         SwerveVector trackWithZ = new SwerveVector(0, 0, (angleDiff * Const.AutonBallGetter.BALL_ADJUST_SPEED));
         drivetrain.drive(trackWithZ);
