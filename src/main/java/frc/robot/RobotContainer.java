@@ -76,6 +76,8 @@ public class RobotContainer {
       throw new SwerveRuntimeException(e);
     }
 
+    limelight.setStreamMode(StreamMode.PIP_SECONDARY);
+
     // Configure the button bindings
     configureButtonBindings();
     configureCommands();
@@ -93,19 +95,24 @@ public class RobotContainer {
     xbox0LeftBumper.whenPressed(new RunnableCommand(() -> {
       drivetrain.getGyro().zero();
     }));
-    /** Change the limelight stream to the main feed with an UP on xbox0's dpad. */
+    /* Change the limelight's camera stream mode. */
     POVButton xboxPOV0 = new POVButton(xbox0, 0);
     xboxPOV0.toggleWhenPressed(new RunnableCommand(() -> {
-      
-      limelight.setStreamMode(StreamMode.PIP_MAIN);
+      if (limelight.getStreamMode() == StreamMode.PIP_MAIN) {
+        limelight.setStreamMode(StreamMode.PIP_SECONDARY);
+      } else if (limelight.getStreamMode() == StreamMode.PIP_SECONDARY) {
+        limelight.setStreamMode(StreamMode.PIP_MAIN);
+      } else {
+        /* This shouldn't happen, it should be either main or secondary. */
+        limelight.setStreamMode(StreamMode.STANDARD);
+      }
     }));
-    /**
-     * Change the limelight stream to the secondary feed with a DOWN on the xbox0's
-     * dpad.
-     */
+    /* Change the camera source on the dashboard between Limelight and Raspberry PI */
     POVButton xboxPOV180 = new POVButton(xbox0, 180);
     xboxPOV180.toggleWhenPressed(new RunnableCommand(() -> {
-      limelight.setStreamMode(StreamMode.PIP_SECONDARY);
+      /**
+       * TODO: Implement this here
+       */
     }));
 
     /** Uses xbox0's X button to activate LimelightAlignBackHatch while held. */
