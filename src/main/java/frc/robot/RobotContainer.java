@@ -28,7 +28,8 @@ import net.bancino.robotics.swerveio.command.RunnableCommand;
 import frc.robot.commands.ElevatorWithJoystick;
 import frc.robot.commands.FeedWithJoystick;
 import frc.robot.commands.IntakeWithJoystick;
-import frc.robot.commands.LimelightAlign;
+import frc.robot.commands.LimelightAlignBackHatch;
+import frc.robot.commands.LimelightAlignFrontHatch;
 import frc.robot.commands.ShooterWithJoystick;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
@@ -104,9 +105,13 @@ public class RobotContainer {
       limelight.setStreamingMode(net.bancino.robotics.jlimelight.StreamMode.PIP_SECONDARY);
     }));
 
-    /** Uses xbox0's X button to activate LimelightAlign while held. */
+    /** Uses xbox0's X button to activate LimelightAlignBackHatch while held. */
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
-    xbox0X.whileHeld(new LimelightAlign(drivetrain, limelight));
+    xbox0X.whileHeld(new LimelightAlignBackHatch(drivetrain, limelight, shooter));
+
+    /** Uses xbox0's A button to activate LimelightAlignFrontHatch while held. */
+    JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
+    xbox0A.whileHeld(new LimelightAlignFrontHatch(drivetrain, limelight, shooter));
 
     /* Toggle the intake. */
     JoystickButton xbox1B = new JoystickButton(xbox1, XboxController.Button.kB.value);
