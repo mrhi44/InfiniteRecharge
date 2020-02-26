@@ -39,14 +39,21 @@ public class ElevatorWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        /**
-         * TODO: remove all constants
-         */
-        elevator.setElevatorSpeed(xbox.getRawAxis(axis.value) * -1);
 
-        if (xbox.getRawAxis(wheelAxis.value) > 0.1) {
+        double speedRef = -xbox.getRawAxis(axis.value);
+        double currentPosition = elevator.getElevatorEncoder();
+
+        if (currentPosition >= Const.Elevator.MAX_HEIGHT && speedRef > 0) {
+            elevator.setElevatorSpeed(0);
+        } else if (currentPosition <= Const.Elevator.BOTTOM_HEIGHT && speedRef < 0) {
+            elevator.setElevatorSpeed(0);
+        } else {
+            elevator.setElevatorSpeed(speedRef);
+        }
+
+        if (xbox.getRawAxis(wheelAxis.value) > 0) {
             elevator.setWheelSpeed(Const.Speed.ENDGAME_BAR_SPEED);
-        } else if (xbox.getRawAxis(wheelAxis.value) < -0.1) {
+        } else if (xbox.getRawAxis(wheelAxis.value) < 0) {
             elevator.setWheelSpeed(-Const.Speed.ENDGAME_BAR_SPEED);
         } else {
             elevator.setWheelSpeed(0);
