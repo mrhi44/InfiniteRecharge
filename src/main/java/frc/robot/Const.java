@@ -120,6 +120,7 @@ public class Const {
         public static final double CAMERA_ANGLE_Y = 31.16;
         public static final double CAMERA_RES_X = 320;
         public static final double CAMERA_RES_Y = 240;
+        public static final double ACCEPTED_OFFSET_BOUNDS = 5;
         public static final double BALL_ADJUST_SPEED = 0.15; //To be multiplied by angle difference
     }
 
@@ -131,6 +132,6 @@ public class Const {
         public static final double STRAFE_ADJUST_SPEED = 0.0025; //In inches
         public static final double FORWARD_ADJUST_SPEED = 0.02; //Again, in inches
         public static final double ROTATE_ADJUST_SPEED = 0.009; // Inches, oh yeah
-        public static final double BACK_HATCH_OFFSET = 29.25; // Distance in inches from back hatch to front
+        public static final double ACCEPTED_OFFSET_BOUNDS = 3; //Incheronis broneroni
     }
 }
