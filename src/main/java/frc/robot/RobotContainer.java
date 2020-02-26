@@ -90,11 +90,18 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
-    JoystickButton xbox0LeftBumper = new JoystickButton(xbox0, XboxController.Button.kBumperLeft.value);
-    xbox0LeftBumper.whenPressed(new RunnableCommand(() -> {
+    /* Zero the gyro when the start button is pressed. */
+    JoystickButton xbox0Start = new JoystickButton(xbox0, XboxController.Button.kStart.value);
+    xbox0Start.whenPressed(new RunnableCommand(() -> {
       drivetrain.getGyro().zero();
     }));
+
+    /* Toggle field-centric drive (should only be used if we lose the gyro during a match) */
+    JoystickButton xbox0Back = new JoystickButton(xbox0, XboxController.Button.kBack.value);
+    xbox0Back.whenPressed(new RunnableCommand(() -> {
+      drivetrain.setFieldCentric(!drivetrain.isFieldCentric());
+    }));
+
     /* Change the limelight's camera stream mode. */
     POVButton xboxPOV0 = new POVButton(xbox0, 0);
     xboxPOV0.toggleWhenPressed(new RunnableCommand(() -> {
