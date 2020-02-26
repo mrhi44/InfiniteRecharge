@@ -9,6 +9,7 @@ package frc.robot;
 
 import java.io.IOException;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -62,6 +63,7 @@ public class RobotContainer {
 
   /* Additional global objects can go here. */
   private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
+  private final CameraServer camServer = CameraServer.getInstance();
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
   private final Limelight limelight = new Limelight();
 
