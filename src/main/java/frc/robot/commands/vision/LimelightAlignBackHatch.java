@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
@@ -15,36 +15,37 @@ import net.bancino.robotics.jlimelight.LedState;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
 
-public class LimelightAlignFrontHatch extends CommandBase {
+public class LimelightAlignBackHatch extends CommandBase {
 
     DriveTrain drivetrain;
     Limelight limelight;
     Shooter shooter;
     double[] camtran;
     double fwd, str, rcw;
-    boolean strafeGood, forwardGood, rotateGood, allGood;
-    int hoodOffset;
 
-    public LimelightAlignFrontHatch(DriveTrain drivetrain, Limelight limelight, Shooter shooter) {
+    public LimelightAlignBackHatch(DriveTrain drivetrain, Limelight limelight, Shooter shooter) {
         this.drivetrain = drivetrain;
         this.limelight = limelight;
         this.shooter = shooter;
+        addRequirements(drivetrain, shooter);
     }
 
     @Override
     public void initialize() {
         drivetrain.setFieldCentric(false);
         limelight.setLedMode(LedState.FORCE_ON);
-        limelight.setPipeline(0);
+        limelight.setPipeline(1);
     }
 
     @Override
     public void execute() {
         camtran = limelight.getCamTran();
 
+        str = camtran[0] * Const.LimelightAlign.STRAFE_ADJUST_SPEED;
         rcw = camtran[4] * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
+        fwd = (Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET) * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
 
-        SwerveVector alignmentVector = new SwerveVector(0, 0, rcw);
+        SwerveVector alignmentVector = new SwerveVector(fwd, -str, rcw);
         //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
         drivetrain.drive(alignmentVector);
         shooter.setHoodPosition(camtran[2]);
