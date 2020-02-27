@@ -28,7 +28,7 @@ public class Const {
 
         public static final int SHOOTER_MOTOR_1        = 25;
         public static final int SHOOTER_MOTOR_2        = 26;
-        public static final int SHOOTER_MOTOR_REVERSED = 27;
+        //public static final int SHOOTER_MOTOR_REVERSED = 27;
         public static final int SHOOTER_HOOD_MOTOR     = 28;
 
         public static final int POWER_DISTRIBUTION_PANEL = 59;
