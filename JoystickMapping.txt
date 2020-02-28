@@ -15,6 +15,7 @@ POV (D-PAD) Up               : Toggle Limelight/USB Camera
 POV (D-PAD) Down             : Toggle Raspberry Pi/Limelight
 X (Hold)                     : Limelight align with back target
 A (Hold)                     : Limelight rotate to front target
+B (Hold)                     : Auton Ball Getter
 ---------------------------------------------------------------
 
 -------------------------- XBox 1 -----------------------------
