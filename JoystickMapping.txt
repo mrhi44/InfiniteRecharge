@@ -19,13 +19,14 @@ B (Hold)                     : Auton Ball Getter
 ---------------------------------------------------------------
 
 -------------------------- XBox 1 -----------------------------
-Left Bumper (Hold)           : Intake
-Right Bumper (Hold)          : Shoot
+Left Bumper (Hold)           : Shoot
+Right Bumper (Hold)          : Intake
 Right Joystick (Y)           : Move hood forward and backward.
 Left Joystick (Y)            : Elevator Up/Down
-Right Joystick (X)           : Elevator Left/Right
-B                            : Intake Up/Down
+Left Joystick (X)           : Elevator Left/Right
+POV (D-PAD) Up               : Intake Up
+POV (D-PAD) Down             : Intake Down
 X                            : Elevator Lock/Unlock
-Y                            : Feed stopper Engaged/Disengaged
 A (Hold)                     : Reverse Feed
+B (Hold)                     : Color wheel spin
 ---------------------------------------------------------------

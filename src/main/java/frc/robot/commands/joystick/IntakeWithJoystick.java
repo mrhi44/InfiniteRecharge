@@ -30,7 +30,7 @@ public class IntakeWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (xbox.getRawButton(intakeButton.value)) {
+    if (xbox.getRawButton(intakeButton.value) && !intake.isUp()) {
       intake.run();
     } else {
       intake.stop();

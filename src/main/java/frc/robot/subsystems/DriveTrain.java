@@ -9,15 +9,12 @@ package frc.robot.subsystems;
 
 import frc.robot.Const;
 
-import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
-import java.io.IOException;
 import java.util.List;
 
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveMeta;
-//import net.bancino.robotics.swerveio.encoder.SparkMaxEncoder;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
@@ -26,7 +23,6 @@ import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
-import net.bancino.robotics.swerveio.log.csv.CSVPIDSwerveLogger;
 import net.bancino.robotics.swerveio.geometry.Length;
 import net.bancino.robotics.swerveio.geometry.Unit;
 import net.bancino.robotics.swerveio.geometry.SquareChassis;
@@ -116,15 +112,6 @@ public class DriveTrain extends SwerveDrive {
         //swerve.setIdleAngle(0, false);
 
         swerve.startLogging(new DashboardSwerveLogger());
-
-        File logFile = new File("/home/lvuser/pid.csv");
-        try {
-          logFile.createNewFile();
-          swerve.startLogging(100, new CSVPIDSwerveLogger(logFile, SwerveModule.FRONT_LEFT));
-        } catch (IOException e) {
-          System.out.println("Error Creating Robot CSV: " + e);
-          e.printStackTrace();
-        }
       }
     });
   }

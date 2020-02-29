@@ -9,12 +9,12 @@ public class Const {
      * CAN IDs of all the motor controllers, the PCM and PDP are here.
      */
     public static class CAN {
-        public static final int FRONT_RIGHT_DRIVE_MOTOR = 5; /* Module 1 */
+        public static final int FRONT_RIGHT_DRIVE_MOTOR = 1; /* Module 1 */
         public static final int FRONT_LEFT_DRIVE_MOTOR  = 2; /* Module 2 */
         public static final int REAR_LEFT_DRIVE_MOTOR   = 3; /* Module 3 */
         public static final int REAR_RIGHT_DRIVE_MOTOR  = 4; /* Module 4 */
 
-        public static final int FRONT_RIGHT_PIVOT_MOTOR = 1; /* Module 1 */
+        public static final int FRONT_RIGHT_PIVOT_MOTOR = 5; /* Module 1 */
         public static final int FRONT_LEFT_PIVOT_MOTOR  = 6; /* Module 2 */
         public static final int REAR_LEFT_PIVOT_MOTOR   = 7; /* Module 3 */
         public static final int REAR_RIGHT_PIVOT_MOTOR  = 8; /* Module 4 */
@@ -61,10 +61,8 @@ public class Const {
     public static class Pneumatic {
         public static final int ELEVATOR_LOCK_ENABLE     = 1;
         public static final int ELEVATOR_LOCK_DISABLE    = 0;
-        public static final int INTAKE_DOWN              = 5;
-        public static final int INTAKE_UP                = 4;
-        public static final int FEED_STOP_ENABLE         = 2;
-        public static final int FEED_STOP_DISABLE        = 3;
+        public static final int INTAKE_DOWN              = 3;
+        public static final int INTAKE_UP                = 2;
     }
 
     /**
@@ -77,22 +75,22 @@ public class Const {
         public static final int REAR_RIGHT_ANALOG_ENCODER  = 3; /* Module 4 */
 
         /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 217.5;
-        public static final double FRONT_LEFT_ENCODER_OFFSET  = 51.15;
-        public static final double REAR_LEFT_ENCODER_OFFSET   = 339.7;
-        public static final double REAR_RIGHT_ENCODER_OFFSET  = 281.15;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 172.64;
+        public static final double FRONT_LEFT_ENCODER_OFFSET  = 233.7;
+        public static final double REAR_LEFT_ENCODER_OFFSET   = 157.5;
+        public static final double REAR_RIGHT_ENCODER_OFFSET  = 100.05;
     }
 
     /*
      * Constants pertaining to default speeds.
      */
     public static class Speed {
-        public static final double INTAKE_SPEED  = 0.55;
-        public static final double FEED_SPEED    = 1.0;
-        public static final double SHOOTER_SPEED = 0.90;
-        public static final double HOOD_SPEED    = 0.25;
+        public static final double INTAKE_SPEED            = 0.55;
+        public static final double FEED_SPEED              = 1.0;
+        public static final double SHOOTER_SPEED           = 0.90;
+        public static final double HOOD_SPEED              = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
-        public static final double ENDGAME_BAR_SPEED = 0.5;
+        public static final double ENDGAME_BAR_SPEED       = 0.5;
 
         public static final double DRIVETRAIN_THROTTLE = 0.8;
     }
@@ -105,10 +103,10 @@ public class Const {
      * Elevator constants..
      */
     public static class Elevator {
-        public static final double MAX_HEIGHT = 0;
-        public static final double COLOR_WHEEL_HEIGHT = 0;
-        public static final double BOTTOM_HEIGHT = 0;
-        public static final double INCREMENT = 2; //Max encoder counts per scan
+        public static final double MAX_HEIGHT           = 161;
+        public static final double COLOR_WHEEL_HEIGHT   = 0;
+        public static final double BOTTOM_HEIGHT        = 0;
+        public static final double INCREMENT            = 2; //Max encoder counts per scan
         public static final int NUMBER_OF_COLOR_CHANGES = 25;
     }
 
@@ -116,22 +114,22 @@ public class Const {
      * Ball-fetching parameters.
      */
     public static class AutonBallGetter {
-        public static final double CAMERA_ANGLE_X = 61;
-        public static final double CAMERA_ANGLE_Y = 31.16;
-        public static final double CAMERA_RES_X = 320;
-        public static final double CAMERA_RES_Y = 240;
+        public static final double CAMERA_ANGLE_X         = 61;
+        public static final double CAMERA_ANGLE_Y         = 31.16;
+        public static final double CAMERA_RES_X           = 320;
+        public static final double CAMERA_RES_Y           = 240;
         public static final double ACCEPTED_OFFSET_BOUNDS = 5;
-        public static final double BALL_ADJUST_SPEED = 0.15; //To be multiplied by angle difference
+        public static final double BALL_ADJUST_SPEED      = 0.15; //To be multiplied by angle difference
     }
 
     /**
      * Limelight alignment parameters.
      */
     public static class LimelightAlign {
-        public static final double DISTANCE_TO_TARGET = 140; //In inches
-        public static final double STRAFE_ADJUST_SPEED = 0.0025; //In inches
-        public static final double FORWARD_ADJUST_SPEED = 0.02; //Again, in inches
-        public static final double ROTATE_ADJUST_SPEED = 0.009; // Inches, oh yeah
+        public static final double DISTANCE_TO_TARGET     = 140; //In inches
+        public static final double STRAFE_ADJUST_SPEED    = 0.0025; //In inches
+        public static final double FORWARD_ADJUST_SPEED   = 0.02; //Again, in inches
+        public static final double ROTATE_ADJUST_SPEED    = 0.009; // Inches, oh yeah
         public static final double ACCEPTED_OFFSET_BOUNDS = 3; //Incheronis broneroni
     }
 }

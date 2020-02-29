@@ -54,6 +54,7 @@ public class AutonBallGetter extends CommandBase {
         if (scanTracker >= maxTrackScans) {
             scanTracker = 0;
             isFinished = true;
+            return;
         }
         /** Some math to find the real, actual angle of the blob from the camera. */
         ballAngle = bloberooX[0] * (Const.AutonBallGetter.CAMERA_ANGLE_X / Const.AutonBallGetter.CAMERA_RES_X);
