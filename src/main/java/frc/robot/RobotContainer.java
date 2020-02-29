@@ -107,14 +107,8 @@ public class RobotContainer {
     }));
     
     /* Rotate the color wheel 3 times with wheel on elevator*/
-    JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
-    xbox1Y.whileHeld(new ColorWheelRotation(elevator)); {
-    }
-
-    /*Find a color on the color wheel based on the game specific message*/
     JoystickButton xbox1B = new JoystickButton(xbox0, XboxController.Button.kB.value);
-    xbox1B.whenPressed(new ColorFinder(elevator));{
-    }
+    xbox1B.whileHeld(new ColorWheelRotation(elevator));
 
     /* Change the limelight's camera stream mode. */
     POVButton xbox0POV0 = new POVButton(xbox0, 0);
@@ -182,7 +176,7 @@ public class RobotContainer {
     swerveDriveTeleop.setFlipped(SwerveDriveTeleop.Axis.STR, true);
     swerveDriveTeleop.setFlipped(SwerveDriveTeleop.Axis.RCW, true);
     /* The joystick is deadbanded, no need to deadband here. */
-    swerveDriveTeleop.setDeadband(0);
+    swerveDriveTeleop.setDeadband(0.3);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
     /** The elevator uses the y axis of the left joystick. */
