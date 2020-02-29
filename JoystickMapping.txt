@@ -26,6 +26,5 @@ Left Joystick (Y)            : Elevator Up/Down
 Right Joystick (X)           : Elevator Left/Right
 B                            : Intake Up/Down
 X                            : Elevator Lock/Unlock
-Y                            : Feed stopper Engaged/Disengaged
 A (Hold)                     : Reverse Feed
 ---------------------------------------------------------------
