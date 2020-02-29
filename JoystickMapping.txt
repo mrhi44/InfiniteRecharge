@@ -28,4 +28,5 @@ POV (D-PAD) Up               : Intake Up
 POV (D-PAD) Down             : Intake Down
 X                            : Elevator Lock/Unlock
 A (Hold)                     : Reverse Feed
+B (Hold)                     : Color wheel spin
 ---------------------------------------------------------------
