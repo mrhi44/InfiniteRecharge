@@ -103,7 +103,7 @@ public class Const {
      * Elevator constants..
      */
     public static class Elevator {
-        public static final double MAX_HEIGHT           = 0;
+        public static final double MAX_HEIGHT           = 161;
         public static final double COLOR_WHEEL_HEIGHT   = 0;
         public static final double BOTTOM_HEIGHT        = 0;
         public static final double INCREMENT            = 2; //Max encoder counts per scan
