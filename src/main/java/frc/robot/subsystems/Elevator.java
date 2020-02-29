@@ -55,7 +55,7 @@ public class Elevator extends SubsystemBase {
         elevatorPID.setP(Const.PID.ELEVATOR_P);
         elevatorPID.setI(Const.PID.ELEVATOR_I);
         elevatorMotor.setIdleMode(IdleMode.kBrake);
-        setLocked(true);
+        setLocked(false);
     }
 
     /**
@@ -81,6 +81,10 @@ public class Elevator extends SubsystemBase {
      */
     public double getElevatorEncoder() {
         return elevatorMotor.getEncoder().getPosition();
+    }
+
+    public void zeroElevatorEncoder() {
+        elevatorMotor.getEncoder().setPosition(0);
     }
 
     /**
