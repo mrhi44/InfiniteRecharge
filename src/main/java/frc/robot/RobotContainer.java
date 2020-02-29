@@ -148,10 +148,9 @@ public class RobotContainer {
       elevator.setLocked(!elevator.isLocked());
     }));
 
-    /* Toggle the feed stop. */
-    JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
-    xbox1Y.whenPressed(new RunnableCommand(() -> {
-      feed.closeStopper(!feed.stopperEngaged());
+    JoystickButton xbox1Start = new JoystickButton(xbox1, XboxController.Button.kStart.value);
+    xbox1Start.whenPressed(new RunnableCommand(() -> {
+      elevator.zeroElevatorEncoder();
     }));
   }
 
