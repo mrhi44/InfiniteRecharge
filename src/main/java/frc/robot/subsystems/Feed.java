@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * This subsystem consists of the following components:
  * - Belt feeder (1x Spark Max motor controller)
- * - Pneumatic power cell-stopper.
  *
  * This subsystem should provide the following functions:
  * - Run the belt feed.
- * - Toggle the power cell-stopper
  *
  * @author Jordan Bancino
  */

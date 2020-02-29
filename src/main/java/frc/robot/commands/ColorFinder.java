@@ -11,6 +11,7 @@ public class ColorFinder extends CommandBase {
     Elevator elevator;
 
     public ColorFinder(Elevator elevator) {
+        this.elevator = elevator;
         addRequirements(elevator);
     }
 
@@ -30,6 +31,6 @@ public class ColorFinder extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return elevator.goToColor(elevator.colorToTargetColor(wheelColor));
+        return elevator.goToColor(wheelColor);
         }
     }
