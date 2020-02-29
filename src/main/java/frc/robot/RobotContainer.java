@@ -166,6 +166,9 @@ public class RobotContainer {
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY,
         XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
     swerveDriveTeleop.setThrottle(Const.Speed.DRIVETRAIN_THROTTLE);
+    swerveDriveTeleop.setFlipped(SwerveDriveTeleop.Axis.FWD, false);
+    swerveDriveTeleop.setFlipped(SwerveDriveTeleop.Axis.STR, true);
+    swerveDriveTeleop.setFlipped(SwerveDriveTeleop.Axis.RCW, true);
     /* The joystick is deadbanded, no need to deadband here. */
     swerveDriveTeleop.setDeadband(0);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
