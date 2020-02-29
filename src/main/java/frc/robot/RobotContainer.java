@@ -33,6 +33,8 @@ import frc.robot.commands.joystick.ShooterWithJoystick;
 import frc.robot.commands.vision.AutonBallGetter;
 import frc.robot.commands.vision.LimelightAlignBackHatch;
 import frc.robot.commands.vision.LimelightAlignFrontHatch;
+import frc.robot.commands.ColorFinder;
+import frc.robot.commands.ColorWheelRotation;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.jlimelight.StreamMode;
@@ -103,10 +105,20 @@ public class RobotContainer {
     xbox0Back.whenPressed(new RunnableCommand(() -> {
       drivetrain.setFieldCentric(!drivetrain.isFieldCentric());
     }));
+    
+    /* Rotate the color wheel 3 times with wheel on elevator*/
+    JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
+    xbox1Y.whileHeld(new ColorWheelRotation(elevator)); {
+    }
+
+    /*Find a color on the color wheel based on the game specific message*/
+    JoystickButton xbox1B = new JoystickButton(xbox0, XboxController.Button.kB.value);
+    xbox1B.whenPressed(new ColorFinder(elevator));{
+    }
 
     /* Change the limelight's camera stream mode. */
-    POVButton xboxPOV0 = new POVButton(xbox0, 0);
-    xboxPOV0.toggleWhenPressed(new RunnableCommand(() -> {
+    POVButton xbox0POV0 = new POVButton(xbox0, 0);
+    xbox0POV0.toggleWhenPressed(new RunnableCommand(() -> {
       if (limelight.getStreamMode() == StreamMode.PIP_MAIN) {
         limelight.setStreamMode(StreamMode.PIP_SECONDARY);
       } else if (limelight.getStreamMode() == StreamMode.PIP_SECONDARY) {
@@ -117,8 +129,8 @@ public class RobotContainer {
       }
     }));
     /* Change the camera source on the dashboard between Limelight and Raspberry PI */
-    POVButton xboxPOV180 = new POVButton(xbox0, 180);
-    xboxPOV180.toggleWhenPressed(new RunnableCommand(() -> {
+    POVButton xbox0POV180 = new POVButton(xbox0, 180);
+    xbox0POV180.toggleWhenPressed(new RunnableCommand(() -> {
       /**
        * TODO: Implement this here
        */
