@@ -137,9 +137,13 @@ public class RobotContainer {
     xbox0B.whileHeld(new AutonBallGetter(drivetrain));
 
     /* Toggle the intake. */
-    JoystickButton xbox1B = new JoystickButton(xbox1, XboxController.Button.kB.value);
-    xbox1B.whenPressed(new RunnableCommand(() -> {
-      intake.lift(!intake.isUp());
+    POVButton xbox1POV0 = new POVButton(xbox1, 0);
+    xbox1POV0.whenPressed(new RunnableCommand(() -> {
+      intake.lift(true);
+    }));
+    POVButton xbox1POV180 = new POVButton(xbox1, 180);
+    xbox1POV180.whenPressed(new RunnableCommand(() -> {
+      intake.lift(false);
     }));
 
     /* Toggle the elevator lock. */
@@ -167,16 +171,16 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
     /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kRightX));
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX));
 
     /* The intake uses the given hand's bumper. */
-    intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox1, XboxController.Button.kBumperLeft));
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox1, XboxController.Button.kBumperRight));
     
     /* The feed will use the left bumper and the A button for reverse. Notice the overlap; The feed will run at the same time as the intake. */
-    feed.setDefaultCommand(new FeedWithJoystick(feed, xbox1, XboxController.Button.kBumperLeft, XboxController.Button.kA));
+    feed.setDefaultCommand(new FeedWithJoystick(feed, xbox1, XboxController.Button.kBumperRight, XboxController.Button.kA));
 
     /** The shooter uses the right bumper. */
-    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Button.kBumperRight, XboxController.Axis.kRightY));
+    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY));
   }
 
   /**
