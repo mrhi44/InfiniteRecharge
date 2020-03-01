@@ -63,7 +63,7 @@ public class LimelightAlignBackHatch extends CommandBase {
         rcwSpeed = rcw * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
         fwdSpeed = fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
 
-        SwerveVector alignmentVector = new SwerveVector(fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED, str, -rcw);
+        SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, -rcwSpeed);
         //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
         drivetrain.drive(alignmentVector);
         //shooter.setHoodPosition(camtran[2]);
