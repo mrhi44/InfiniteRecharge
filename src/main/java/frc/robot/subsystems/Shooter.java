@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.robot.Const;
 
+import net.bancino.robotics.swerveio.pid.MiniPID;
+
 /**
  * The Shooter subsystem controls the shooting mechanism
  * that will shoot power cells.
@@ -28,9 +30,9 @@ public class Shooter extends SimpleMotorSubsystem {
 
     public final WPI_VictorSPX shooterMotor1 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_1);
     public final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_2);
-    //public final WPI_VictorSPX shooterMotorReversed = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_REVERSED);
 
     public final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
+    private int setpoint = 0;
 
     /**
      * Configure the shooter and hood motor.
@@ -39,6 +41,7 @@ public class Shooter extends SimpleMotorSubsystem {
         super(Const.Speed.SHOOTER_SPEED);
         /* Make it do the super fancy blinky thingy. */
         hoodMotor.setSensorPhase(true);
+        hoodMotor.setInverted(true);
         hoodMotor.config_kP(Const.PID.HOOD_SLOT, Const.PID.HOOD_P, Const.PID.HOOD_TIMEOUT);
         hoodMotor.config_kI(Const.PID.HOOD_SLOT, Const.PID.HOOD_I, Const.PID.HOOD_TIMEOUT);
         hoodMotor.config_kD(Const.PID.HOOD_SLOT, Const.PID.HOOD_D, Const.PID.HOOD_TIMEOUT);
@@ -55,7 +58,6 @@ public class Shooter extends SimpleMotorSubsystem {
     public void runAt(double speed) {
         shooterMotor1.set(-speed);
         shooterMotor2.set(-speed);
-        //shooterMotorReversed.set(speed);
     }
 
     /**
@@ -63,8 +65,11 @@ public class Shooter extends SimpleMotorSubsystem {
      *
      * @param position The position (in encoder counts) to set the hood to.
      */
-    public void setHoodPosition(int position) {
-        hoodMotor.set(ControlMode.MotionMagic, position);
+    public void setHoodPosition(int setpoint) {
+        this.setpoint = setpoint;
+        //double output = hoodPid.getOutput(getHoodPosition(), setpoint);
+        //hoodMotor.set(hoodPid.getOutput(getHoodPosition(), position));
+        hoodMotor.set(ControlMode.MotionMagic, setpoint);
     }
 
     /**
@@ -94,7 +99,7 @@ public class Shooter extends SimpleMotorSubsystem {
      *                               The hood position will be calculated from this
      *                               and passed into the Motion Magic profile.
      */
-    public void setHoodPosition(double distanceAwayFromTarget) {
+    public void setHoodPositionFromDistance(double distanceAwayFromTarget) {
         setHoodPosition(calculateHoodPosition(distanceAwayFromTarget));
     }
 
@@ -113,7 +118,9 @@ public class Shooter extends SimpleMotorSubsystem {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Position", getHoodPosition());
+        SmartDashboard.putNumber("Subsystems/Shooter/Hood Setpoint", setpoint);
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Speed", hoodMotor.get());
         SmartDashboard.putNumber("Subsystems/Shooter/Shooter Speed", shooterMotor1.get());
+        SmartDashboard.putNumber("HOOD POSITION SETPOINT", setpoint);
     }
 }

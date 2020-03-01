@@ -8,7 +8,9 @@
 package frc.robot.commands.joystick;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Const;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterWithJoystick extends CommandBase {
@@ -17,6 +19,8 @@ public class ShooterWithJoystick extends CommandBase {
     private XboxController.Button shooterButton;
     private XboxController.Axis hoodAxis;
     private XboxController xbox;
+
+    private double positionRef = 0;
 
     /** Creates a new ShooterWithJoystick, of course. */
     public ShooterWithJoystick(Shooter shooter, XboxController xbox, XboxController.Button shooterButton, XboxController.Axis hoodAxis) {
@@ -30,12 +34,22 @@ public class ShooterWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        double speedRef = xbox.getRawAxis(hoodAxis.value);
+        positionRef =  positionRef + (speedRef * 10);
+        if (positionRef < Const.Shooter.MAX_HOOD_POSITION) {
+            positionRef = Const.Shooter.MAX_HOOD_POSITION;
+        } else if (positionRef > Const.Shooter.MIN_HOOD_POSITION) {
+            positionRef = Const.Shooter.MIN_HOOD_POSITION;
+        }
+        SmartDashboard.putNumber("HOOD POSITION SETPOINT", positionRef);
+        SmartDashboard.putNumber("HOOD POSITION FEEDBACK", shooter.getHoodPosition());
         if (xbox.getRawButton(shooterButton.value)) {
-            shooter.run();
+            //shooter.run();
+            shooter.setHoodPosition((int) positionRef);   
         } else {
             shooter.stop();
-        }
-        shooter.setHoodSpeed(xbox.getRawAxis(hoodAxis.value));
+            shooter.setHoodSpeed(0);
+        }     
     }
 
     // Returns true when the command should end.
