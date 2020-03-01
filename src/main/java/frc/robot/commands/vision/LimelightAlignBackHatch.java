@@ -22,6 +22,7 @@ public class LimelightAlignBackHatch extends CommandBase {
     Shooter shooter;
     double[] camtran;
     double fwd, str, rcw;
+    double fwdSpeed, strSpeed, rcwSpeed;
 
     public LimelightAlignBackHatch(DriveTrain drivetrain, Limelight limelight, Shooter shooter) {
         this.drivetrain = drivetrain;
@@ -42,20 +43,25 @@ public class LimelightAlignBackHatch extends CommandBase {
         camtran = limelight.getCamTran();
 
         /** Assigns strafe and assigns acceptable offset conditions. */
-        str = camtran[0] * Const.LimelightAlign.STRAFE_ADJUST_SPEED;
-        if ((camtran[0] <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (camtran[0] > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+        str = camtran[0];
+        if ((str <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (str > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             str = 0;
         }
         /** Assigns rotation and assigns acceptable offset conditions. */
-        rcw = camtran[4] * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
-        if ((camtran[4] <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (camtran[4] > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+        rcw = camtran[4];
+        if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
         }
         /** Assigns forward and assigns acceptable offset conditions. */
-        fwd = (Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET);
+        fwd = Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET;
         if ((fwd <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (fwd > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             fwd = 0;
         }
+
+        /** Multiply all of the values by their speed constants to get a decent speed reference. */
+        strSpeed = str * Const.LimelightAlign.STRAFE_ADJUST_SPEED;
+        rcwSpeed = rcw * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
+        fwdSpeed = fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
 
         SwerveVector alignmentVector = new SwerveVector(fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED, str, -rcw);
         //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
