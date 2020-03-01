@@ -45,7 +45,7 @@ public class LimelightAlignFrontHatch extends CommandBase {
 
         /** Assigns rotation and assigns acceptable offset conditions. */
         rcw = camtran[4] * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
-        if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+        if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
         }
 
