@@ -60,7 +60,7 @@ public class LimelightAlignBackHatch extends CommandBase {
         SwerveVector alignmentVector = new SwerveVector(fwd, -str, rcw);
         //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
         drivetrain.drive(alignmentVector);
-        shooter.setHoodPosition(camtran[2]);
+        //shooter.setHoodPosition(camtran[2]);
     }
 
 
