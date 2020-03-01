@@ -20,8 +20,7 @@ public class LimelightAlignFrontHatch extends CommandBase {
     DriveTrain drivetrain;
     Limelight limelight;
     Shooter shooter;
-    double[] camtran;
-    double fwd, str, rcw;
+    double rcw, rcwSpeed;
     boolean strafeGood, forwardGood, rotateGood, allGood;
     int hoodOffset;
 
@@ -41,14 +40,14 @@ public class LimelightAlignFrontHatch extends CommandBase {
 
     @Override
     public void execute() {
-        camtran = limelight.getCamTran();
 
         /** Assigns rotation and assigns acceptable offset conditions. */
-        rcw = camtran[4] * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
-        if ((camtran[4] <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (camtran[4] > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+        rcw = limelight.getHorizontalOffset();
+        if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
         }
 
+        rcwSpeed = rcw * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
         SwerveVector alignmentVector = new SwerveVector(0, 0, -rcw);
         //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
         drivetrain.drive(alignmentVector);
