@@ -50,7 +50,7 @@ public class Const {
 
         public static final int HOOD_SLOT    = 0;
         public static final int HOOD_TIMEOUT = 10;
-        public static final double HOOD_P    = 0;
+        public static final double HOOD_P    = 0.5;
         public static final double HOOD_I    = 0;
         public static final double HOOD_D    = 0;
     }
@@ -75,7 +75,7 @@ public class Const {
         public static final int REAR_RIGHT_ANALOG_ENCODER  = 3; /* Module 4 */
 
         /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 347.303;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 149.882;
         public static final double FRONT_LEFT_ENCODER_OFFSET  = 233.3;
         public static final double REAR_LEFT_ENCODER_OFFSET   = 154.163;
         public static final double REAR_RIGHT_ENCODER_OFFSET  = 100.635;
@@ -131,5 +131,10 @@ public class Const {
         public static final double FORWARD_ADJUST_SPEED   = 0.02; //Again, in inches
         public static final double ROTATE_ADJUST_SPEED    = 0.009; // Inches, oh yeah
         public static final double ACCEPTED_OFFSET_BOUNDS = 3; //Incheronis broneroni
+    }
+
+    public static class Shooter {
+        public static final int MAX_HOOD_POSITION = 9700;
+        public static final int HOOD_POSITION_INCREMENT = 200;
     }
 }
