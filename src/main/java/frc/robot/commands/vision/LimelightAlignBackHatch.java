@@ -67,7 +67,7 @@ public class LimelightAlignBackHatch extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drivetrain.setFieldCentric(true);
-        limelight.setLedMode(LedMode.FORCE_OFF);
+        limelight.setLedMode(LedMode.PIPELINE_CURRENT);
     }
     @Override
     public boolean isFinished() {
