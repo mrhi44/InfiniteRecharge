@@ -7,7 +7,7 @@
 
 package frc.robot.commands.vision;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
@@ -104,6 +104,7 @@ public class LimelightAlignBackHatch extends CommandBase {
         /** If the difference between scans is greater than a threshold value, set it to last scan. */
         } else if (Math.abs(x - jitterX) > Const.LimelightAlign.JITTER_VARIATION_THRESHOLD) {
             x = jitterX;
+        } else {
             jitterX = 0;
         }
         return x;
