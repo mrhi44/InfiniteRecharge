@@ -7,6 +7,7 @@
 
 package frc.robot.commands.vision;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
@@ -48,7 +49,7 @@ public class LimelightAlignBackHatch extends CommandBase {
             str = 0;
         }
         /** Assigns rotation and assigns acceptable offset conditions. */
-        rcw = camtran[4];
+        rcw = limelight.getHorizontalOffset();
         if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
         }
@@ -67,6 +68,16 @@ public class LimelightAlignBackHatch extends CommandBase {
         //SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
         drivetrain.drive(alignmentVector);
         //shooter.setHoodPosition(camtran[2]);
+
+        /** 
+        SmartDashboard.putNumber("LimelightAlign/ForwardValue", fwdSpeed);
+        SmartDashboard.putNumber("LimelightAlign/StrafeValue", strSpeed);
+        SmartDashboard.putNumber("LimelightAlign/RotateValue", rcwSpeed);
+
+        SmartDashboard.putNumber("LimelightAlign/ForwardRaw", fwd);
+        SmartDashboard.putNumber("LimelightAlign/StrafeRaw", str);
+        SmartDashboard.putNumber("LimelightAlign/RotateRaw", rcw);
+        */
     }
 
 
