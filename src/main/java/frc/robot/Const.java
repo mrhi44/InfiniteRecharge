@@ -131,6 +131,7 @@ public class Const {
         public static final double FORWARD_ADJUST_SPEED   = 0.001; //Again, in inches
         public static final double ROTATE_ADJUST_SPEED    = 0.015; // Inches, oh yeah
         public static final double ACCEPTED_OFFSET_BOUNDS = 3; //Incheronis broneroni
+        public static final double JITTER_VARIATION_THRESHOLD = 2; //In inches, amount of variance allowed between scans
     }
 
     public static class Shooter {

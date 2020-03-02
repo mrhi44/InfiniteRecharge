@@ -24,6 +24,7 @@ public class LimelightAlignBackHatch extends CommandBase {
     double[] camtran;
     double fwd, str, rcw;
     double fwdSpeed, strSpeed, rcwSpeed;
+    double jitterX = 0;
 
     public LimelightAlignBackHatch(DriveTrain drivetrain, Limelight limelight, Shooter shooter) {
         this.drivetrain = drivetrain;
@@ -44,17 +45,17 @@ public class LimelightAlignBackHatch extends CommandBase {
         camtran = limelight.getCamTran();
 
         /** Assigns strafe and assigns acceptable offset conditions. */
-        str = camtran[0];
+        str = limelightAntiJitter(camtran[0]);
         if ((str <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (str > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             str = 0;
         }
         /** Assigns rotation and assigns acceptable offset conditions. */
-        rcw = limelight.getHorizontalOffset();
+        rcw = limelightAntiJitter(limelight.getHorizontalOffset());
         if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
         }
         /** Assigns forward and assigns acceptable offset conditions. */
-        fwd = Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET;
+        fwd = limelightAntiJitter(Math.abs(camtran[2])) - Const.LimelightAlign.DISTANCE_TO_TARGET;
         if ((fwd <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (fwd > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             fwd = 0;
         }
@@ -90,5 +91,21 @@ public class LimelightAlignBackHatch extends CommandBase {
     public boolean isFinished() {
         return false;
     }
-    
+
+    /**
+     * Keeps an input from jumping and jittering, specifically limelight input.
+     * @param x Limelight input to jitter-proof.
+     * @return A double, probably the same one you put in, but jitterproofed.
+     */
+    public double limelightAntiJitter(double x) {
+        /** Handles first time run. */
+        if (jitterX == 0) {
+            jitterX = x;
+        /** If the difference between scans is greater than a threshold value, set it to last scan. */
+        } else if (Math.abs(x - jitterX) > Const.LimelightAlign.JITTER_VARIATION_THRESHOLD) {
+            x = jitterX;
+            jitterX = 0;
+        }
+        return x;
+    }
 }
