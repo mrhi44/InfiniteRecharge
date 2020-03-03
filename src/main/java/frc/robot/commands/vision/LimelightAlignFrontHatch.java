@@ -21,9 +21,7 @@ public class LimelightAlignFrontHatch extends CommandBase {
     Limelight limelight;
     Shooter shooter;
     double rcw, rcwSpeed;
-    boolean strafeGood, forwardGood, rotateGood, allGood;
-    int hoodOffset;
-
+    
     public LimelightAlignFrontHatch(DriveTrain drivetrain, Limelight limelight, Shooter shooter) {
         this.drivetrain = drivetrain;
         this.limelight = limelight;
