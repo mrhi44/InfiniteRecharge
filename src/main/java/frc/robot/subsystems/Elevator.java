@@ -40,7 +40,6 @@ public class Elevator extends SubsystemBase {
     private final Solenoid lockEnable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_ENABLE);
     private final Solenoid lockDisable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_DISABLE);
     
-    private String startingColor = colorSensor.getColor().toString();
     private WheelColor targetColor = null;
     private WheelColor wheelColor;
     private int revCount = 0;
@@ -101,6 +100,7 @@ public class Elevator extends SubsystemBase {
      * Returns true when the rotation is done.
      */
     public boolean rotateColorWheel() {
+        private String startingColor = colorSensor.getColor().toString();
         /** Counts each new color, meaning the cheese slices. */
         if (colorSensor.getColor().toString() != startingColor) {
             revCount++;
