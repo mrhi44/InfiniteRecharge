@@ -29,6 +29,8 @@ public class ShooterWithJoystick extends CommandBase {
         this.shooterButton = shooterButton;
         this.hoodAxis = hoodAxis;
         addRequirements(shooter);
+        SmartDashboard.putNumber("Hood PID P", Const.PID.HOOD_P);
+        SmartDashboard.putNumber("Hood PID I", Const.PID.HOOD_I);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

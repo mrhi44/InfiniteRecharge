@@ -121,5 +121,7 @@ public class Shooter extends SimpleMotorSubsystem {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood PID Output", hoodPidOutput);
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Speed", hoodMotor.get());
         SmartDashboard.putNumber("Subsystems/Shooter/Shooter Speed", shooterMotor1.get());
+        hoodPid.setP(SmartDashboard.getNumber("Hood PID P", Const.PID.HOOD_P));
+        hoodPid.setI(SmartDashboard.getNumber("Hood PID I", Const.PID.HOOD_I));
     }
 }
