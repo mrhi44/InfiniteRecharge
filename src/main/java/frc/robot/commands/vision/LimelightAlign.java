@@ -60,7 +60,7 @@ public class LimelightAlign extends CommandBase {
          * Assigns rotation value and its acceptable bounds. Rotation is computed no
          * matter what, for both front and back hatches.
          */
-        rcw = limelightAntiJitter(limelight.getHorizontalOffset());
+        rcw = limelight.getHorizontalOffset();
         if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
         }
@@ -69,11 +69,11 @@ public class LimelightAlign extends CommandBase {
          * they're acceptably close.
          */
         if (!doFrontHatch) {
-            fwd = limelightAntiJitter(Math.abs(camtran[2])) - Const.LimelightAlign.DISTANCE_TO_TARGET;
+            fwd = Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET;
             if ((fwd <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (fwd > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
                 fwd = 0;
             }
-            str = limelightAntiJitter(camtran[0]);
+            str = camtran[0];
             if ((str <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (str > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
                 str = 0;
             }
