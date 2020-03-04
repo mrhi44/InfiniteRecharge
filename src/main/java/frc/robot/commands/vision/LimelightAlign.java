@@ -24,10 +24,9 @@ public class LimelightAlign extends CommandBase {
 
     boolean doFrontHatch;
 
-    double[] camtran;
+    double[] camtran, camtranJitter;
     double fwd, str, rcw;
     double fwdSpeed, strSpeed, rcwSpeed;
-    double jitterX = 0;
 
     public LimelightAlign(DriveTrain drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch) {
         this.drivetrain = drivetrain;
@@ -111,24 +110,19 @@ public class LimelightAlign extends CommandBase {
     }
 
     /**
-     * Keeps an input from jumping and jittering, specifically limelight input.
-     * 
-     * @param x Limelight input to jitter-proof.
-     * @return A double, probably the same one you put in, but jitterproofed.
+     * Collects ten samples of an input and takes the median if there's too much variation.
+     * @param x An input to jitter-proof
      */
     public double limelightAntiJitter(double x) {
-        /** Handles first time run. */
-        if (jitterX == 0) {
-            jitterX = x;
-            /**
-             * If the difference between scans is greater than a threshold value, set it to
-             * last scan.
-             */
-        } else if (Math.abs(x - jitterX) > Const.LimelightAlign.JITTER_VARIATION_THRESHOLD) {
-            x = jitterX;
-        } else {
-            jitterX = 0;
+        /** For ten counts, this will collect your input as an array for ten scans. */
+        for (int i = 0; i < 10; i++) {
+            camtranJitter[i] = x;
         }
-        return x;
+        /** Sorts the array in ascending order. */
+        camntranJitter.sort(camtranJitter);
+        /** If the maximum array value is greater than some value, take the middle value of the array. */
+        if (math.abs(camtranJitter[9] - camtranJitter[0]) > Const.JITTER_VARIATION_THRESHOLD) {
+            x = camtranJitter [4];
+        }    
     }
 }
