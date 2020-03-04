@@ -34,21 +34,18 @@ public class ShooterWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double speedRef = xbox.getRawAxis(hoodAxis.value);
-        positionRef =  positionRef + (speedRef * 10);
-        if (positionRef < Const.Shooter.MAX_HOOD_POSITION) {
+        double speedRef = -xbox.getRawAxis(hoodAxis.value);
+        positionRef =  positionRef + (speedRef * Const.Shooter.HOOD_POSITION_INCREMENT);
+        if (positionRef > Const.Shooter.MAX_HOOD_POSITION) {
             positionRef = Const.Shooter.MAX_HOOD_POSITION;
-        } else if (positionRef > Const.Shooter.MIN_HOOD_POSITION) {
+        } else if (positionRef < Const.Shooter.MIN_HOOD_POSITION) {
             positionRef = Const.Shooter.MIN_HOOD_POSITION;
         }
-        SmartDashboard.putNumber("HOOD POSITION SETPOINT", positionRef);
-        SmartDashboard.putNumber("HOOD POSITION FEEDBACK", shooter.getHoodPosition());
+        shooter.setHoodPosition((int) positionRef);
         if (xbox.getRawButton(shooterButton.value)) {
-            //shooter.run();
-            shooter.setHoodPosition((int) positionRef);   
+            shooter.run();   
         } else {
             shooter.stop();
-            shooter.setHoodSpeed(0);
         }     
     }
 
