@@ -33,7 +33,7 @@ public class Shooter extends SimpleMotorSubsystem {
     public final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
     private final MiniPID hoodPid = new MiniPID(Const.PID.HOOD_P, Const.PID.HOOD_I, Const.PID.HOOD_D);
     private int hoodSetpoint = 0;
-    private double hoodPidOutput =
+    private double hoodPidOutput = 0;
 
     /**
      * Configure the shooter and hood motor.
@@ -121,5 +121,7 @@ public class Shooter extends SimpleMotorSubsystem {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood PID Output", hoodPidOutput);
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Speed", hoodMotor.get());
         SmartDashboard.putNumber("Subsystems/Shooter/Shooter Speed", shooterMotor1.get());
+        hoodPid.setP(SmartDashboard.getNumber("Hood PID P", Const.PID.HOOD_P));
+        hoodPid.setI(SmartDashboard.getNumber("Hood PID I", Const.PID.HOOD_I));
     }
 }
