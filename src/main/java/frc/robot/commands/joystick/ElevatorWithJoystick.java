@@ -19,7 +19,7 @@ public class ElevatorWithJoystick extends CommandBase {
     private XboxController.Axis axis, wheelAxis;
     private XboxController.Button positionOverride;
 
-    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Axis wheelAxis, XboxController.Button positionoverride) {
+    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Axis wheelAxis, XboxController.Button positionOverride) {
         this.xbox = xbox;
         this.elevator = elevator;
         this.axis = axis;
