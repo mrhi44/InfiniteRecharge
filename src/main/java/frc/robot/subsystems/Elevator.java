@@ -165,7 +165,6 @@ public class Elevator extends SubsystemBase {
     public boolean goToColor(WheelColor color) {
         if (convertToWheelColor(colorSensor.getColor()) != colorToTargetColor(color)) {
             wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
-            return false;
         } else {
             wheelMotor.set(0);
             return true;
