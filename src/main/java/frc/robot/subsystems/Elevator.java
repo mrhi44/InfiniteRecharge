@@ -40,8 +40,7 @@ public class Elevator extends SubsystemBase {
     private final Solenoid lockEnable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_ENABLE);
     private final Solenoid lockDisable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_DISABLE);
     
-    private WheelColor targetColor = null;
-    private WheelColor wheelColor;
+    private WheelColor targetColor, startingColor;
     private int revCount = 0;
 
     private boolean locked = false;
@@ -100,16 +99,22 @@ public class Elevator extends SubsystemBase {
      * Returns true when the rotation is done.
      */
     public boolean rotateColorWheel() {
-        private String startingColor = colorSensor.getColor().toString();
-        /** Counts each new color, meaning the cheese slices. */
-        if (colorSensor.getColor().toString() != startingColor) {
-            revCount++;
-            startingColor = colorSensor.getColor().toString();
+        if (startingColor == null) {
+            /* This is the first run, set the starting color. */
+            startingColor = toWheelColor(colorSensor.getColor());
         }
-        /** If we haven't reached our rotation count, keep spinning, dude. */
-        if (revCount == Const.Elevator.NUMBER_OF_COLOR_CHANGES) {
+        /* Get the current color to see if it's different. */
+        WheelColor wheelColor = toWheelColor(colorSensor.getColor());
+        /** Counts each new color, meaning the cheese slices. */
+        if (wheelColor != startingColor) {
+            revCount++;
+        }
+        /** If we have reached our rotation count, stop spinning */
+        if (revCount >= Const.Elevator.NUMBER_OF_COLOR_CHANGES) {
             setWheelSpeed(0);
+            /* Reset everything to the starting configuration for the next run. */
             revCount = 0;
+            startingColor = null;
             return true;
         } else {
             setWheelSpeed(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
@@ -123,18 +128,19 @@ public class Elevator extends SubsystemBase {
      * @param color Raw color output data from the Color Sensor.
      * @return The enum, RED, GREEN, BLUE, RED, to match that color.
      */
-    public WheelColor convertToWheelColor(Color color) {
+    public WheelColor toWheelColor(Color color) {
         switch (color.toString()) {
         case "Red":
-            wheelColor = WheelColor.RED;
+            return WheelColor.RED;
         case "Green":
-            wheelColor = WheelColor.GREEN;
+            return WheelColor.GREEN;
         case "Blue":
-            wheelColor = WheelColor.BLUE;
+            return WheelColor.BLUE;
         case "Yellow":
-            wheelColor = WheelColor.YELLOW;
+            return WheelColor.YELLOW;
+        default:
+            return null;
         }
-        return wheelColor;
     }
 
     /**
@@ -144,7 +150,7 @@ public class Elevator extends SubsystemBase {
      * @return The offset color, the one the robot will be reading. Returns as a
      * WheelColor.
      */
-    public WheelColor colorToTargetColor(WheelColor color) {
+    public WheelColor toTargetColor(WheelColor color) {
         switch (color) {
         case RED:
             targetColor = WheelColor.BLUE;
@@ -163,8 +169,9 @@ public class Elevator extends SubsystemBase {
      * @param color The desired color, usually the game specific message.
      */
     public boolean goToColor(WheelColor color) {
-        if (convertToWheelColor(colorSensor.getColor()) != colorToTargetColor(color)) {
+        if (toWheelColor(colorSensor.getColor()) != toTargetColor(color)) {
             wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
+            return false;
         } else {
             wheelMotor.set(0);
             return true;
@@ -184,7 +191,7 @@ public class Elevator extends SubsystemBase {
      * @return True or false, whichever happens to be accurate.
      */
     public boolean atColor(WheelColor color) {
-        return convertToWheelColor(colorSensor.getColor()) == colorToTargetColor(color);
+        return toWheelColor(colorSensor.getColor()) == toTargetColor(color);
     }
 
     /**
