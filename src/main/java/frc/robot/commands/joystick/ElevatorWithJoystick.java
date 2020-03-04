@@ -14,26 +14,23 @@ import frc.robot.subsystems.Elevator;
 
 public class ElevatorWithJoystick extends CommandBase {
 
-    Elevator elevator;
-    XboxController xbox;
-    XboxController.Axis axis, wheelAxis;
-    double position;
-    double basePosition;
-    double manualOffset;
-    double speedRef;
+    private Elevator elevator;
+    private XboxController xbox;
+    private XboxController.Axis axis, wheelAxis;
+    private XboxController.Button positionOverride;
 
-    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Axis wheelAxis) {
+    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Axis wheelAxis, XboxController.Button positionoverride) {
         this.xbox = xbox;
         this.elevator = elevator;
         this.axis = axis;
         this.wheelAxis = wheelAxis;
+        this.positionOverride = positionOverride;
         addRequirements(elevator);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        manualOffset = elevator.getElevatorEncoder();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -43,21 +40,32 @@ public class ElevatorWithJoystick extends CommandBase {
         double speedRef = -xbox.getRawAxis(axis.value);
         double currentPosition = elevator.getElevatorEncoder();
 
-        if (currentPosition >= Const.Elevator.MAX_HEIGHT && speedRef > 0) {
+        /* Run the elevator, but only if it's within the encoder bounds (if the override button isn't being pressed). */
+        boolean checkBounds = xbox.getRawButton(positionOverride.value);
+        if (checkBounds && currentPosition >= Const.Elevator.MAX_HEIGHT && speedRef > 0) {
             elevator.setElevatorSpeed(0);
-        } else if (currentPosition <= Const.Elevator.BOTTOM_HEIGHT && speedRef < 0) {
+        } else if (checkBounds && currentPosition <= Const.Elevator.BOTTOM_HEIGHT && speedRef < 0) {
             elevator.setElevatorSpeed(0);
         } else {
             elevator.setElevatorSpeed(speedRef);
         }
 
-        if (xbox.getRawAxis(wheelAxis.value) > 0) {
-            elevator.setWheelSpeed(Const.Speed.ENDGAME_BAR_SPEED);
-        } else if (xbox.getRawAxis(wheelAxis.value) < 0) {
-            elevator.setWheelSpeed(-Const.Speed.ENDGAME_BAR_SPEED);
+        /* Run the elevator adjustment wheel at a given speed, determined by the height of the elevator.
+         * If the elevator is above 70% of it's maximum height, we can safely assume that we are running
+         * the endgame bar speed, otherwise, we're running the color wheel speed.
+         */
+        speedRef = 0;
+        if (currentPosition > Const.Elevator.MAX_HEIGHT * 0.7) {
+            speedRef = Const.Speed.ENDGAME_BAR_SPEED;
         } else {
-            elevator.setWheelSpeed(0);
+            speedRef = Const.Speed.COLOR_WHEEL_FIXED_SPEED;
         }
+        if (xbox.getRawAxis(wheelAxis.value) < 0) {
+            speedRef *= -1;
+        } else if (xbox.getRawAxis(wheelAxis.value) == 0) {
+            speedRef = 0;
+        }
+        elevator.setWheelSpeed(speedRef);
     }
 
     // Called once the command ends or is interrupted.
