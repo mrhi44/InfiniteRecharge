@@ -18,7 +18,8 @@ public class FeedWithJoystick extends CommandBase {
     private XboxController.Button runButton, reverseButton;
     private XboxController xbox;
 
-    public FeedWithJoystick(Feed feed, XboxController xbox, XboxController.Button runButton, XboxController.Button reverseButton) {
+    public FeedWithJoystick(Feed feed, XboxController xbox, XboxController.Button runButton,
+            XboxController.Button reverseButton) {
         this.feed = feed;
         this.xbox = xbox;
         this.runButton = runButton;
@@ -30,7 +31,6 @@ public class FeedWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-
         if (xbox.getRawButton(runButton.value)) {
             double speed = Const.Speed.FEED_SPEED;
             if (xbox.getRawButton(reverseButton.value)) {

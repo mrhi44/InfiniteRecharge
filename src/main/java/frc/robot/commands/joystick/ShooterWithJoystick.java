@@ -23,7 +23,8 @@ public class ShooterWithJoystick extends CommandBase {
     private double positionRef = 0;
 
     /** Creates a new ShooterWithJoystick, of course. */
-    public ShooterWithJoystick(Shooter shooter, XboxController xbox, XboxController.Button shooterButton, XboxController.Axis hoodAxis) {
+    public ShooterWithJoystick(Shooter shooter, XboxController xbox, XboxController.Button shooterButton,
+            XboxController.Axis hoodAxis) {
         this.shooter = shooter;
         this.xbox = xbox;
         this.shooterButton = shooterButton;
@@ -37,18 +38,19 @@ public class ShooterWithJoystick extends CommandBase {
     @Override
     public void execute() {
         double speedRef = -xbox.getRawAxis(hoodAxis.value);
-        positionRef =  positionRef + (speedRef * Const.Shooter.HOOD_POSITION_INCREMENT);
+        positionRef = positionRef + (speedRef * Const.Shooter.HOOD_POSITION_INCREMENT);
         if (positionRef > Const.Shooter.MAX_HOOD_POSITION) {
             positionRef = Const.Shooter.MAX_HOOD_POSITION;
         } else if (positionRef < Const.Shooter.MIN_HOOD_POSITION) {
             positionRef = Const.Shooter.MIN_HOOD_POSITION;
         }
         shooter.setHoodPosition((int) positionRef);
+
         if (xbox.getRawButton(shooterButton.value)) {
-            shooter.run();   
+            shooter.run();
         } else {
             shooter.stop();
-        }     
+        }
     }
 
     // Returns true when the command should end.

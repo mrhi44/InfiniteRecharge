@@ -133,11 +133,11 @@ public class RobotContainer {
 
     /** Uses xbox0's X button to activate LimelightAlign (Back Hatch) while held. */
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
-    xbox0X.whileHeld(new LimelightAlign(drivetrain, limelight, shooter, false));
+    xbox0X.whileHeld(new LimelightAlign(drivetrain, limelight, false));
 
     /** Uses xbox0's A button to activate LimelightAlign (Front Hatch) while held. */
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
-    xbox0A.whileHeld(new LimelightAlign(drivetrain, limelight, shooter, true));
+    xbox0A.whileHeld(new LimelightAlign(drivetrain, limelight, true));
 
     /** Usex xbox0's B button to activate AutonBallGetter while held. */
     JoystickButton xbox0B = new JoystickButton(xbox0, XboxController.Button.kB.value);
@@ -181,7 +181,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
     /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX));
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Button.kBack));
 
     /* The intake uses the given hand's bumper. */
     intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox1, XboxController.Button.kBumperRight));

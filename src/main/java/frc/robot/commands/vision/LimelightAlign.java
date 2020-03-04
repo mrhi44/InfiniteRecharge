@@ -11,30 +11,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
 
 public class LimelightAlign extends CommandBase {
 
-    DriveTrain drivetrain;
-    Limelight limelight;
-    Shooter shooter;
+    private DriveTrain drivetrain;
+    private Limelight limelight;
 
-    boolean doFrontHatch;
+    private boolean doFrontHatch;
+    /*
+     * The camtran cache stores a history of the forward and strafe camtran values
+     * so that we can smooth out the trajectory of this command. The first size index is
+     * the size of the cache and can therefore be set as needed. The second size index
+     * is the size of the camtran and therefore should not be changed unless the limelight
+     * API changes.
+     * 
+     * DO NOT modify the camtran cache directly, use a cache manipulation function.
+     */
+    private double[][] camtranCache = new double[10][6];
+    /* DO NOT modify this variable, this is used by the camtranCache() function. */
+    private int cacheIndex = -1;
 
-    double[] camtran;
-    double fwd, str, rcw;
-    double fwdSpeed, strSpeed, rcwSpeed;
-    double jitterX = 0;
+    private double fwd, str, rcw;
+    private double fwdSpeed, strSpeed, rcwSpeed;
 
-    public LimelightAlign(DriveTrain drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch) {
+    public LimelightAlign(DriveTrain drivetrain, Limelight limelight, boolean doFrontHatch) {
         this.drivetrain = drivetrain;
         this.limelight = limelight;
-        this.shooter = shooter;
         this.doFrontHatch = doFrontHatch;
-        addRequirements(drivetrain, shooter);
+        addRequirements(drivetrain);
     }
 
     @Override
@@ -55,7 +62,8 @@ public class LimelightAlign extends CommandBase {
     @Override
     public void execute() {
         /** Camtran and rotation are always used. */
-        camtran = limelight.getCamTran();
+        cacheCamtran(limelight.getCamTran());
+        double[] camtran = smoothCamtran();
         /**
          * Assigns rotation value and its acceptable bounds. Rotation is computed no
          * matter what, for both front and back hatches.
@@ -111,24 +119,25 @@ public class LimelightAlign extends CommandBase {
     }
 
     /**
-     * Keeps an input from jumping and jittering, specifically limelight input.
+     * Cache the given camtran value.
      * 
-     * @param x Limelight input to jitter-proof.
-     * @return A double, probably the same one you put in, but jitterproofed.
+     * @param camtran The camtran's forward and strafe components, as indices 0 and 1 respectively.
+     * @return The index in the camtranCache array that the camtran array was placed in.
      */
-    public double limelightAntiJitter(double x) {
-        /** Handles first time run. */
-        if (jitterX == 0) {
-            jitterX = x;
-            /**
-             * If the difference between scans is greater than a threshold value, set it to
-             * last scan.
-             */
-        } else if (Math.abs(x - jitterX) > Const.LimelightAlign.JITTER_VARIATION_THRESHOLD) {
-            x = jitterX;
+    private int cacheCamtran(double[] camtran) {
+        if (camtran.length == 6) {
+            cacheIndex++;
+            if (cacheIndex > camtran.length) {
+                cacheIndex = 0;
+            }
+            camtranCache[cacheIndex] = camtran;
+            return cacheIndex;
         } else {
-            jitterX = 0;
+            throw new ArrayIndexOutOfBoundsException("Cannot cache camtran array of size " + camtran.length);
         }
-        return x;
+    }
+
+    private double[] smoothCamtran() {
+        return camtranCache[cacheIndex];
     }
 }

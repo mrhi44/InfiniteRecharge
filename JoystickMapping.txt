@@ -23,10 +23,12 @@ Left Bumper (Hold)           : Shoot
 Right Bumper (Hold)          : Intake
 Right Joystick (Y)           : Move hood forward and backward.
 Left Joystick (Y)            : Elevator Up/Down
-Left Joystick (X)           : Elevator Left/Right
+Left Joystick (X)           : Elevator/Color Wheel Left/Right
 POV (D-PAD) Up               : Intake Up
 POV (D-PAD) Down             : Intake Down
 X                            : Elevator Lock/Unlock
 A (Hold)                     : Reverse Feed
 B (Hold)                     : Color wheel spin
+Start                        : Zero the elevator encoder
+Back (Hold)                  : Override elevator height limits
 ---------------------------------------------------------------

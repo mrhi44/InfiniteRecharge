@@ -7,7 +7,8 @@ public class ColorWheelRotation extends CommandBase {
     Elevator elevator;
   
     public ColorWheelRotation(Elevator elevator) {
-      addRequirements(elevator);
+        this.elevator = elevator;
+        addRequirements(elevator);
     }
 
     // Returns true when the command should end.

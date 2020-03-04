@@ -11,16 +11,15 @@ import frc.robot.Const;
 import net.bancino.robotics.swerveio.pid.MiniPID;
 
 /**
- * The Shooter subsystem controls the shooting mechanism
- * that will shoot power cells.
+ * The Shooter subsystem controls the shooting mechanism that will shoot power
+ * cells.
  *
- * This subsystem consists of the following components:
- * - The fly wheel (3x Victor SPX controllers on CAN, note that one will be reversed)
- * - The hood (1x Talon SRX controller with SRX magnetic encoder.)
+ * This subsystem consists of the following components: - The fly wheel (3x
+ * Victor SPX controllers on CAN, note that one will be reversed) - The hood (1x
+ * Talon SRX controller with SRX magnetic encoder.)
  *
- * This subsystem should provide the following functions:
- * - Calculate the hood position from distance from the target
- * - Control the hood via a position loop
+ * This subsystem should provide the following functions: - Calculate the hood
+ * position from distance from the target - Control the hood via a position loop
  * - Run the fly wheel.
  *
  * @author Jordan Bancino
@@ -43,7 +42,8 @@ public class Shooter extends SimpleMotorSubsystem {
         /* Make it do the super fancy blinky thingy. */
         hoodMotor.setSensorPhase(true);
         hoodMotor.setInverted(true);
-        hoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Const.PID.HOOD_SLOT, Const.PID.HOOD_TIMEOUT);
+        hoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Const.PID.HOOD_SLOT,
+                Const.PID.HOOD_TIMEOUT);
 
         hoodPid.setOutputLimits(Const.Shooter.HOOD_OUTPUT_LIMIT);
         hoodPid.setSetpointRange(Const.Shooter.MAX_HOOD_POSITION);
@@ -61,7 +61,7 @@ public class Shooter extends SimpleMotorSubsystem {
     }
 
     /**
-     * Use the Talon SRX's MotionMagic to achieve the given position.
+     * Use the a PID position loop to obtain the inputted position.
      *
      * @param position The position (in encoder counts) to set the hood to.
      */
@@ -72,14 +72,19 @@ public class Shooter extends SimpleMotorSubsystem {
     }
 
     /**
-     * Run the hood motor, but at half the speed passed in here.
+     * Run the hood motor.
      *
-     * @param speed The speed, scaled -1 to 1, to run the hood motor at.
-     *              Note that this will be cut in half because the hood doesn't move
-     *              very much or very fast.
+     * @param speed The speed to run the hood at. Note that this method will
+     *              automatically correct the speed if it is out of bounds (See
+     *              Const.Shooter.HOOD_OUTPUT_LIMIT)
      */
     public void setHoodSpeed(double speed) {
-        hoodMotor.set(speed * 0.5);
+        if (speed > Const.Shooter.HOOD_OUTPUT_LIMIT) {
+            speed = Const.Shooter.HOOD_OUTPUT_LIMIT;
+        } else if (speed < -Const.Shooter.HOOD_OUTPUT_LIMIT) {
+            speed = -Const.Shooter.HOOD_OUTPUT_LIMIT;
+        }
+        hoodMotor.set(speed);
     }
 
     /**
@@ -103,7 +108,8 @@ public class Shooter extends SimpleMotorSubsystem {
     }
 
     /**
-     * Calculate the hood position based on the distance the robot is from the target.
+     * Calculate the hood position based on the distance the robot is from the
+     * target.
      *
      * @param distanceAwayFromTarget The distance the robot is away from the target.
      *                               The hood position will be calculated from this.
