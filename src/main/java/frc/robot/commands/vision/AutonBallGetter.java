@@ -59,7 +59,7 @@ public class AutonBallGetter extends CommandBase {
         /** Some math to find the real, actual angle of the blob from the camera. */
         ballAngle = bloberooX[0] * (Const.AutonBallGetter.CAMERA_ANGLE_X / Const.AutonBallGetter.CAMERA_RES_X);
         angleDiff = gyroAngle - ballAngle;
-        if ((angleDiff <= Const.AutonBallGetter.ACCEPTED_OFFSET_BOUNDS) && (angleDiff >= Const.AutonBallGetter.ACCEPTED_OFFSET_BOUNDS)) {
+        if ((angleDiff <= Const.AutonBallGetter.ACCEPTED_OFFSET_BOUNDS) && (angleDiff >= -Const.AutonBallGetter.ACCEPTED_OFFSET_BOUNDS)) {
             angleDiff = 0;
         }
         /** Actually drive with the vector made from calculations. */
