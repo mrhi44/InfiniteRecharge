@@ -122,10 +122,7 @@ public class Shooter extends SimpleMotorSubsystem {
         int trenchCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(trenchDistance);
         int lineCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(lineDistance);
         double slope = trenchCount - lineCount / trenchDistance - lineDistance;
-        if (distance <= trenchDistance && distance >= lineDistance) {
-            
-        }
-        return 0;
+        return (int) (slope * (distance - trenchDistance) + lineDistance);
     }
 
     @Override

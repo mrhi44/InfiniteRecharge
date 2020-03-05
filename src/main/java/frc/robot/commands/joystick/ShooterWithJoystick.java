@@ -52,7 +52,7 @@ public class ShooterWithJoystick extends CommandBase {
             shooter.run();
             limelight.setLedMode(LedMode.FORCE_ON);
             if (limelight.hasValidTargets()) {
-                double distance = limelight.getCamTran()[2];
+                double distance = Math.abs(limelight.getCamTran()[2]);
                 shooter.setHoodPositionFromDistance(distance);
             }
         } else {
