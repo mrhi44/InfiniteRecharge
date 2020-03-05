@@ -8,7 +8,9 @@
 
 -------------------------- XBox 0 -----------------------------
 Left Joystick                : Swerve Drive X & Y movement
-Right Joystick               : Swerve drive rotation
+Right Joystick (X)           : Swerve drive rotation
+Right Joystick (Y)           : Elevator Up/Down
+Left/Right Bumpers           : Elevator Wheel Left/Right
 Start                        : Zero the Gyro
 Back                         : Toggle Field Centric drive
 POV (D-PAD) Up               : Toggle Limelight/USB Camera
@@ -22,8 +24,6 @@ B (Hold)                     : Auton Ball Getter
 Left Bumper (Hold)           : Shoot
 Right Bumper (Hold)          : Intake
 Right Joystick (Y)           : Move hood forward and backward.
-Left Joystick (Y)            : Elevator Up/Down
-Left Joystick (X)           : Elevator/Color Wheel Left/Right
 POV (D-PAD) Up               : Intake Up
 POV (D-PAD) Down             : Intake Down
 X                            : Elevator Lock/Unlock

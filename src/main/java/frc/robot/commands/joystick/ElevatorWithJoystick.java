@@ -17,13 +17,14 @@ public class ElevatorWithJoystick extends CommandBase {
     private Elevator elevator;
     private XboxController xbox;
     private XboxController.Axis axis, wheelAxis;
-    private XboxController.Button positionOverride;
+    private XboxController.Button wheelForward, wheelBackward, positionOverride;
 
-    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Axis wheelAxis, XboxController.Button positionOverride) {
+    public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Button wheelForward, XboxController.Button wheelBackward, XboxController.Button positionOverride) {
         this.xbox = xbox;
         this.elevator = elevator;
         this.axis = axis;
-        this.wheelAxis = wheelAxis;
+        this.wheelForward = wheelForward;
+        this.wheelBackward = wheelBackward;
         this.positionOverride = positionOverride;
         addRequirements(elevator);
     }
@@ -60,9 +61,15 @@ public class ElevatorWithJoystick extends CommandBase {
         } else {
             speedRef = Const.Speed.COLOR_WHEEL_FIXED_SPEED;
         }
-        if (xbox.getRawAxis(wheelAxis.value) < 0) {
+        boolean forward = xbox.getRawButton(wheelForward.value);
+        boolean backward = xbox.getRawButton(wheelBackward.value);
+        if (forward) {
+            speedRef *= 1;
+        } else if (backward) {
             speedRef *= -1;
-        } else if (xbox.getRawAxis(wheelAxis.value) == 0) {
+        } else if (forward && backward) {
+            speedRef = 0;
+        } else {
             speedRef = 0;
         }
         elevator.setWheelSpeed(speedRef);

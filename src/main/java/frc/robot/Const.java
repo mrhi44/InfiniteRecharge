@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.HashMap;
+
 /**
  * The constants class stores all of our robot wiring, speed, pneumatic, and
  * encoder constants.
@@ -50,8 +52,8 @@ public class Const {
 
         public static final int HOOD_SLOT    = 0;
         public static final int HOOD_TIMEOUT = 10;
-        public static final double HOOD_P    = 0.001;
-        public static final double HOOD_I    = 0;
+        public static final double HOOD_P    = 0.0021;
+        public static final double HOOD_I    = 0.000003;
         public static final double HOOD_D    = 0;
     }
 
@@ -86,11 +88,11 @@ public class Const {
      */
     public static class Speed {
         public static final double INTAKE_SPEED            = 0.65;
-        public static final double FEED_SPEED              = 1.0;
+        public static final double FEED_SPEED              = 0.75;
         public static final double SHOOTER_SPEED           = 1;
         public static final double HOOD_SPEED              = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
-        public static final double ENDGAME_BAR_SPEED       = 0.5;
+        public static final double ENDGAME_BAR_SPEED       = 1;
 
         public static final double DRIVETRAIN_THROTTLE = 0.8;
     }
@@ -138,6 +140,12 @@ public class Const {
         public static final int MAX_HOOD_POSITION = 460;
         public static final int MIN_HOOD_POSITION = -30;
         public static final int HOOD_POSITION_INCREMENT = 15;
-        public static final double HOOD_OUTPUT_LIMIT = 0.2;
+        public static final double HOOD_OUTPUT_LIMIT = 0.20;
+
+        public static final HashMap<Double, Integer> HOOD_ENCODER_DISTANCE_MAP = new HashMap<>();
+        static {
+            HOOD_ENCODER_DISTANCE_MAP.put(10.0 * 12.0, 315);
+            HOOD_ENCODER_DISTANCE_MAP.put(19.0 * 12.0, 290);
+        }
     }
 }

@@ -179,7 +179,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
     /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox1, XboxController.Axis.kLeftY, XboxController.Axis.kLeftX, XboxController.Button.kBack));
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox0, XboxController.Axis.kRightY, XboxController.Button.kBumperLeft, XboxController.Button.kBumperRight, XboxController.Button.kBack));
 
     /* The intake uses the given hand's bumper. */
     intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox1, XboxController.Button.kBumperRight));
@@ -188,7 +188,7 @@ public class RobotContainer {
     feed.setDefaultCommand(new FeedWithJoystick(feed, xbox1, XboxController.Button.kBumperRight, XboxController.Button.kA));
 
     /** The shooter uses the right bumper. */
-    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY));
+    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, limelight, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY));
   }
 
   /**
