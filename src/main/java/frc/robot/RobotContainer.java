@@ -188,7 +188,7 @@ public class RobotContainer {
     feed.setDefaultCommand(new FeedWithJoystick(feed, xbox1, XboxController.Button.kBumperRight, XboxController.Button.kA));
 
     /** The shooter uses the right bumper. */
-    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY));
+    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, limelight, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY));
   }
 
   /**
