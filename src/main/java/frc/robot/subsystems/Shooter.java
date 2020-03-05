@@ -111,13 +111,21 @@ public class Shooter extends SimpleMotorSubsystem {
      * Calculate the hood position based on the distance the robot is from the
      * target.
      *
-     * @param distanceAwayFromTarget The distance the robot is away from the target.
+     * @param distance The distance the robot is away from the target.
      *                               The hood position will be calculated from this.
      * @return The encoder reading that represents the position that the hood should
      *         be set to for the given distance.
      */
-    public int calculateHoodPosition(double distanceAwayFromTarget) {
-        throw new UnsupportedOperationException("Distance calculation isn't supported yet.");
+    public int calculateHoodPosition(double distance) {
+        double trenchDistance = 19.0 * 12.0;
+        double lineDistance = 10.0 * 12.0;
+        int trenchCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(trenchDistance);
+        int lineCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(lineDistance);
+        double slope = trenchCount - lineCount / trenchDistance - lineDistance;
+        if (distance <= trenchDistance && distance >= lineDistance) {
+            
+        }
+        return 0;
     }
 
     @Override

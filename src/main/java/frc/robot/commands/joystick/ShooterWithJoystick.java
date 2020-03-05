@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.Shooter;
+import net.bancino.robotics.jlimelight.LedMode;
+import net.bancino.robotics.jlimelight.Limelight;
 
 public class ShooterWithJoystick extends CommandBase {
 
@@ -19,11 +21,12 @@ public class ShooterWithJoystick extends CommandBase {
     private XboxController.Button shooterButton;
     private XboxController.Axis hoodAxis;
     private XboxController xbox;
+    private Limelight limelight;
 
     private double positionRef = 0;
 
     /** Creates a new ShooterWithJoystick, of course. */
-    public ShooterWithJoystick(Shooter shooter, XboxController xbox, XboxController.Button shooterButton,
+    public ShooterWithJoystick(Shooter shooter, Limelight limelight, XboxController xbox, XboxController.Button shooterButton,
             XboxController.Axis hoodAxis) {
         this.shooter = shooter;
         this.xbox = xbox;
@@ -44,12 +47,18 @@ public class ShooterWithJoystick extends CommandBase {
         } else if (positionRef < Const.Shooter.MIN_HOOD_POSITION) {
             positionRef = Const.Shooter.MIN_HOOD_POSITION;
         }
-        shooter.setHoodPosition((int) positionRef);
 
         if (xbox.getRawButton(shooterButton.value)) {
             shooter.run();
+            limelight.setLedMode(LedMode.FORCE_ON);
+            if (limelight.hasValidTargets()) {
+                double distance = limelight.getCamTran()[2];
+                shooter.setHoodPositionFromDistance(distance);
+            }
         } else {
             shooter.stop();
+            limelight.setLedMode(LedMode.PIPELINE_CURRENT);
+            shooter.setHoodPosition(0);
         }
     }
 
