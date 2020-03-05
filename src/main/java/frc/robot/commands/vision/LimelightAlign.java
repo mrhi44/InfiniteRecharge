@@ -22,7 +22,7 @@ public class LimelightAlign extends CommandBase {
     private Limelight limelight;
     private Shooter shooter;
     private boolean doFrontHatch;
-    
+
     /*
      * The camtran cache stores a history of the forward and strafe camtran values
      * so that we can smooth out the trajectory of this command. The first size index is
@@ -100,7 +100,7 @@ public class LimelightAlign extends CommandBase {
         SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, -rcwSpeed);
         // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
         drivetrain.drive(alignmentVector);
-        shooter.setHoodPositionFromDistance(-camtran[2]);
+        //shooter.setHoodPositionFromDistance(-camtran[2]);
 
         /** Put here for testing.
         SmartDashboard.putNumber("LimelightAlign/ForwardValue", fwdSpeed);
