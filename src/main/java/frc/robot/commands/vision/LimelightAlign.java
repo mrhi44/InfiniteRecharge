@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
@@ -19,8 +20,9 @@ public class LimelightAlign extends CommandBase {
 
     private DriveTrain drivetrain;
     private Limelight limelight;
-
+    private Shooter shooter;
     private boolean doFrontHatch;
+
     /*
      * The camtran cache stores a history of the forward and strafe camtran values
      * so that we can smooth out the trajectory of this command. The first size index is
@@ -37,9 +39,10 @@ public class LimelightAlign extends CommandBase {
     private double fwd, str, rcw;
     private double fwdSpeed, strSpeed, rcwSpeed;
 
-    public LimelightAlign(DriveTrain drivetrain, Limelight limelight, boolean doFrontHatch) {
+    public LimelightAlign(DriveTrain drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch) {
         this.drivetrain = drivetrain;
         this.limelight = limelight;
+        this.shooter = shooter;
         this.doFrontHatch = doFrontHatch;
         addRequirements(drivetrain);
     }
@@ -97,7 +100,9 @@ public class LimelightAlign extends CommandBase {
         SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, -rcwSpeed);
         // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
         drivetrain.drive(alignmentVector);
-        // shooter.setHoodPosition(camtran[2]
+        //shooter.setHoodPositionFromDistance(-camtran[2]);
+
+        /** Put here for testing.
         SmartDashboard.putNumber("LimelightAlign/ForwardValue", fwdSpeed);
         SmartDashboard.putNumber("LimelightAlign/StrafeValue", strSpeed);
         SmartDashboard.putNumber("LimelightAlign/RotateValue", rcwSpeed);
@@ -105,6 +110,7 @@ public class LimelightAlign extends CommandBase {
         SmartDashboard.putNumber("LimelightAlign/ForwardRaw", fwd);
         SmartDashboard.putNumber("LimelightAlign/StrafeRaw", str);
         SmartDashboard.putNumber("LimelightAlign/RotateRaw", rcw);
+        */
     }
 
     @Override
