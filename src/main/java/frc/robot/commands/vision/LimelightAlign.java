@@ -65,18 +65,15 @@ public class LimelightAlign extends CommandBase {
     public void execute() {
         /** Camtran and rotation are always used. */
         double[] camtran = limelight.getCamTran();
+        
         /**
-         * Assigns rotation value and its acceptable bounds. Rotation is computed no
-         * matter what, for both front and back hatches.
+         * Sets variables for doing the back hatch as well as the bounds in which
+         * they're acceptably close.
          */
         rcw = limelight.getHorizontalOffset();
         if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
         }
-        /**
-         * Sets variables for doing the back hatch as well as the bounds in which
-         * they're acceptably close.
-         */
         if (!doFrontHatch) {
             fwd = Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET;
             if ((fwd <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (fwd > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
@@ -95,8 +92,8 @@ public class LimelightAlign extends CommandBase {
         rcwSpeed = rcw * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
         fwdSpeed = fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
 
-        SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, -rcwSpeed);
         // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
+        SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, -rcwSpeed);
         drivetrain.drive(alignmentVector);
         //shooter.setHoodPositionFromDistance(-camtran[2]);
 
