@@ -21,9 +21,9 @@ B (Hold)                     : Auton Ball Getter
 ---------------------------------------------------------------
 
 -------------------------- XBox 1 -----------------------------
-Left Bumper (Hold)           : Shoot
+Left Bumper (Hold)           : Shoot & Set Hood Automatically
 Right Bumper (Hold)          : Intake
-Right Joystick (Y)           : Move hood forward and backward.
+Right Joystick (Y)           : Manually Move Hood
 POV (D-PAD) Up               : Intake Up
 POV (D-PAD) Down             : Intake Down
 X                            : Elevator Lock/Unlock
