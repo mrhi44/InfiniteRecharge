@@ -25,7 +25,7 @@ import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
-import net.bancino.robotics.swerveio.command.RunnableCommand;
+import net.bancino.robotics.liboi.command.RunnableCommand;
 import frc.robot.commands.joystick.ElevatorWithJoystick;
 import frc.robot.commands.joystick.FeedWithJoystick;
 import frc.robot.commands.joystick.IntakeWithJoystick;
@@ -179,7 +179,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
     /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox0, XboxController.Axis.kRightY, XboxController.Button.kBumperLeft, XboxController.Button.kBumperRight, XboxController.Button.kBack));
+    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox0, XboxController.Axis.kRightY, XboxController.Button.kBumperLeft, XboxController.Button.kBumperRight, XboxController.Button.kY));
 
     /* The intake uses the given hand's bumper. */
     intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox1, XboxController.Button.kBumperRight));

@@ -16,7 +16,7 @@ public class ElevatorWithJoystick extends CommandBase {
 
     private Elevator elevator;
     private XboxController xbox;
-    private XboxController.Axis axis, wheelAxis;
+    private XboxController.Axis axis;
     private XboxController.Button wheelForward, wheelBackward, positionOverride;
 
     public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Button wheelForward, XboxController.Button wheelBackward, XboxController.Button positionOverride) {
@@ -42,7 +42,7 @@ public class ElevatorWithJoystick extends CommandBase {
         double currentPosition = elevator.getElevatorEncoder();
 
         /* Run the elevator, but only if it's within the encoder bounds (if the override button isn't being pressed). */
-        boolean checkBounds = xbox.getRawButton(positionOverride.value);
+        boolean checkBounds = !xbox.getRawButton(positionOverride.value);
         if (checkBounds && currentPosition >= Const.Elevator.MAX_HEIGHT && speedRef > 0) {
             elevator.setElevatorSpeed(0);
         } else if (checkBounds && currentPosition <= Const.Elevator.BOTTOM_HEIGHT && speedRef < 0) {

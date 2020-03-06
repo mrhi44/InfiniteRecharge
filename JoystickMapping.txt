@@ -1,34 +1,54 @@
-***************************************************************
-* Team 6090 INFINITE RECHARGE Joystick Button & Axis Mappings *
-***************************************************************
+********************************************************************************
+*         Team 6090 INFINITE RECHARGE Joystick Button & Axis Mappings          *
+********************************************************************************
 
-(Hold) indicates the the button must be held for the duration
- of the action's execution. Therefore, the action is cancelled
- as soon as the button is released.
+(Hold) indicates the the button must be held for the duration of the action's
+execution. Therefore, the action is cancelled as soon as the button is released.
 
--------------------------- XBox 0 -----------------------------
-Left Joystick                : Swerve Drive X & Y movement
-Right Joystick (X)           : Swerve drive rotation
-Right Joystick (Y)           : Elevator Up/Down
-Left/Right Bumpers           : Elevator Wheel Left/Right
-Start                        : Zero the Gyro
-Back                         : Toggle Field Centric drive
-POV (D-PAD) Up               : Toggle Limelight/USB Camera
-POV (D-PAD) Down             : Toggle Raspberry Pi/Limelight
-X (Hold)                     : Limelight align with back target
-A (Hold)                     : Limelight rotate to front target
-B (Hold)                     : Auton Ball Getter
----------------------------------------------------------------
+---------------------------------- XBox 0 --------------------------------------
+Left Joystick (X & Y)                : Swerve Drive X & Y movement
+Right Joystick (X)                   : Swerve drive rotation
+Right Joystick (Y)                   : Elevator Up/Down
 
--------------------------- XBox 1 -----------------------------
-Left Bumper (Hold)           : Shoot
-Right Bumper (Hold)          : Intake
-Right Joystick (Y)           : Move hood forward and backward.
-POV (D-PAD) Up               : Intake Up
-POV (D-PAD) Down             : Intake Down
-X                            : Elevator Lock/Unlock
-A (Hold)                     : Reverse Feed
-B (Hold)                     : Color wheel spin
-Start                        : Zero the elevator encoder
-Back (Hold)                  : Override elevator height limits
----------------------------------------------------------------
+Left/Right Bumpers                   : Elevator Wheel Left/Right
+
+POV (D-PAD) Up                       : Toggle Limelight/USB Camera
+POV (D-PAD) Down                     : Toggle Raspberry Pi/Limelight
+
+A (Hold)                             : Limelight rotate to front target
+B (Hold)                             : Auton Ball Getter
+X (Hold)                             : Limelight align with back target
+Y (Hold)                             : Override Elevator height limits
+
+Start                                : Zero the Gyro
+Back                                 : Toggle Field Centric drive
+-------------------------------- Available -------------------------------------
+POV (D-PAD) Left
+POV (D-PAD) Right
+--------------------------------------------------------------------------------
+
+---------------------------------- XBox 1 --------------------------------------
+Right Joystick (Y)                   : Manually Move Hood
+
+Left Bumper (Hold)                   : Shoot & Set Hood Automatically
+Right Bumper (Hold)                  : Intake
+
+POV (D-PAD) Up                       : Intake Up
+POV (D-PAD) Down                     : Intake Down
+
+A (Hold)                             : Reverse Feed
+B (Hold)                             : Color wheel spin
+X                                    : Elevator Lock/Unlock
+
+Start                                : Zero the elevator encoder
+-------------------------------- Available -------------------------------------
+Right Joystick (X)
+Left Joystick (X & Y)
+
+POV (D-PAD) Left
+POV (D-PAD) Right
+
+Y
+
+Back
+--------------------------------------------------------------------------------

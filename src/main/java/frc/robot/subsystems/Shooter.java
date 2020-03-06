@@ -109,7 +109,10 @@ public class Shooter extends SimpleMotorSubsystem {
 
     /**
      * Calculate the hood position based on the distance the robot is from the
-     * target.
+     * target using a linear function. This will compute the slope between two
+     * points that were measured and return the predicted hood position based
+     * on the distance and slope of the line. The linear function predicts that
+     * as the distance distance increases, the hood's encoder position will decrease.
      *
      * @param distance The distance the robot is away from the target.
      *                               The hood position will be calculated from this.
@@ -117,16 +120,19 @@ public class Shooter extends SimpleMotorSubsystem {
      *         be set to for the given distance.
      */
     public int calculateHoodPosition(double distance) {
+        /* Get the measured distances, these are our X-coordinates. */
         double trenchDistance = 19.0 * 12.0;
         double lineDistance = 10.0 * 12.0;
+        /* Get the measured encoder counts, these are our Y-coordinates.  */
         int trenchCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(trenchDistance);
         int lineCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(lineDistance);
+        /* Calculate the slope between the two points.*/
         double slope = (trenchCount - lineCount) / (trenchDistance - lineDistance);
+        /* Do a little bit of point-slope form to get encoder counts as a function of distance. */
         return (int) (slope * (distance - trenchDistance) + trenchCount);
     }
 
 
-    private double lastP, lastI;
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Position", getHoodPosition());
@@ -134,14 +140,5 @@ public class Shooter extends SimpleMotorSubsystem {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood PID Output", hoodPidOutput);
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Speed", hoodMotor.get());
         SmartDashboard.putNumber("Subsystems/Shooter/Shooter Speed", shooterMotor1.get());
-        double thisP = SmartDashboard.getNumber("Hood PID P", Const.PID.HOOD_P);
-        double thisI = SmartDashboard.getNumber("Hood PID I", Const.PID.HOOD_I);
-        hoodPid.setP(thisP);
-        hoodPid.setI(thisI);
-        //if (thisP != lastP || thisI != lastI) {
-        //    hoodPid.reset();
-        //}
-        lastP = thisP;
-        lastI = thisI;
     }
 }
