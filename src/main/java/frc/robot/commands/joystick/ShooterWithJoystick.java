@@ -72,7 +72,7 @@ public class ShooterWithJoystick extends CommandBase {
              * The hood can be manually controlled by the hood axis. Here, this speed
              * reference is translated into a position reference that can be moved up and
              * down. This will not let the hood overrun the bounds set in the constants
-             * class as well.
+             * class.
              */
             double speedRef = -xbox.getRawAxis(hoodAxis.value);
             positionRef = positionRef + (speedRef * Const.Shooter.HOOD_POSITION_INCREMENT);
