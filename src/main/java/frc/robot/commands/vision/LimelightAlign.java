@@ -49,6 +49,7 @@ public class LimelightAlign extends CommandBase {
 
     @Override
     public void initialize() {
+        limelight.setPipeline(0);
         drivetrain.setFieldCentric(false);
         limelight.setLedMode(LedMode.FORCE_ON);
         if (doFrontHatch) {
@@ -57,16 +58,13 @@ public class LimelightAlign extends CommandBase {
             fwdSpeed = 0;
             str = 0;
             strSpeed = 0;
-        } else {
-            limelight.setPipeline(1);
         }
     }
 
     @Override
     public void execute() {
         /** Camtran and rotation are always used. */
-        cacheCamtran(limelight.getCamTran());
-        double[] camtran = smoothCamtran();
+        double[] camtran = limelight.getCamTran();
         /**
          * Assigns rotation value and its acceptable bounds. Rotation is computed no
          * matter what, for both front and back hatches.
@@ -122,28 +120,5 @@ public class LimelightAlign extends CommandBase {
     @Override
     public boolean isFinished() {
         return false;
-    }
-
-    /**
-     * Cache the given camtran value.
-     * 
-     * @param camtran The camtran's forward and strafe components, as indices 0 and 1 respectively.
-     * @return The index in the camtranCache array that the camtran array was placed in.
-     */
-    private int cacheCamtran(double[] camtran) {
-        if (camtran.length == 6) {
-            cacheIndex++;
-            if (cacheIndex > camtran.length) {
-                cacheIndex = 0;
-            }
-            camtranCache[cacheIndex] = camtran;
-            return cacheIndex;
-        } else {
-            throw new ArrayIndexOutOfBoundsException("Cannot cache camtran array of size " + camtran.length);
-        }
-    }
-
-    private double[] smoothCamtran() {
-        return camtranCache[cacheIndex];
     }
 }
