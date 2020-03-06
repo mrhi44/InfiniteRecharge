@@ -29,6 +29,7 @@ public class ShooterWithJoystick extends CommandBase {
     public ShooterWithJoystick(Shooter shooter, Limelight limelight, XboxController xbox, XboxController.Button shooterButton,
             XboxController.Axis hoodAxis) {
         this.shooter = shooter;
+        this.limelight = limelight;
         this.xbox = xbox;
         this.shooterButton = shooterButton;
         this.hoodAxis = hoodAxis;
@@ -53,6 +54,7 @@ public class ShooterWithJoystick extends CommandBase {
             limelight.setLedMode(LedMode.FORCE_ON);
             if (limelight.hasValidTargets()) {
                 double distance = Math.abs(limelight.getCamTran()[2]);
+                SmartDashboard.putNumber("SHOOTER DISTANCE", distance);
                 shooter.setHoodPositionFromDistance(distance);
             }
         } else {

@@ -121,10 +121,12 @@ public class Shooter extends SimpleMotorSubsystem {
         double lineDistance = 10.0 * 12.0;
         int trenchCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(trenchDistance);
         int lineCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(lineDistance);
-        double slope = trenchCount - lineCount / trenchDistance - lineDistance;
-        return (int) (slope * (distance - trenchDistance) + lineDistance);
+        double slope = (trenchCount - lineCount) / (trenchDistance - lineDistance);
+        return (int) (slope * (distance - trenchDistance) + trenchCount);
     }
 
+
+    private double lastP, lastI;
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Position", getHoodPosition());
@@ -132,7 +134,14 @@ public class Shooter extends SimpleMotorSubsystem {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood PID Output", hoodPidOutput);
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Speed", hoodMotor.get());
         SmartDashboard.putNumber("Subsystems/Shooter/Shooter Speed", shooterMotor1.get());
-        hoodPid.setP(SmartDashboard.getNumber("Hood PID P", Const.PID.HOOD_P));
-        hoodPid.setI(SmartDashboard.getNumber("Hood PID I", Const.PID.HOOD_I));
+        double thisP = SmartDashboard.getNumber("Hood PID P", Const.PID.HOOD_P);
+        double thisI = SmartDashboard.getNumber("Hood PID I", Const.PID.HOOD_I);
+        hoodPid.setP(thisP);
+        hoodPid.setI(thisI);
+        //if (thisP != lastP || thisI != lastI) {
+        //    hoodPid.reset();
+        //}
+        lastP = thisP;
+        lastI = thisI;
     }
 }
