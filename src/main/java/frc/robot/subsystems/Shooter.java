@@ -126,7 +126,6 @@ public class Shooter extends SimpleMotorSubsystem {
     }
 
 
-    private double lastP, lastI;
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Position", getHoodPosition());
@@ -134,14 +133,5 @@ public class Shooter extends SimpleMotorSubsystem {
         SmartDashboard.putNumber("Subsystems/Shooter/Hood PID Output", hoodPidOutput);
         SmartDashboard.putNumber("Subsystems/Shooter/Hood Speed", hoodMotor.get());
         SmartDashboard.putNumber("Subsystems/Shooter/Shooter Speed", shooterMotor1.get());
-        double thisP = SmartDashboard.getNumber("Hood PID P", Const.PID.HOOD_P);
-        double thisI = SmartDashboard.getNumber("Hood PID I", Const.PID.HOOD_I);
-        hoodPid.setP(thisP);
-        hoodPid.setI(thisI);
-        //if (thisP != lastP || thisI != lastI) {
-        //    hoodPid.reset();
-        //}
-        lastP = thisP;
-        lastI = thisI;
     }
 }

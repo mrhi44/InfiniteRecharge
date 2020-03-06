@@ -8,7 +8,6 @@
 package frc.robot.commands.joystick;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.Shooter;
@@ -34,8 +33,6 @@ public class ShooterWithJoystick extends CommandBase {
         this.shooterButton = shooterButton;
         this.hoodAxis = hoodAxis;
         addRequirements(shooter);
-        SmartDashboard.putNumber("Hood PID P", Const.PID.HOOD_P);
-        SmartDashboard.putNumber("Hood PID I", Const.PID.HOOD_I);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -54,7 +51,6 @@ public class ShooterWithJoystick extends CommandBase {
             limelight.setLedMode(LedMode.FORCE_ON);
             if (limelight.hasValidTargets()) {
                 double distance = Math.abs(limelight.getCamTran()[2]);
-                SmartDashboard.putNumber("SHOOTER DISTANCE", distance);
                 shooter.setHoodPositionFromDistance(distance);
             }
         } else {

@@ -7,7 +7,6 @@
 
 package frc.robot.commands.vision;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
@@ -16,6 +15,7 @@ import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
 
+@SuppressWarnings("unused")
 public class LimelightAlign extends CommandBase {
 
     private DriveTrain drivetrain;
