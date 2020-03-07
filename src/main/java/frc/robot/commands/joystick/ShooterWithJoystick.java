@@ -23,6 +23,9 @@ public class ShooterWithJoystick extends CommandBase {
     private Limelight limelight;
     private LedMode lastLedMode = null;
 
+    private double[] camtranHistory = new double[10];
+    private int historyPointer = 0;
+
     private double positionRef = 0;
 
     /** Creates a new ShooterWithJoystick, of course. */
@@ -39,12 +42,28 @@ public class ShooterWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+
+        /*
+         * The hood can be manually controlled by the hood axis. Here, this speed
+         * reference is translated into a position reference that can be moved up and
+         * down. This will not let the hood overrun the bounds set in the constants
+         * class.
+         */
+        double speedRef = -xbox.getRawAxis(hoodAxis.value);
+        positionRef = positionRef + (speedRef * Const.Shooter.HOOD_POSITION_INCREMENT);
+        if (positionRef > Const.Shooter.MAX_HOOD_POSITION) {
+            positionRef = Const.Shooter.MAX_HOOD_POSITION;
+        } else if (positionRef < Const.Shooter.MIN_HOOD_POSITION) {
+            positionRef = Const.Shooter.MIN_HOOD_POSITION;
+        }
+
         /**
          * If the shooter button is activated, run the shooter and adjust the hood based
          * on the Limelight's camtran reading.
          */
         if (xbox.getRawButton(shooterButton.value)) {
             shooter.run();
+            // shooter.setHoodPosition(320);
             /*
              * Record the Limelight's Led mode before changing, because this command will
              * not always have control over the Limelight.
@@ -54,10 +73,21 @@ public class ShooterWithJoystick extends CommandBase {
             }
             /* Force the Limelight on to compute the hood position. */
             limelight.setLedMode(LedMode.FORCE_ON);
-            if (limelight.hasValidTargets()) {
-                double distance = Math.abs(limelight.getCamTran()[2]);
-                shooter.setHoodPositionFromDistance(distance);
+            if (limelight.hasValidTargets() && positionRef < 20) {
+                if (historyPointer < camtranHistory.length) {
+                    camtranHistory[historyPointer] = Math.abs(limelight.getCamTran()[2]);
+                    historyPointer++;
+                } else {
+                    double sum = 0;
+                    for (int i = 0; i < historyPointer; i++) {
+                        sum += camtranHistory[i];
+                    }
+                    shooter.setHoodPositionFromDistance(sum / historyPointer);
+                }
+            } else {
+                shooter.setHoodPosition((int) positionRef);
             }
+            shooter.setHoodPosition(330);
         } else {
             shooter.stop();
             /*
@@ -68,19 +98,8 @@ public class ShooterWithJoystick extends CommandBase {
                 limelight.setLedMode(lastLedMode);
                 lastLedMode = null;
             }
-            /*
-             * The hood can be manually controlled by the hood axis. Here, this speed
-             * reference is translated into a position reference that can be moved up and
-             * down. This will not let the hood overrun the bounds set in the constants
-             * class.
-             */
-            double speedRef = -xbox.getRawAxis(hoodAxis.value);
-            positionRef = positionRef + (speedRef * Const.Shooter.HOOD_POSITION_INCREMENT);
-            if (positionRef > Const.Shooter.MAX_HOOD_POSITION) {
-                positionRef = Const.Shooter.MAX_HOOD_POSITION;
-            } else if (positionRef < Const.Shooter.MIN_HOOD_POSITION) {
-                positionRef = Const.Shooter.MIN_HOOD_POSITION;
-            }
+
+            historyPointer = 0;
             shooter.setHoodPosition((int) positionRef);
         }
     }
