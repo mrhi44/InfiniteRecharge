@@ -70,7 +70,7 @@ public class LimelightAlign extends CommandBase {
          * Sets variables for doing the back hatch as well as the bounds in which
          * they're acceptably close.
          */
-        rcw = limelight.getHorizontalOffset();
+        rcw = -limelight.getHorizontalOffset();
         if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
         }
