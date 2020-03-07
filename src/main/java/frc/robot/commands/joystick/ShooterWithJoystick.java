@@ -73,7 +73,7 @@ public class ShooterWithJoystick extends CommandBase {
             }
             /* Force the Limelight on to compute the hood position. */
             limelight.setLedMode(LedMode.FORCE_ON);
-            if (limelight.hasValidTargets() && positionRef < 20) {
+            if (limelight.hasValidTargets() /*&& positionRef < 20 */) {
                 if (historyPointer < camtranHistory.length) {
                     camtranHistory[historyPointer] = Math.abs(limelight.getCamTran()[2]);
                     historyPointer++;
@@ -87,7 +87,6 @@ public class ShooterWithJoystick extends CommandBase {
             } else {
                 shooter.setHoodPosition((int) positionRef);
             }
-            shooter.setHoodPosition(330);
         } else {
             shooter.stop();
             /*
