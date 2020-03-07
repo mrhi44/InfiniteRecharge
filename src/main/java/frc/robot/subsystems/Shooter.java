@@ -60,6 +60,11 @@ public class Shooter extends SimpleMotorSubsystem {
         shooterMotor2.set(-speed);
     }
 
+    @Override
+    public double getSpeed() {
+        return shooterMotor1.get();
+    }
+
     /**
      * Use the a PID position loop to obtain the inputted position.
      *
