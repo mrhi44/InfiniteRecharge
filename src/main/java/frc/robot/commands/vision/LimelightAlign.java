@@ -93,7 +93,7 @@ public class LimelightAlign extends CommandBase {
         fwdSpeed = fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
 
         // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
-        SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, -rcwSpeed);
+        SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, rcwSpeed);
         drivetrain.drive(alignmentVector);
         //shooter.setHoodPositionFromDistance(-camtran[2]);
 
