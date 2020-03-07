@@ -42,6 +42,7 @@ POV (D-PAD) Down                     : Intake Down
 A (Hold)                             : Reverse Feed
 B (Hold)                             : Color wheel spin
 X                                    : Elevator Lock/Unlock
+Y                                    : Manual Hood Control On/Off
 
 Start                                : Zero the elevator encoder
 -------------------------------- Available -------------------------------------
@@ -53,8 +54,6 @@ Right Trigger
 
 POV (D-PAD) Left
 POV (D-PAD) Right
-
-Y
 
 Back
 --------------------------------------------------------------------------------

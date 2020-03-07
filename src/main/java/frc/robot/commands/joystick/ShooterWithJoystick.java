@@ -8,6 +8,7 @@
 package frc.robot.commands.joystick;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.Shooter;
@@ -22,6 +23,8 @@ public class ShooterWithJoystick extends CommandBase {
     private XboxController xbox;
     private Limelight limelight;
     private LedMode lastLedMode = null;
+
+    private boolean manualHoodControl = false;
 
     private double[] camtranHistory = new double[10];
     private int historyPointer = 0;
@@ -42,7 +45,7 @@ public class ShooterWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-
+        SmartDashboard.putNumber("Subsystems/Shooter/Limelight Camtran", limelight.getCamTran()[2]);
         /*
          * The hood can be manually controlled by the hood axis. Here, this speed
          * reference is translated into a position reference that can be moved up and
@@ -82,7 +85,11 @@ public class ShooterWithJoystick extends CommandBase {
                     for (int i = 0; i < historyPointer; i++) {
                         sum += camtranHistory[i];
                     }
-                    shooter.setHoodPositionFromDistance(sum / historyPointer);
+                    if (!manualHoodControl) {
+                        shooter.setHoodPositionFromDistance(sum / historyPointer);
+                    } else {
+                        shooter.setHoodPosition((int) positionRef);
+                    }
                 }
             } else {
                 shooter.setHoodPosition((int) positionRef);
@@ -101,6 +108,14 @@ public class ShooterWithJoystick extends CommandBase {
             historyPointer = 0;
             shooter.setHoodPosition((int) positionRef);
         }
+    }
+
+    public void setManualHoodControl(boolean manualHoodControl) {
+        this.manualHoodControl = manualHoodControl;
+    }
+
+    public boolean hoodManuallyControlled() {
+        return manualHoodControl;
     }
 
     // Returns true when the command should end.
