@@ -52,8 +52,8 @@ public class Const {
 
         public static final int HOOD_SLOT    = 0;
         public static final int HOOD_TIMEOUT = 10;
-        public static final double HOOD_P    = 0.0011;
-        public static final double HOOD_I    = 0.000002;
+        public static final double HOOD_P    = 0.0018;
+        public static final double HOOD_I    = 0.000006;
         public static final double HOOD_D    = 0;
     }
 
@@ -88,7 +88,8 @@ public class Const {
      */
     public static class Speed {
         public static final double INTAKE_SPEED            = 0.65;
-        public static final double FEED_SPEED              = 0.75;
+        public static final double FEED_WITH_SHOOTER_SPEED = 0.435;
+        public static final double FEED_WITH_INTAKE_SPEED  = 0.75;
         public static final double SHOOTER_SPEED           = 1;
         public static final double HOOD_SPEED              = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.3;
