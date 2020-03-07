@@ -40,7 +40,7 @@ public class Elevator extends SubsystemBase {
     private final Solenoid lockEnable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_ENABLE);
     private final Solenoid lockDisable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_DISABLE);
     
-    private WheelColor targetColor, startingColor;
+    private WheelColor targetColor, previousColor, currentColor;
     private int revCount = 0;
 
     private boolean locked = false;
@@ -99,14 +99,12 @@ public class Elevator extends SubsystemBase {
      * Returns true when the rotation is done.
      */
     public boolean rotateColorWheel() {
-        if (startingColor == null) {
-            /* This is the first run, set the starting color. */
-            startingColor = toWheelColor(colorSensor.getColor());
-        }
+        /* This is the first run, set the starting color. */
+         currentColor = toWheelColor(colorSensor.getColor());
         /* Get the current color to see if it's different. */
-        WheelColor wheelColor = toWheelColor(colorSensor.getColor());
+        //WheelColor WheelColor = toWheelColor(colorSensor.getColor());
         /** Counts each new color, meaning the cheese slices. */
-        if (wheelColor != startingColor) {
+        if (previousColor != currentColor) {
             revCount++;
         }
         /** If we have reached our rotation count, stop spinning */
@@ -114,7 +112,8 @@ public class Elevator extends SubsystemBase {
             setWheelSpeed(0);
             /* Reset everything to the starting configuration for the next run. */
             revCount = 0;
-            startingColor = null;
+            currentColor = null;
+            previousColor = null;
             return true;
         } else {
             setWheelSpeed(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
