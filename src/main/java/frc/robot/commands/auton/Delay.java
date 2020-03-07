@@ -10,7 +10,7 @@ package frc.robot.commands.auton;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Delay extends CommandBase {
-  private long currentTime, startTime, duration;
+  private long startTime, duration;
   /**
    * Creates a new Delay.
    */
@@ -27,7 +27,6 @@ public class Delay extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    currentTime = System.currentTimeMillis();
-    return currentTime - startTime >= duration;
+    return System.currentTimeMillis() - startTime >= duration;
   }
 }
