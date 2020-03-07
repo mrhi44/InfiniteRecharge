@@ -57,10 +57,10 @@ public class Const {
         public static final int REAR_RIGHT_ANALOG_ENCODER = 3; /* Module 4 */
 
         /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 166.584;
-        public static final double FRONT_LEFT_ENCODER_OFFSET = 232.167;
-        public static final double REAR_LEFT_ENCODER_OFFSET = 164.173;
-        public static final double REAR_RIGHT_ENCODER_OFFSET = 106.497;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 155.64;
+        public static final double FRONT_LEFT_ENCODER_OFFSET = 230.709;
+        public static final double REAR_LEFT_ENCODER_OFFSET = 157.877;
+        public static final double REAR_RIGHT_ENCODER_OFFSET = 100.129;
     }
 
     /**
