@@ -1,5 +1,5 @@
 ********************************************************************************
-*         Team 6090 INFINITE RECHARGE Joystick Button & Axis Mappings          *
+*           Team 6090 INFINITE RECHARGE Joystick Button & Axis Map             *
 ********************************************************************************
 
 (Hold) indicates the the button must be held for the duration of the action's
@@ -23,6 +23,9 @@ Y (Hold)                             : Override Elevator height limits
 Start                                : Zero the Gyro
 Back                                 : Toggle Field Centric drive
 -------------------------------- Available -------------------------------------
+Left Trigger
+Right Trigger
+
 POV (D-PAD) Left
 POV (D-PAD) Right
 --------------------------------------------------------------------------------
@@ -39,16 +42,18 @@ POV (D-PAD) Down                     : Intake Down
 A (Hold)                             : Reverse Feed
 B (Hold)                             : Color wheel spin
 X                                    : Elevator Lock/Unlock
+Y                                    : Manual Hood Control On/Off
 
 Start                                : Zero the elevator encoder
 -------------------------------- Available -------------------------------------
 Right Joystick (X)
 Left Joystick (X & Y)
 
+Left Trigger
+Right Trigger
+
 POV (D-PAD) Left
 POV (D-PAD) Right
-
-Y
 
 Back
 --------------------------------------------------------------------------------

@@ -25,7 +25,6 @@ import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
-import net.bancino.robotics.swerveio.DegreeOfFreedom;
 import net.bancino.robotics.liboi.command.RunnableCommand;
 import frc.robot.commands.joystick.ElevatorWithJoystick;
 import frc.robot.commands.joystick.FeedWithJoystick;
@@ -73,12 +72,11 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    xbox0.setJoystickDeadband(GenericHID.Hand.kLeft, 0.3);
+    xbox0.setJoystickDeadband(GenericHID.Hand.kRight, 0.2);
     /* Construct our subsystems here if they throw exceptions. */
     try {
       drivetrain = new DriveTrain(gyro);
-      drivetrain.setReversed(DegreeOfFreedom.FORWARD, true);
-      drivetrain.setReversed(DegreeOfFreedom.STRAFE, true);
-      drivetrain.setReversed(DegreeOfFreedom.ROTATION, true);
     } catch (SwerveException e) {
       throw new SwerveRuntimeException(e);
     }
@@ -175,21 +173,24 @@ public class RobotContainer {
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY,
         XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
     swerveDriveTeleop.setThrottle(Const.Speed.DRIVETRAIN_THROTTLE);
-    /* The joystick is deadbanded, no need to deadband here. */
-    swerveDriveTeleop.setDeadband(0.3);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
     /** The elevator uses the y axis of the left joystick. */
     elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox0, XboxController.Axis.kRightY, XboxController.Button.kBumperLeft, XboxController.Button.kBumperRight, XboxController.Button.kY));
 
     /* The intake uses the given hand's bumper. */
-    intake.setDefaultCommand(new IntakeWithJoystick(intake, xbox1, XboxController.Button.kBumperRight));
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, XboxController.Button.kBumperRight));
     
     /* The feed will use the left bumper and the A button for reverse. Notice the overlap; The feed will run at the same time as the intake. */
-    feed.setDefaultCommand(new FeedWithJoystick(feed, xbox1, XboxController.Button.kBumperRight, XboxController.Button.kA));
+    feed.setDefaultCommand(new FeedWithJoystick(feed, shooter, xbox1, XboxController.Button.kBumperRight, XboxController.Button.kA));
 
     /** The shooter uses the right bumper. */
-    shooter.setDefaultCommand(new ShooterWithJoystick(shooter, limelight, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY));
+    ShooterWithJoystick shooterWithJoystick = new ShooterWithJoystick(shooter, limelight, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY);
+    JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
+    xbox1Y.whenPressed(new RunnableCommand(() -> {
+      shooterWithJoystick.setManualHoodControl(!shooterWithJoystick.hoodManuallyControlled());
+    }));
+    shooter.setDefaultCommand(shooterWithJoystick);
   }
 
   /**

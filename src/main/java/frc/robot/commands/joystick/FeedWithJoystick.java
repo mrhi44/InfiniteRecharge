@@ -11,16 +11,19 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.Feed;
+import frc.robot.subsystems.Shooter;
 
 public class FeedWithJoystick extends CommandBase {
 
     private Feed feed;
+    private Shooter shooter;
     private XboxController.Button runButton, reverseButton;
     private XboxController xbox;
 
-    public FeedWithJoystick(Feed feed, XboxController xbox, XboxController.Button runButton,
+    public FeedWithJoystick(Feed feed, Shooter shooter, XboxController xbox, XboxController.Button runButton,
             XboxController.Button reverseButton) {
         this.feed = feed;
+        this.shooter = shooter;
         this.xbox = xbox;
         this.runButton = runButton;
         this.reverseButton = reverseButton;
@@ -32,7 +35,12 @@ public class FeedWithJoystick extends CommandBase {
     @Override
     public void execute() {
         if (xbox.getRawButton(runButton.value)) {
-            double speed = Const.Speed.FEED_SPEED;
+            double speed = 0;
+            if (shooter.getSpeed() != 0) {
+                speed = Const.Speed.FEED_WITH_SHOOTER_SPEED;
+            } else {
+                speed = Const.Speed.FEED_WITH_INTAKE_SPEED;
+            }
             if (xbox.getRawButton(reverseButton.value)) {
                 speed *= -1;
             }
