@@ -88,7 +88,7 @@ public class Const {
      */
     public static class Speed {
         public static final double INTAKE_SPEED            = 0.65;
-        public static final double FEED_WITH_SHOOTER_SPEED = 0.435;
+        public static final double FEED_WITH_SHOOTER_SPEED = 0.43;
         public static final double FEED_WITH_INTAKE_SPEED  = 0.75;
         public static final double SHOOTER_SPEED           = 1;
         public static final double HOOD_SPEED              = 0.25;

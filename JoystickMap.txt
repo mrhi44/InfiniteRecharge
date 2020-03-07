@@ -1,5 +1,5 @@
 ********************************************************************************
-*         Team 6090 INFINITE RECHARGE Joystick Button & Axis Mappings          *
+*           Team 6090 INFINITE RECHARGE Joystick Button & Axis Map             *
 ********************************************************************************
 
 (Hold) indicates the the button must be held for the duration of the action's
