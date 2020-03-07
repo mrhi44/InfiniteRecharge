@@ -44,10 +44,6 @@ public class ShooterWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double[] camtran = limelight.getCamTran();
-        if (camtran.length > 2) {
-            SmartDashboard.putNumber("Commands/ShooterWithJoystick/Limelight Camtran", camtran[2]);
-        }
         /*
          * The hood can be manually controlled by the hood axis. Here, this speed
          * reference is translated into a position reference that can be moved up and
@@ -74,8 +70,12 @@ public class ShooterWithJoystick extends CommandBase {
             limelight.setLedMode(LedMode.FORCE_ON);
             if (limelight.hasValidTargets() && !manualHoodControl) {
                 if (historyPointer < camtranHistory.length) {
-                    camtranHistory[historyPointer] = Math.abs(limelight.getCamTran()[2]);
-                    historyPointer++;
+                    double[] camtran = limelight.getCamTran();
+                    if (camtran.length > 2) {
+                        SmartDashboard.putNumber("Commands/ShooterWithJoystick/Limelight Camtran", camtran[2]);
+                        camtranHistory[historyPointer] = Math.abs(camtran[2]);
+                        historyPointer++;
+                    }
                 } else {
                     double sum = 0;
                     for (int i = 0; i < historyPointer; i++) {
