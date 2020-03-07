@@ -52,8 +52,8 @@ public class Const {
 
         public static final int HOOD_SLOT    = 0;
         public static final int HOOD_TIMEOUT = 10;
-        public static final double HOOD_P    = 0.0018;
-        public static final double HOOD_I    = 0.000006;
+        public static final double HOOD_P    = 0.0023;
+        public static final double HOOD_I    = 0.00005;
         public static final double HOOD_D    = 0;
     }
 
