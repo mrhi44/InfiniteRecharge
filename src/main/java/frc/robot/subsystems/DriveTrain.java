@@ -15,6 +15,7 @@ import java.util.List;
 
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveMeta;
+import net.bancino.robotics.swerveio.DegreeOfFreedom;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
 import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
@@ -106,6 +107,9 @@ public class DriveTrain extends SwerveDrive {
 
       @Override
       public void initialize(SwerveDrive swerve) {
+        swerve.setReversed(DegreeOfFreedom.FORWARD, true);
+        swerve.setReversed(DegreeOfFreedom.STRAFE, true);
+        swerve.setReversed(DegreeOfFreedom.ROTATION, true);
         swerve.zeroDriveEncoders();
         //swerve.setFieldCentric(false);
 

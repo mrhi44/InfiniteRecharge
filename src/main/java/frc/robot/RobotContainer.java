@@ -25,7 +25,6 @@ import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
-import net.bancino.robotics.swerveio.DegreeOfFreedom;
 import net.bancino.robotics.liboi.command.RunnableCommand;
 import frc.robot.commands.joystick.ElevatorWithJoystick;
 import frc.robot.commands.joystick.FeedWithJoystick;
@@ -73,12 +72,11 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    xbox0.setJoystickDeadband(GenericHID.Hand.kLeft, 0.3);
+    xbox0.setJoystickDeadband(GenericHID.Hand.kRight, 0.2);
     /* Construct our subsystems here if they throw exceptions. */
     try {
       drivetrain = new DriveTrain(gyro);
-      drivetrain.setReversed(DegreeOfFreedom.FORWARD, true);
-      drivetrain.setReversed(DegreeOfFreedom.STRAFE, true);
-      drivetrain.setReversed(DegreeOfFreedom.ROTATION, true);
     } catch (SwerveException e) {
       throw new SwerveRuntimeException(e);
     }
@@ -175,8 +173,6 @@ public class RobotContainer {
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY,
         XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
     swerveDriveTeleop.setThrottle(Const.Speed.DRIVETRAIN_THROTTLE);
-    /* The joystick is deadbanded, no need to deadband here. */
-    swerveDriveTeleop.setDeadband(0.3);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
     /** The elevator uses the y axis of the left joystick. */
