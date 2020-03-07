@@ -23,6 +23,9 @@ Y (Hold)                             : Override Elevator height limits
 Start                                : Zero the Gyro
 Back                                 : Toggle Field Centric drive
 -------------------------------- Available -------------------------------------
+Left Trigger
+Right Trigger
+
 POV (D-PAD) Left
 POV (D-PAD) Right
 --------------------------------------------------------------------------------
@@ -44,6 +47,9 @@ Start                                : Zero the elevator encoder
 -------------------------------- Available -------------------------------------
 Right Joystick (X)
 Left Joystick (X & Y)
+
+Left Trigger
+Right Trigger
 
 POV (D-PAD) Left
 POV (D-PAD) Right
