@@ -54,4 +54,5 @@ public abstract class SimpleMotorSubsystem extends SubsystemBase {
      *              that the motor(s) should be run at.
      */
     public abstract void runAt(double speed);
+    public abstract double getSpeed();
 }

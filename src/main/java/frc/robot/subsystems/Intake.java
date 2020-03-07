@@ -52,6 +52,11 @@ public class Intake extends SimpleMotorSubsystem {
     motor.set(speed);
   }
 
+  @Override
+  public double getSpeed() {
+    return motor.get();
+  }
+
   /**
    * Lift the intake, or put it down.
    *

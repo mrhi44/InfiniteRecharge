@@ -22,12 +22,17 @@ public class Feed extends SimpleMotorSubsystem {
     private final CANSparkMax feedMotor = new CANSparkMax(Const.CAN.FEED_MOTOR, MotorType.kBrushless);
 
     public Feed() {
-        super(Const.Speed.FEED_SPEED);
+        super(Const.Speed.FEED_WITH_INTAKE_SPEED);
     }
 
     @Override
     public void runAt(double speed) {
         feedMotor.set(speed);
+    }
+
+    @Override
+    public double getSpeed() {
+        return feedMotor.get();
     }
 
     @Override
