@@ -72,7 +72,8 @@ public class Shooter extends SimpleMotorSubsystem {
      */
     public void setHoodPosition(int setpoint) {
         this.hoodSetpoint = setpoint;
-        this.hoodPidOutput = hoodPid.getOutput(getHoodPosition(), setpoint);
+        double hoodPosition = getHoodPosition();
+        this.hoodPidOutput = hoodPid.getOutput(hoodPosition < 200 ? 0 : hoodPosition, setpoint);
         hoodMotor.set(-hoodPidOutput);
     }
 

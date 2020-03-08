@@ -34,6 +34,7 @@ import frc.robot.commands.vision.AutonBallGetter;
 import frc.robot.commands.vision.LimelightAlign;
 import frc.robot.commands.ColorFinder;
 import frc.robot.commands.ColorWheelRotation;
+import frc.robot.commands.auton.TargetWall;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.jlimelight.StreamMode;
@@ -67,6 +68,8 @@ public class RobotContainer {
   private final CameraServer camServer = CameraServer.getInstance();
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
   private final Limelight limelight = new Limelight();
+
+  private final int startPosition = 0; /* 0 = Left, 1 = Center, 2 = Right */
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -199,13 +202,20 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // This command will run in autonomous
-    try {
-      drivetrain.getGyro().zero();
-      return new PathweaverSwerveDrive(drivetrain, "paths/output/Kettering.wpilib.json", PathweaverSwerveDrive.PathExecutionMode.ROBOT_BACKWARDS);
-    } catch (IOException e) {
-      e.printStackTrace();
-      return null;
+    drivetrain.getGyro().zero();
+    switch(startPosition) {
+      case 0:
+        try {
+          return new TargetWall("TargetWall", drivetrain, shooter, feed, limelight);
+        } catch (IOException e) {
+          return null;
+        }
+      case 1:
+        return null;
+      case 2:
+        return null;
+      default:
+        return null;
     }
   }
 }
