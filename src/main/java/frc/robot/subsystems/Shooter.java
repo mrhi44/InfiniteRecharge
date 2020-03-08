@@ -126,16 +126,7 @@ public class Shooter extends SimpleMotorSubsystem {
      *         be set to for the given distance.
      */
     public int calculateHoodPosition(double distance) {
-        /* Get the measured distances, these are our X-coordinates. */
-        double trenchDistance = 19.0 * 12.0;
-        double lineDistance = 10.0 * 12.0;
-        /* Get the measured encoder counts, these are our Y-coordinates.  */
-        int trenchCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(trenchDistance);
-        int lineCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(lineDistance);
-        /* Calculate the slope between the two points.*/
-        double slope = (trenchCount - lineCount) / (trenchDistance - lineDistance);
-        /* Do a little bit of point-slope form to get encoder counts as a function of distance. */
-        return (int) (slope * (distance - trenchDistance) + trenchCount);
+        return (int) ((0.0043 * Math.pow(distance, 3)) - (2.1315 * Math.pow(distance, 2)) + (336.75 * distance) - 8432.4);
     }
 
 

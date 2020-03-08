@@ -12,9 +12,11 @@ import java.io.IOException;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.AirCompressor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -26,6 +28,7 @@ import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
 import net.bancino.robotics.liboi.command.RunnableCommand;
+import net.bancino.robotics.liboi.command.PeriodicCommand;
 import frc.robot.commands.joystick.ElevatorWithJoystick;
 import frc.robot.commands.joystick.FeedWithJoystick;
 import frc.robot.commands.joystick.IntakeWithJoystick;
@@ -89,6 +92,20 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     configureCommands();
+
+    /*
+     * Autonomous
+     */
+    SmartDashboard.putBoolean("Backward", false);
+    SmartDashboard.putBoolean("Forward", true);
+    SmartDashboard.putBoolean("OppositeWallBackward", false);
+    SmartDashboard.putBoolean("OppositeWallForward", false);
+    SmartDashboard.putBoolean("TargetWallBack", false);
+    SmartDashboard.putBoolean("TargetWallForward", false);
+    new PeriodicCommand(() -> {
+      return false;
+    }).schedule();
+
   }
 
   /**
@@ -206,7 +223,12 @@ public class RobotContainer {
     switch(startPosition) {
       case 0:
         try {
-          return new TargetWall("TargetWall", drivetrain, shooter, feed, limelight);
+          //return new TargetWall("TargetWall", drivetrain, shooter, feed, limelight);
+          //return new SequentialCommandGroup(
+          //  new PathweaverSwerveDrive(drivetrain, "paths/output/TargetWallBack.wpilib.json", PathweaverSwerveDrive.PathExecutionMode.ROBOT_BACKWARDS),
+          //  new LimelightAlign(drivetrain, limelight, shooter, true)
+          //);
+          return new TargetWall("Forward", drivetrain, shooter, feed, limelight);
         } catch (IOException e) {
           return null;
         }

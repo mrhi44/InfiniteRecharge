@@ -45,6 +45,7 @@ public class ShooterWithJoystick extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putBoolean("Commands/ShooterWithJoystick/Manual Hood Control", manualHoodControl);
+        SmartDashboard.putNumber("Commands/ShooterWithJoystick/Manual Hood Reference", positionRef);
         /*
          * The hood can be manually controlled by the hood axis. Here, this speed
          * reference is translated into a position reference that can be moved up and
@@ -60,6 +61,12 @@ public class ShooterWithJoystick extends CommandBase {
                 positionRef = Const.Shooter.MIN_HOOD_POSITION;
             }
         }
+        double[] camtran = limelight.getCamTran();
+        double distance = -1;
+        if (camtran.length > 2) {
+            distance = camtran[2];
+            SmartDashboard.putNumber("Commands/ShooterWithJoystick/Limelight 3D Distance", distance);
+        }
 
         /**
          * If the shooter button is activated, run the shooter and adjust the hood based
@@ -71,10 +78,9 @@ public class ShooterWithJoystick extends CommandBase {
             limelight.setLedMode(LedMode.FORCE_ON);
             if (limelight.hasValidTargets() && !manualHoodControl) {
                 if (historyPointer < camtranHistory.length) {
-                    double[] camtran = limelight.getCamTran();
-                    if (camtran.length > 2) {
-                        SmartDashboard.putNumber("Commands/ShooterWithJoystick/Limelight Camtran", camtran[2]);
-                        camtranHistory[historyPointer] = Math.abs(camtran[2]);
+                    
+                    if (distance != -1) {
+                        camtranHistory[historyPointer] = Math.abs(distance);
                         historyPointer++;
                     }
                 } else {
@@ -82,20 +88,20 @@ public class ShooterWithJoystick extends CommandBase {
                     for (int i = 0; i < historyPointer; i++) {
                         sum += camtranHistory[i];
                     }
-                    //shooter.setHoodPositionFromDistance(sum / historyPointer);
+                    shooter.setHoodPositionFromDistance(sum / historyPointer);
                 }
             } else {
                 historyPointer = 0;
-                //shooter.setHoodPosition((int) positionRef);
+                shooter.setHoodPosition((int) positionRef);
             }
-            shooter.setHoodPosition(8000);
+            //shooter.setHoodPosition(8000);
         } else {
             shooter.stop();
             limelight.setLedMode(LedMode.PIPELINE_CURRENT);
 
             historyPointer = 0;
-            //shooter.setHoodPosition((int) positionRef);
-            shooter.setHoodPosition(0);
+            shooter.setHoodPosition((int) positionRef);
+            //shooter.setHoodPosition(0);
         }
     }
 

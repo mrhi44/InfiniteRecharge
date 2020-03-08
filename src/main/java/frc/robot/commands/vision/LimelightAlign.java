@@ -13,22 +13,25 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
+import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
 
 @SuppressWarnings("unused")
 public class LimelightAlign extends CommandBase {
 
-    private DriveTrain drivetrain;
+    private SwerveDrive drivetrain;
     private Limelight limelight;
     private Shooter shooter;
     private boolean doFrontHatch;
+    private boolean isFinished = false;
+    private boolean fwdIsGood = false, strIsGood = false, rcwIsGood = false;
 
     /*
      * The camtran cache stores a history of the forward and strafe camtran values
-     * so that we can smooth out the trajectory of this command. The first size index is
-     * the size of the cache and can therefore be set as needed. The second size index
-     * is the size of the camtran and therefore should not be changed unless the limelight
-     * API changes.
+     * so that we can smooth out the trajectory of this command. The first size
+     * index is the size of the cache and can therefore be set as needed. The second
+     * size index is the size of the camtran and therefore should not be changed
+     * unless the limelight API changes.
      * 
      * DO NOT modify the camtran cache directly, use a cache manipulation function.
      */
@@ -39,7 +42,7 @@ public class LimelightAlign extends CommandBase {
     private double fwd, str, rcw;
     private double fwdSpeed, strSpeed, rcwSpeed;
 
-    public LimelightAlign(DriveTrain drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch) {
+    public LimelightAlign(SwerveDrive drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch) {
         this.drivetrain = drivetrain;
         this.limelight = limelight;
         this.shooter = shooter;
@@ -65,57 +68,76 @@ public class LimelightAlign extends CommandBase {
     public void execute() {
         /** Camtran and rotation are always used. */
         double[] camtran = limelight.getCamTran();
-        
+
         /**
          * Sets variables for doing the back hatch as well as the bounds in which
          * they're acceptably close.
          */
         rcw = limelight.getHorizontalOffset();
-        if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+        if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)
+                && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
+            rcwIsGood = true;
         }
         if (!doFrontHatch) {
             fwd = Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET;
-            if ((fwd <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (fwd > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+            if ((fwd <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)
+                    && (fwd > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
                 fwd = 0;
+                fwdIsGood = true;
             }
             str = camtran[0];
-            if ((str <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS) && (str > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
+            if ((str <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)
+                    && (str > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
                 str = 0;
+                strIsGood = true;
             }
         }
-        /**
-         * Multiply all of the values by their speed constants to get a decent speed
-         * reference.
-         */
-        strSpeed = str * Const.LimelightAlign.STRAFE_ADJUST_SPEED;
-        rcwSpeed = rcw * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
-        fwdSpeed = fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
 
-        // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing on swervio
+        if (limelight.hasValidTargets()) {
+            /**
+             * Multiply all of the values by their speed constants to get a decent speed
+             * reference.
+             */
+            strSpeed = str * Const.LimelightAlign.STRAFE_ADJUST_SPEED;
+            rcwSpeed = rcw * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
+            fwdSpeed = fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
+        } else {
+            strSpeed = rcwSpeed = fwdSpeed = 0;
+            strIsGood = rcwIsGood = fwdIsGood = true;
+            //isFinished = true;
+        }
+
+        // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing
+        // on swervio
         SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, rcwSpeed);
         drivetrain.drive(alignmentVector);
-        //shooter.setHoodPositionFromDistance(-camtran[2]);
+        if (!doFrontHatch) {
+            isFinished = fwdIsGood && strIsGood && rcwIsGood;
+        } else {
+            isFinished = rcwIsGood;
+        }
+        // shooter.setHoodPositionFromDistance(-camtran[2]);
 
-        /** Put here for testing.
-        SmartDashboard.putNumber("LimelightAlign/ForwardValue", fwdSpeed);
-        SmartDashboard.putNumber("LimelightAlign/StrafeValue", strSpeed);
-        SmartDashboard.putNumber("LimelightAlign/RotateValue", rcwSpeed);
-        
-        SmartDashboard.putNumber("LimelightAlign/ForwardRaw", fwd);
-        SmartDashboard.putNumber("LimelightAlign/StrafeRaw", str);
-        SmartDashboard.putNumber("LimelightAlign/RotateRaw", rcw);
-        */
+        /**
+         * Put here for testing. SmartDashboard.putNumber("LimelightAlign/ForwardValue",
+         * fwdSpeed); SmartDashboard.putNumber("LimelightAlign/StrafeValue", strSpeed);
+         * SmartDashboard.putNumber("LimelightAlign/RotateValue", rcwSpeed);
+         * 
+         * SmartDashboard.putNumber("LimelightAlign/ForwardRaw", fwd);
+         * SmartDashboard.putNumber("LimelightAlign/StrafeRaw", str);
+         * SmartDashboard.putNumber("LimelightAlign/RotateRaw", rcw);
+         */
     }
 
     @Override
     public void end(boolean interrupted) {
         limelight.setLedMode(LedMode.PIPELINE_CURRENT);
-        drivetrain.setFieldCentric(true);
+        //drivetrain.setFieldCentric(true);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return isFinished;
     }
 }
