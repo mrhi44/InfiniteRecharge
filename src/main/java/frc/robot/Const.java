@@ -57,10 +57,10 @@ public class Const {
         public static final int REAR_RIGHT_ANALOG_ENCODER = 3; /* Module 4 */
 
         /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 155.64;
-        public static final double FRONT_LEFT_ENCODER_OFFSET = 230.709;
-        public static final double REAR_LEFT_ENCODER_OFFSET = 157.877;
-        public static final double REAR_RIGHT_ENCODER_OFFSET = 100.129;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 155.54;
+        public static final double FRONT_LEFT_ENCODER_OFFSET  = 235.22;
+        public static final double REAR_LEFT_ENCODER_OFFSET   = 159.34;
+        public static final double REAR_RIGHT_ENCODER_OFFSET  = 100.39;
     }
 
     /**
@@ -78,8 +78,8 @@ public class Const {
 
         public static final int HOOD_SLOT = 0;
         public static final int HOOD_TIMEOUT = 10;
-        public static final double HOOD_P = 0.0023;
-        public static final double HOOD_I = 0.00003;
+        public static final double HOOD_P = 0.0005;
+        public static final double HOOD_I = 0.0000;
         public static final double HOOD_D = 0;
     }
 
@@ -131,10 +131,10 @@ public class Const {
     }
 
     public static class Shooter {
-        public static final int MAX_HOOD_POSITION = 460;
-        public static final int MIN_HOOD_POSITION = -30;
-        public static final int HOOD_POSITION_INCREMENT = 15;
-        public static final double HOOD_OUTPUT_LIMIT = 0.1;
+        public static final int MAX_HOOD_POSITION = 16_100;
+        public static final int MIN_HOOD_POSITION = 0;
+        public static final int HOOD_POSITION_INCREMENT = 1000;
+        public static final double HOOD_OUTPUT_LIMIT = 0.15;
 
         public static final HashMap<Double, Integer> HOOD_ENCODER_DISTANCE_MAP = new HashMap<>();
         static {
