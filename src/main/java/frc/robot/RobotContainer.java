@@ -206,7 +206,7 @@ public class RobotContainer {
     switch(startPosition) {
       case 0:
         try {
-          return new TargetWall(drivetrain, shooter, feed, limelight);
+          return new TargetWall("TargetWall", drivetrain, shooter, feed, limelight);
         } catch (IOException e) {
           return null;
         }

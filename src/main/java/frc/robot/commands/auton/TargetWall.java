@@ -22,20 +22,20 @@ import net.bancino.robotics.liboi.command.RunnableCommand;
  * This command runs if we are starting on the wall closest to the target.
  */
 public class TargetWall extends SequentialCommandGroup {
-  public TargetWall(SwerveDrive swerve, Shooter shooter, Feed feed, Limelight limelight) throws IOException {
+  public TargetWall(String path, SwerveDrive swerve, Shooter shooter, Feed feed, Limelight limelight) throws IOException {
     super(
-      new RunnableCommand(() -> shooter.run()),
-      new PathweaverSwerveDrive(swerve, "paths/output/TargetWall.wpilib.json"),
+      new RunnableCommand(() -> shooter.run(), shooter),
+      new PathweaverSwerveDrive(swerve, "paths/output/" + path + ".wpilib.json"),
       new ParallelCommandGroup(
         new ShooterHoodWithLimelight(shooter, limelight),
         new SequentialCommandGroup(
           new Delay(500),
-          new RunnableCommand(() -> feed.run()),
+          new RunnableCommand(() -> feed.run(), feed),
           new Delay(4000),
           new RunnableCommand(() -> {
             shooter.stop();
             feed.stop();
-          })
+          }, shooter, feed)
         )
       )
     );

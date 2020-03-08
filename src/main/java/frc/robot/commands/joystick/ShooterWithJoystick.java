@@ -44,6 +44,7 @@ public class ShooterWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        SmartDashboard.putBoolean("Commands/ShooterWithJoystick/Manual Hood Control", manualHoodControl);
         /*
          * The hood can be manually controlled by the hood axis. Here, this speed
          * reference is translated into a position reference that can be moved up and
@@ -81,18 +82,20 @@ public class ShooterWithJoystick extends CommandBase {
                     for (int i = 0; i < historyPointer; i++) {
                         sum += camtranHistory[i];
                     }
-                    shooter.setHoodPositionFromDistance(sum / historyPointer);
+                    //shooter.setHoodPositionFromDistance(sum / historyPointer);
                 }
             } else {
                 historyPointer = 0;
-                shooter.setHoodPosition((int) positionRef);
+                //shooter.setHoodPosition((int) positionRef);
             }
+            shooter.setHoodPosition(8000);
         } else {
             shooter.stop();
             limelight.setLedMode(LedMode.PIPELINE_CURRENT);
 
             historyPointer = 0;
-            shooter.setHoodPosition((int) positionRef);
+            //shooter.setHoodPosition((int) positionRef);
+            shooter.setHoodPosition(0);
         }
     }
 
