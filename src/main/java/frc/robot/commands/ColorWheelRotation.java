@@ -29,6 +29,7 @@ public class ColorWheelRotation extends CommandBase {
             if (previousColor != currentColor){
                 revCount++;
                 previousColor = elevator.toWheelColor(colorSensor.getColor());
+                previousColor = currentColor;
             }
             if (revCount >= Const.Elevator.NUMBER_OF_COLOR_CHANGES) {
                 /* Reset everything to the starting configuration for the next run. */
