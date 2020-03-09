@@ -72,7 +72,9 @@ public class RobotContainer {
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
   private final Limelight limelight = new Limelight();
 
-  private final int startPosition = 0; /* 0 = Left, 1 = Center, 2 = Right */
+  private static final String[] availableAutons = {"Backward", "Forward", "OppositeWallBackward", "OppositeWallForward", "TargetWallBack", "TargetWallForward"};
+  private static final int defaultAuton = 1; /* The default autonomous. */
+  private int selectedAuton = defaultAuton;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -94,18 +96,47 @@ public class RobotContainer {
     configureCommands();
 
     /*
-     * Autonomous
+     * Autonomous Selection.
+     *
+     * Create a new thread that makes sure only one button is selected. To save clock cycles, this will run once a
+     * robot periodic scan, which is 20 milliseconds.
+     * We iterate over the array twice, one to get the current selection, and one to set everything else to
+     * false.
      */
-    SmartDashboard.putBoolean("Backward", false);
-    SmartDashboard.putBoolean("Forward", true);
-    SmartDashboard.putBoolean("OppositeWallBackward", false);
-    SmartDashboard.putBoolean("OppositeWallForward", false);
-    SmartDashboard.putBoolean("TargetWallBack", false);
-    SmartDashboard.putBoolean("TargetWallForward", false);
-    new PeriodicCommand(() -> {
-      return false;
-    }).schedule();
+    new Thread(() -> {
+      final long scanTime = 20;
+      long currentTime = System.currentTimeMillis();
+      long lastRunTime = currentTime;
+      while (true) {
+        currentTime = System.currentTimeMillis();
+        if (currentTime - lastRunTime >= scanTime) {
+          boolean haveSelection = false;
+          int selected = defaultAuton;
+          for (int i = 0; i < availableAutons.length; i++) {
+            if (SmartDashboard.getBoolean(availableAutons[i], false) && !haveSelection) {
+              selected = i;
+              haveSelection = true;
+            }
+          }
+          for (int i = 0; i < availableAutons.length; i++) {
+            if (i != selected) {
+              SmartDashboard.putBoolean(availableAutons[i], false);
+            }
+          }
+          setSelectedAuto(selected);
+          lastRunTime = currentTime;
+        }
+      }
+    }).start();
 
+  }
+
+  private void setSelectedAuto(int auto) {
+    if (auto > -1 && auto < availableAutons.length) {
+      selectedAuton = auto;
+    } {
+      throw new ArrayIndexOutOfBoundsException("Cannot set index " + auto + " as the selected autonomous.");
+    }
   }
 
   /**
@@ -220,24 +251,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     drivetrain.getGyro().zero();
-    switch(startPosition) {
-      case 0:
-        try {
-          //return new TargetWall("TargetWall", drivetrain, shooter, feed, limelight);
-          //return new SequentialCommandGroup(
-          //  new PathweaverSwerveDrive(drivetrain, "paths/output/TargetWallBack.wpilib.json", PathweaverSwerveDrive.PathExecutionMode.ROBOT_BACKWARDS),
-          //  new LimelightAlign(drivetrain, limelight, shooter, true)
-          //);
-          return new TargetWall("Forward", drivetrain, shooter, feed, limelight);
-        } catch (IOException e) {
-          return null;
-        }
-      case 1:
-        return null;
-      case 2:
-        return null;
-      default:
-        return null;
+    try {
+      return new TargetWall(availableAutons[selectedAuton], drivetrain, shooter, feed, limelight);
+    } catch (IOException e) {
+      return null;
     }
   }
 }
