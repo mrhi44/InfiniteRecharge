@@ -103,6 +103,9 @@ public class RobotContainer {
      * We iterate over the array twice, one to get the current selection, and one to set everything else to
      * false.
      */
+    for (int i = 0; i < availableAutons.length; i++) {
+      SmartDashboard.putBoolean(availableAutons[i], false);
+    }
     new Thread(() -> {
       final long scanTime = 20;
       long currentTime = System.currentTimeMillis();
