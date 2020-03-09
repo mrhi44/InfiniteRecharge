@@ -24,8 +24,8 @@ import net.bancino.robotics.liboi.command.RunnableCommand;
 /**
  * This command runs if we are starting on the wall closest to the target.
  */
-public class TargetWall extends SequentialCommandGroup {
-  public TargetWall(String path, SwerveDrive swerve, Shooter shooter, Feed feed, Limelight limelight) throws IOException {
+public class ThreeCellAutonomous extends SequentialCommandGroup {
+  public ThreeCellAutonomous(String path, SwerveDrive swerve, Shooter shooter, Feed feed, Limelight limelight) throws IOException {
     super(
       new RunnableCommand(() -> shooter.run(), shooter),
       new PathweaverSwerveDrive(swerve, "paths/output/" + path + ".wpilib.json", PathExecutionMode.ROBOT_BACKWARDS),

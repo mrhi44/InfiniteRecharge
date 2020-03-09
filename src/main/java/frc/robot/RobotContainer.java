@@ -37,7 +37,7 @@ import frc.robot.commands.vision.AutonBallGetter;
 import frc.robot.commands.vision.LimelightAlign;
 import frc.robot.commands.ColorFinder;
 import frc.robot.commands.ColorWheelRotation;
-import frc.robot.commands.auton.TargetWall;
+import frc.robot.commands.auton.ThreeCellAutonomous;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.jlimelight.StreamMode;
@@ -255,7 +255,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     drivetrain.getGyro().zero();
     try {
-      return new TargetWall(availableAutons[selectedAuton], drivetrain, shooter, feed, limelight);
+      return new ThreeCellAutonomous(availableAutons[selectedAuton], drivetrain, shooter, feed, limelight);
     } catch (IOException e) {
       return null;
     }
