@@ -255,7 +255,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     drivetrain.getGyro().zero();
     try {
-      return new ThreeCellAutonomous(availableAutons[selectedAuton], drivetrain, shooter, feed, limelight);
+      return new ThreeCellAutonomous(availableAutons[selectedAuton], drivetrain, shooter, intake, feed, limelight);
     } catch (IOException e) {
       return null;
     }
