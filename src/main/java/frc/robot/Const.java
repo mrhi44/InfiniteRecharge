@@ -135,11 +135,5 @@ public class Const {
         public static final int MIN_HOOD_POSITION = 0;
         public static final int HOOD_POSITION_INCREMENT = 200;
         public static final double HOOD_OUTPUT_LIMIT = 0.15;
-
-        public static final HashMap<Double, Integer> HOOD_ENCODER_DISTANCE_MAP = new HashMap<>();
-        static {
-            HOOD_ENCODER_DISTANCE_MAP.put(10.0 * 12.0, 315);
-            HOOD_ENCODER_DISTANCE_MAP.put(19.0 * 12.0, 290);
-        }
     }
 }
