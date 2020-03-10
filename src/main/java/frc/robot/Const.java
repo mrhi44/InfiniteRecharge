@@ -78,8 +78,8 @@ public class Const {
 
         public static final int HOOD_SLOT = 0;
         public static final int HOOD_TIMEOUT = 10;
-        public static final double HOOD_P = 0.0005;
-        public static final double HOOD_I = 0.0000;
+        public static final double HOOD_P = 0.000056;
+        public static final double HOOD_I = 0.000002;
         public static final double HOOD_D = 0;
     }
 
@@ -90,7 +90,7 @@ public class Const {
         public static final double INTAKE_SPEED = 0.65;
         public static final double FEED_WITH_SHOOTER_SPEED = 0.35;
         public static final double FEED_WITH_INTAKE_SPEED = 0.75;
-        public static final double SHOOTER_SPEED = 1;
+        public static final double SHOOTER_SPEED = 0.85;
         public static final double HOOD_SPEED = 0.25;
         public static final double COLOR_WHEEL_FIXED_SPEED = 0.2;
         public static final double ENDGAME_BAR_SPEED = 1;
@@ -126,20 +126,14 @@ public class Const {
         public static final double DISTANCE_TO_TARGET = 120; // In inches
         public static final double STRAFE_ADJUST_SPEED = 0.008; // In inches
         public static final double FORWARD_ADJUST_SPEED = 0.001; // Again, in inches
-        public static final double ROTATE_ADJUST_SPEED = 0.017; // Inches, oh yeah
+        public static final double ROTATE_ADJUST_SPEED = 0.007; // Inches, oh yeah
         public static final double ACCEPTED_OFFSET_BOUNDS = 0.5; // Incheronis broneroni
     }
 
     public static class Shooter {
         public static final int MAX_HOOD_POSITION = 16_100;
         public static final int MIN_HOOD_POSITION = 0;
-        public static final int HOOD_POSITION_INCREMENT = 1000;
+        public static final int HOOD_POSITION_INCREMENT = 200;
         public static final double HOOD_OUTPUT_LIMIT = 0.15;
-
-        public static final HashMap<Double, Integer> HOOD_ENCODER_DISTANCE_MAP = new HashMap<>();
-        static {
-            HOOD_ENCODER_DISTANCE_MAP.put(10.0 * 12.0, 315);
-            HOOD_ENCODER_DISTANCE_MAP.put(19.0 * 12.0, 290);
-        }
     }
 }

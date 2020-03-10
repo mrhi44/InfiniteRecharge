@@ -115,10 +115,9 @@ public class Shooter extends SimpleMotorSubsystem {
 
     /**
      * Calculate the hood position based on the distance the robot is from the
-     * target using a linear function. This will compute the slope between two
-     * points that were measured and return the predicted hood position based
-     * on the distance and slope of the line. The linear function predicts that
-     * as the distance distance increases, the hood's encoder position will decrease.
+     * target using a linear function. This is a polynomial found by
+     * epxerimentation. We measured the ideal hood position for distances
+     * incremented in a foot and generated this polynomial by curve fitting.
      *
      * @param distance The distance the robot is away from the target.
      *                               The hood position will be calculated from this.
@@ -126,16 +125,7 @@ public class Shooter extends SimpleMotorSubsystem {
      *         be set to for the given distance.
      */
     public int calculateHoodPosition(double distance) {
-        /* Get the measured distances, these are our X-coordinates. */
-        double trenchDistance = 19.0 * 12.0;
-        double lineDistance = 10.0 * 12.0;
-        /* Get the measured encoder counts, these are our Y-coordinates.  */
-        int trenchCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(trenchDistance);
-        int lineCount = Const.Shooter.HOOD_ENCODER_DISTANCE_MAP.get(lineDistance);
-        /* Calculate the slope between the two points.*/
-        double slope = (trenchCount - lineCount) / (trenchDistance - lineDistance);
-        /* Do a little bit of point-slope form to get encoder counts as a function of distance. */
-        return (int) (slope * (distance - trenchDistance) + trenchCount);
+        return (int) ((0.0043 * Math.pow(distance, 3)) - (2.1315 * Math.pow(distance, 2)) + (336.75 * distance) - 8432.4);
     }
 
 

@@ -37,7 +37,6 @@ public class Intake extends SimpleMotorSubsystem {
    */
   public Intake() {
     super(Const.Speed.INTAKE_SPEED);
-    lift(true);
   }
 
   /**

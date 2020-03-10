@@ -11,31 +11,43 @@ import java.io.IOException;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.vision.LimelightAlign;
+import frc.robot.Const;
 import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
+import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive.PathExecutionMode;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.liboi.command.RunnableCommand;
 
 /**
- * This command runs if we are starting on the wall closest to the target.
+ * This command runs an autonomous mode that simply scores the three pre-loaded 
+ * power cells. Nothing more, nothing less. It supports any path, just pass in the
+ * path name to the constructor.
+ *
+ * @author Jordan Bancino
  */
-public class TargetWall extends SequentialCommandGroup {
-  public TargetWall(String path, SwerveDrive swerve, Shooter shooter, Feed feed, Limelight limelight) throws IOException {
+public class ThreeCellAutonomous extends SequentialCommandGroup {
+  public ThreeCellAutonomous(String path, SwerveDrive swerve, Shooter shooter, Intake intake, Feed feed, Limelight limelight) throws IOException {
     super(
-      new RunnableCommand(() -> shooter.run(), shooter),
-      new PathweaverSwerveDrive(swerve, "paths/output/" + path + ".wpilib.json"),
+      new RunnableCommand(() -> {
+        shooter.run();
+        intake.lift(true);
+      }, shooter, intake),
+      new PathweaverSwerveDrive(swerve, "paths/output/" + path + ".wpilib.json", PathExecutionMode.ROBOT_BACKWARDS),
+      new LimelightAlign(swerve, limelight, shooter, true, 1000),
       new ParallelCommandGroup(
         new ShooterHoodWithLimelight(shooter, limelight),
         new SequentialCommandGroup(
           new Delay(500),
-          new RunnableCommand(() -> feed.run(), feed),
+          new RunnableCommand(() -> feed.runAt(Const.Speed.FEED_WITH_SHOOTER_SPEED), feed),
           new Delay(4000),
           new RunnableCommand(() -> {
             shooter.stop();
             feed.stop();
-          }, shooter, feed)
+          }, feed)  /* We don't require the shooter here because the hood command is using it. */
         )
       )
     );

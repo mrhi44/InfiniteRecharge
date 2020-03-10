@@ -12,9 +12,11 @@ import java.io.IOException;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.AirCompressor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -26,6 +28,7 @@ import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
 import net.bancino.robotics.liboi.command.RunnableCommand;
+import net.bancino.robotics.liboi.command.PeriodicCommand;
 import frc.robot.commands.joystick.ElevatorWithJoystick;
 import frc.robot.commands.joystick.FeedWithJoystick;
 import frc.robot.commands.joystick.IntakeWithJoystick;
@@ -34,7 +37,7 @@ import frc.robot.commands.vision.AutonBallGetter;
 import frc.robot.commands.vision.LimelightAlign;
 import frc.robot.commands.ColorFinder;
 import frc.robot.commands.ColorWheelRotation;
-import frc.robot.commands.auton.TargetWall;
+import frc.robot.commands.auton.ThreeCellAutonomous;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.jlimelight.StreamMode;
@@ -69,7 +72,9 @@ public class RobotContainer {
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
   private final Limelight limelight = new Limelight();
 
-  private final int startPosition = 0; /* 0 = Left, 1 = Center, 2 = Right */
+  private static final String[] availableAutons = {"Backward", "Forward", "OppositeWallBackward", "OppositeWallForward", "TargetWallBack", "TargetWallForward"};
+  private static final int defaultAuton = 1; /* The default autonomous. */
+  private int selectedAuton = defaultAuton;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -89,6 +94,52 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     configureCommands();
+
+    /*
+     * Autonomous Selection.
+     *
+     * Create a new thread that makes sure only one button is selected. To save clock cycles, this will run once a
+     * robot periodic scan, which is 20 milliseconds.
+     * We iterate over the array twice, one to get the current selection, and one to set everything else to
+     * false.
+     */
+    for (int i = 0; i < availableAutons.length; i++) {
+      SmartDashboard.putBoolean(availableAutons[i], false);
+    }
+    new Thread(() -> {
+      final long scanTime = 20;
+      long currentTime = System.currentTimeMillis();
+      long lastRunTime = currentTime;
+      while (true) {
+        currentTime = System.currentTimeMillis();
+        if (currentTime - lastRunTime >= scanTime) {
+          boolean haveSelection = false;
+          int selected = defaultAuton;
+          for (int i = 0; i < availableAutons.length; i++) {
+            if (SmartDashboard.getBoolean(availableAutons[i], false) && !haveSelection) {
+              selected = i;
+              haveSelection = true;
+            }
+          }
+          for (int i = 0; i < availableAutons.length; i++) {
+            if (i != selected) {
+              SmartDashboard.putBoolean(availableAutons[i], false);
+            }
+          }
+          setSelectedAuto(selected);
+          lastRunTime = currentTime;
+        }
+      }
+    }).start();
+
+  }
+
+  private void setSelectedAuto(int auto) {
+    if (auto > -1 && auto < availableAutons.length) {
+      selectedAuton = auto;
+    } {
+      throw new ArrayIndexOutOfBoundsException("Cannot set index " + auto + " as the selected autonomous.");
+    }
   }
 
   /**
@@ -136,11 +187,11 @@ public class RobotContainer {
 
     /** Uses xbox0's X button to activate LimelightAlign (Back Hatch) while held. */
     JoystickButton xbox0X = new JoystickButton(xbox0, XboxController.Button.kX.value);
-    xbox0X.whileHeld(new LimelightAlign(drivetrain, limelight, shooter, false));
+    xbox0X.whileHeld(new LimelightAlign(drivetrain, limelight, shooter, false, -1));
 
     /** Uses xbox0's A button to activate LimelightAlign (Front Hatch) while held. */
     JoystickButton xbox0A = new JoystickButton(xbox0, XboxController.Button.kA.value);
-    xbox0A.whileHeld(new LimelightAlign(drivetrain, limelight, shooter, true));
+    xbox0A.whileHeld(new LimelightAlign(drivetrain, limelight, shooter, true, -1));
 
     /** Usex xbox0's B button to activate AutonBallGetter while held. */
     JoystickButton xbox0B = new JoystickButton(xbox0, XboxController.Button.kB.value);
@@ -203,19 +254,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     drivetrain.getGyro().zero();
-    switch(startPosition) {
-      case 0:
-        try {
-          return new TargetWall("TargetWall", drivetrain, shooter, feed, limelight);
-        } catch (IOException e) {
-          return null;
-        }
-      case 1:
-        return null;
-      case 2:
-        return null;
-      default:
-        return null;
+    try {
+      return new ThreeCellAutonomous(availableAutons[selectedAuton], drivetrain, shooter, intake, feed, limelight);
+    } catch (IOException e) {
+      return null;
     }
   }
 }
