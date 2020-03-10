@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.RollingAverage;
 import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.SwerveDrive;
@@ -26,24 +27,12 @@ public class LimelightAlign extends CommandBase {
     private boolean isFinished = false;
     private boolean fwdIsGood = false, strIsGood = false, rcwIsGood = false;
 
-    /*
-     * The camtran cache stores a history of the forward and strafe camtran values
-     * so that we can smooth out the trajectory of this command. The first size
-     * index is the size of the cache and can therefore be set as needed. The second
-     * size index is the size of the camtran and therefore should not be changed
-     * unless the limelight API changes.
-     * 
-     * DO NOT modify the camtran cache directly, use a cache manipulation function.
-     */
-    private double[][] camtranCache = new double[10][6];
-    /* DO NOT modify this variable, this is used by the camtranCache() function. */
-    private int cacheIndex = -1;
-
     private double fwd, str, rcw;
     private double fwdSpeed, strSpeed, rcwSpeed;
 
     private final long timeout;
     private long startTime = 0;
+    RollingAverage rollingAverageRCW, rollingAverageSTR, rollingAverageFWD  = new RollingAverage(Const.RollingAverage.WINDOW_SIZE);
 
     public LimelightAlign(SwerveDrive drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch, long timeout) {
         this.drivetrain = drivetrain;
@@ -79,21 +68,25 @@ public class LimelightAlign extends CommandBase {
          * Sets variables for doing the back hatch as well as the bounds in which
          * they're acceptably close.
          */
-        rcw = limelight.getHorizontalOffset();
+        rollingAverageRCW.add(limelight.getHorizontalOffset());
+        rcw = rollingAverageRCW.get();
         if ((rcw <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)
                 && (rcw > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
             rcw = 0;
             rcwIsGood = true;
         }
+        /* Sets forward and strafe depending on whether or not you're doing the back port. */
         if (!doFrontHatch) {
             double[] camtran = limelight.getCamTran();
-            fwd = Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET;
+            rollingAverageFWD.add(camtran[2]);
+            fwd = Math.abs(rollingAverageFWD.get()) - Const.LimelightAlign.DISTANCE_TO_TARGET;
             if ((fwd <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)
                     && (fwd > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
                 fwd = 0;
                 fwdIsGood = true;
             }
-            str = camtran[0];
+            rollingAverageSTR.add(camtran[0]);
+            str = rollingAverageSTR.get();
             if ((str <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)
                     && (str > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
                 str = 0;
@@ -101,11 +94,12 @@ public class LimelightAlign extends CommandBase {
             }
         }
 
+        /**
+         * Multiply all of the values by their speed constants to get a decent speed
+         * reference, only if a target is seen. If not, set the speed references to zero
+         * and set the strafe, forward, and rotate checks to true.
+         */
         if (limelight.hasValidTargets()) {
-            /**
-             * Multiply all of the values by their speed constants to get a decent speed
-             * reference.
-             */
             strSpeed = str * Const.LimelightAlign.STRAFE_ADJUST_SPEED;
             rcwSpeed = rcw * Const.LimelightAlign.ROTATE_ADJUST_SPEED;
             fwdSpeed = fwd * Const.LimelightAlign.FORWARD_ADJUST_SPEED;
@@ -115,11 +109,17 @@ public class LimelightAlign extends CommandBase {
             //isFinished = true;
         }
 
+        /**
+         * If you're not doing the front port, quit when all three values are
+         * within the threshold (or when there is no target.) If you're only doing
+         * the front port, end the program when the rotation is good.
+         */
         if (!doFrontHatch) {
             isFinished = fwdIsGood && strIsGood && rcwIsGood;
         } else {
             isFinished = rcwIsGood;
         }
+        /** If all three conditions are within bounds or the timeout is hit, end the program. */
         if (timeout != -1 && System.currentTimeMillis() - startTime >= timeout) {
             isFinished = true;
             strSpeed = rcwSpeed = fwdSpeed = 0;
@@ -129,7 +129,6 @@ public class LimelightAlign extends CommandBase {
         // on swervio
         SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, rcwSpeed);
         drivetrain.drive(alignmentVector);
-        // shooter.setHoodPositionFromDistance(-camtran[2]);
 
         /**
          * Put here for testing. SmartDashboard.putNumber("LimelightAlign/ForwardValue",

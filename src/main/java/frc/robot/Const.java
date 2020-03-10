@@ -105,6 +105,13 @@ public class Const {
         public static final int NUMBER_OF_COLOR_CHANGES = 25;
     }
 
+    /** 
+     * Rolling Average parameters.
+     */
+    public static class RollingAverage{
+        public static final int WINDOW_SIZE = 15;
+    }
+
     /**
      * Ball-fetching parameters.
      */
