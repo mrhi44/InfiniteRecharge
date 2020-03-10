@@ -23,7 +23,11 @@ import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.liboi.command.RunnableCommand;
 
 /**
- * This command runs if we are starting on the wall closest to the target.
+ * This command runs an autonomous mode that simply scores the three pre-loaded 
+ * power cells. Nothing more, nothing less. It supports any path, just pass in the
+ * path name to the constructor.
+ *
+ * @author Jordan Bancino
  */
 public class ThreeCellAutonomous extends SequentialCommandGroup {
   public ThreeCellAutonomous(String path, SwerveDrive swerve, Shooter shooter, Intake intake, Feed feed, Limelight limelight) throws IOException {
@@ -43,7 +47,7 @@ public class ThreeCellAutonomous extends SequentialCommandGroup {
           new RunnableCommand(() -> {
             shooter.stop();
             feed.stop();
-          }, feed)
+          }, feed)  /* We don't require the shooter here because the hood command is using it. */
         )
       )
     );

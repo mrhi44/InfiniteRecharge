@@ -17,23 +17,27 @@ public class ShooterHoodWithLimelight extends CommandBase {
   private final Limelight limelight;
   private final RollingAverage rollingAverage = new RollingAverage(15);
   private final Shooter shooter;
+
   /**
-   * Creates a new ShooterHoodWIthLimelight.
+   * Autonomously run the shooter hood position loop based on feedback from
+   * the Limelight. This also uses a simple moving average to stabilize the
+   * Limelight output before passing it into the hood position loop, so
+   * movements will be much more consistent and controlled, if slightly laggy.
+   *
+   * @param shooter The shooter to use.
+   * @param limelight The Limelight to use.
    */
   public ShooterHoodWithLimelight(Shooter shooter, Limelight limelight) {
     this.shooter = shooter;
     this.limelight = limelight;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     limelight.setLedMode(LedMode.FORCE_ON);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (limelight.hasValidTargets()) {
@@ -42,13 +46,11 @@ public class ShooterHoodWithLimelight extends CommandBase {
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     limelight.setLedMode(LedMode.PIPELINE_CURRENT);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

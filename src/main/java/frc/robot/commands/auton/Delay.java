@@ -11,20 +11,22 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Delay extends CommandBase {
   private long startTime, duration;
+
   /**
-   * Creates a new Delay.
+   * A simple command, intended to be run in a sequence (not parallel), that
+   * does nothing but wait the specified amount of time before finishing.
+   *
+   * @param duration The amount of time to wait in milliseconds.
    */
   public Delay(long duration) {
     this.duration = duration;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     startTime = System.currentTimeMillis();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return System.currentTimeMillis() - startTime >= duration;
