@@ -42,6 +42,7 @@ public class ShooterHoodWithLimelight extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    limelight.setLedMode(LedMode.PIPELINE_CURRENT);
   }
 
   // Returns true when the command should end.
