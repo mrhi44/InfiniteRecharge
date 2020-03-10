@@ -115,10 +115,6 @@ public class LimelightAlign extends CommandBase {
             //isFinished = true;
         }
 
-        // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing
-        // on swervio
-        SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, rcwSpeed);
-        drivetrain.drive(alignmentVector);
         if (!doFrontHatch) {
             isFinished = fwdIsGood && strIsGood && rcwIsGood;
         } else {
@@ -126,7 +122,13 @@ public class LimelightAlign extends CommandBase {
         }
         if (timeout != -1 && System.currentTimeMillis() - startTime >= timeout) {
             isFinished = true;
+            strSpeed = rcwSpeed = fwdSpeed = 0;
         }
+
+        // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing
+        // on swervio
+        SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, rcwSpeed);
+        drivetrain.drive(alignmentVector);
         // shooter.setHoodPositionFromDistance(-camtran[2]);
 
         /**
