@@ -14,8 +14,8 @@ public class ColorWheelRotation extends CommandBase {
     public int revCount;
     public boolean rotationComplete;
     
-    public ColorWheelRotation(Elevator elevator, ColorSensorV3 colorSensor) {
-        this.colorSensor = colorSensor;
+    public ColorWheelRotation(Elevator elevator) {
+        this.colorSensor = elevator.getColorSensor();
         this.elevator = elevator;
         addRequirements(elevator);
     }

@@ -209,6 +209,10 @@ public class Elevator extends SubsystemBase {
         return locked;
     }
 
+    public ColorSensorV3 getColorSensor() {
+        return colorSensor;
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Subsystems/Elevator/Locked", isLocked());
