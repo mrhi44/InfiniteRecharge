@@ -29,7 +29,7 @@ public class ThreeCellAutonomous extends SequentialCommandGroup {
     super(
       new RunnableCommand(() -> shooter.run(), shooter),
       new PathweaverSwerveDrive(swerve, "paths/output/" + path + ".wpilib.json", PathExecutionMode.ROBOT_BACKWARDS),
-      new LimelightAlign(swerve, limelight, shooter, true),
+      new LimelightAlign(swerve, limelight, shooter, true, 1000),
       new ParallelCommandGroup(
         new ShooterHoodWithLimelight(shooter, limelight),
         new SequentialCommandGroup(

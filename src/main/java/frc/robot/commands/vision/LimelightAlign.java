@@ -42,11 +42,19 @@ public class LimelightAlign extends CommandBase {
     private double fwd, str, rcw;
     private double fwdSpeed, strSpeed, rcwSpeed;
 
-    public LimelightAlign(SwerveDrive drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch) {
+    private final long timeout;
+    private long startTime = 0;
+
+    public LimelightAlign(SwerveDrive drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch, long timeout) {
         this.drivetrain = drivetrain;
         this.limelight = limelight;
         this.shooter = shooter;
         this.doFrontHatch = doFrontHatch;
+        if (timeout < 0) {
+            this.timeout = -1;
+        } else {
+            this.timeout = timeout;
+        }
         addRequirements(drivetrain);
     }
 
@@ -62,6 +70,7 @@ public class LimelightAlign extends CommandBase {
             str = 0;
             strSpeed = 0;
         }
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -114,6 +123,9 @@ public class LimelightAlign extends CommandBase {
             isFinished = fwdIsGood && strIsGood && rcwIsGood;
         } else {
             isFinished = rcwIsGood;
+        }
+        if (timeout != -1 && System.currentTimeMillis() - startTime >= timeout) {
+            isFinished = true;
         }
         // shooter.setHoodPositionFromDistance(-camtran[2]);
 
