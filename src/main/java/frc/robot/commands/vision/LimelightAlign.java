@@ -66,9 +66,6 @@ public class LimelightAlign extends CommandBase {
 
     @Override
     public void execute() {
-        /** Camtran and rotation are always used. */
-        double[] camtran = limelight.getCamTran();
-
         /**
          * Sets variables for doing the back hatch as well as the bounds in which
          * they're acceptably close.
@@ -80,6 +77,7 @@ public class LimelightAlign extends CommandBase {
             rcwIsGood = true;
         }
         if (!doFrontHatch) {
+            double[] camtran = limelight.getCamTran();
             fwd = Math.abs(camtran[2]) - Const.LimelightAlign.DISTANCE_TO_TARGET;
             if ((fwd <= Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)
                     && (fwd > -Const.LimelightAlign.ACCEPTED_OFFSET_BOUNDS)) {
