@@ -115,10 +115,9 @@ public class Shooter extends SimpleMotorSubsystem {
 
     /**
      * Calculate the hood position based on the distance the robot is from the
-     * target using a linear function. This will compute the slope between two
-     * points that were measured and return the predicted hood position based
-     * on the distance and slope of the line. The linear function predicts that
-     * as the distance distance increases, the hood's encoder position will decrease.
+     * target using a linear function. This is a polynomial found by
+     * epxerimentation. We measured the ideal hood position for distances
+     * incremented in a foot and generated this polynomial by curve fitting.
      *
      * @param distance The distance the robot is away from the target.
      *                               The hood position will be calculated from this.
