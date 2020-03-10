@@ -9,12 +9,14 @@ package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.RollingAverage;
 import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 
 public class ShooterHoodWithLimelight extends CommandBase {
-  private Limelight limelight;
-  private Shooter shooter;
+  private final Limelight limelight;
+  private final RollingAverage rollingAverage = new RollingAverage(15);
+  private final Shooter shooter;
   /**
    * Creates a new ShooterHoodWIthLimelight.
    */
@@ -35,7 +37,8 @@ public class ShooterHoodWithLimelight extends CommandBase {
   @Override
   public void execute() {
     if (limelight.hasValidTargets()) {
-      shooter.setHoodPositionFromDistance(Math.abs(limelight.getCamTran()[2]));
+      rollingAverage.add(limelight.getCamTran()[2]);
+      shooter.setHoodPositionFromDistance(rollingAverage.get());
     }
   }
 
