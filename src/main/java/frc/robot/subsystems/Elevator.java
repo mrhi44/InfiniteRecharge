@@ -81,6 +81,7 @@ public class Elevator extends SubsystemBase {
         return elevatorMotor.getEncoder().getPosition();
     }
 
+    /** Zeroes the elevator motors encoder to 0. */
     public void zeroElevatorEncoder() {
         elevatorMotor.getEncoder().setPosition(0);
     }
