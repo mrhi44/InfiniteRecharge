@@ -3,25 +3,16 @@ The official repository of Team 6090's 2020 infinite recharge code, vision, and 
 
 To whom it may concern, a text file of all of our joystick button and axis mappings can be found in [`JoystickMap.txt`](JoystickMap.txt)
 
-## Competition Checklist
-- [ ] Update Laptops
-    - [ ] Windows Update
-    - [ ] Code (always ` git pull` and `git checkout` the current competition branch)
-    - [ ] **See [versions table](https://github.com/Team6090/Software-Table/blob/master/README.md) for software updates**
-- [ ] Ensure laptop functionality
-    - [ ] Driver Station
-    - [ ] Dashboard
-    - [ ] Code can be modified and deployed
-- [ ] Charge laptops
-
-## Contributors
-- Jordan Bancino
-- Ethan Snyder
-- Collin Heavner
-- Jude Dobry
-- Stephen Harnish
-
 ## Building & Deploying
+For those of you that are too impatient to read the rest of this document, just run this command in the root of the
+repository to build the code:
+
+        $ ./gradlew clean build -PallLocal
+
+If you want to deploy the code, run this command:
+
+        $ ./gradlew clean build deploy -PallLocal
+
 ### Common Issues
 - Gradle may fail to resolve some dependencies. If this happens, you'll need to run this command to manually download
 them: 
@@ -53,6 +44,17 @@ You can also use any combination of the above commands, or you can run this comm
 These commands will compile and include a local copy of the project(s) so that you can make modifications and whatnot to the source code on your disk, then include the changes in your robot code. **On the first run, you may have to run the build twice
 because the bootstrap routine may not successfully include the project**.
 
+## Competition Checklist
+- [ ] Update Laptops
+    - [ ] Windows Update
+    - [ ] Code (always ` git pull`)
+    - [ ] **See [versions table](https://github.com/Team6090/Software-Table/blob/master/README.md) for software updates**
+- [ ] Ensure laptop functionality
+    - [ ] Driver Station
+    - [ ] Dashboard
+    - [ ] Code can be modified and deployed
+- [ ] Charge laptops
+
 ## Limelight Configurations
 As well as code, this repository contains the LimeLight configurations used at competitions. These are found in the `limelight-conf/` directory. Each `.vpr` file is a pipeline, and can be uploaded to a Limelight for immediate use. As the Limelight configurations change, these pipeline files are updated.
 
@@ -72,3 +74,8 @@ Note that this needs to be run as `root`, and of course provide the interface th
 
 ## Contributing
 Please view our [Code Of Conduct](CODE_OF_CONDUCT.md). Eventually we will add a contributing guide. Eventually. Maybe. Possibly.
+
+### Contributors
+- Jordan Bancino
+- Ethan Snyder
+- Collin Heavner
