@@ -4,7 +4,7 @@ The official repository of Team 6090's 2020 infinite recharge code, vision, and 
 To whom it may concern, a text file of all of our joystick button and axis mappings can be found in [`JoystickMap.txt`](JoystickMap.txt)
 
 ## Building & Deploying
-For those of you that are too impatient to read the rest of this document, just run this command in the root of the
+For those of you that are too lazy/impatient to read the rest of this document, just run this command in the root of the
 repository to build the code:
 
         $ ./gradlew clean build -PallLocal
@@ -12,6 +12,8 @@ repository to build the code:
 If you want to deploy the code, run this command:
 
         $ ./gradlew clean build deploy -PallLocal
+
+Our workflow guide can be found [here](https://docs.google.com/document/d/1KQAkZUGQNtcGS0PK-z6KMCrwNERii5Keec-gO0QWUK0/edit?usp=sharing)
 
 ### Common Issues
 - Gradle may fail to resolve some dependencies. If this happens, you'll need to run this command to manually download
@@ -41,8 +43,7 @@ You can also use any combination of the above commands, or you can run this comm
 
         $ gradle clean build -PallLocal
 
-These commands will compile and include a local copy of the project(s) so that you can make modifications and whatnot to the source code on your disk, then include the changes in your robot code. **On the first run, you may have to run the build twice
-because the bootstrap routine may not successfully include the project**.
+These commands will compile and include a local copy of the project(s) so that you can make modifications and whatnot to the source code on your disk, then include the changes in your robot code. On the first run, you will need internet access to clone the projects. Any sequential runs should also be done online when possible to pull the latest code.
 
 ## Competition Checklist
 - [ ] Update Laptops
