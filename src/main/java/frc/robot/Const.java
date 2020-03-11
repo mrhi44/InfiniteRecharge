@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.util.HashMap;
-
 /**
  * The constants class stores all of our robot wiring, speed, pneumatic, and
  * encoder constants.
@@ -57,10 +55,10 @@ public class Const {
         public static final int REAR_RIGHT_ANALOG_ENCODER = 3; /* Module 4 */
 
         /* The encoder offsets tell us where zero is for each motor. */
-        public static final double FRONT_RIGHT_ENCODER_OFFSET = 155.54;
-        public static final double FRONT_LEFT_ENCODER_OFFSET  = 235.22;
-        public static final double REAR_LEFT_ENCODER_OFFSET   = 159.34;
-        public static final double REAR_RIGHT_ENCODER_OFFSET  = 100.39;
+        public static final double FRONT_RIGHT_ENCODER_OFFSET = 313.414;
+        public static final double FRONT_LEFT_ENCODER_OFFSET  =  69.855;
+        public static final double REAR_LEFT_ENCODER_OFFSET   =  43.001;
+        public static final double REAR_RIGHT_ENCODER_OFFSET  =  53.904;
     }
 
     /**
@@ -105,6 +103,13 @@ public class Const {
         public static final double MAX_HEIGHT = 161;
         public static final double BOTTOM_HEIGHT = 0;
         public static final int NUMBER_OF_COLOR_CHANGES = 25;
+    }
+
+    /** 
+     * Rolling Average parameters.
+     */
+    public static class RollingAverage{
+        public static final int WINDOW_SIZE = 15;
     }
 
     /**

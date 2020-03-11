@@ -81,6 +81,7 @@ public class Elevator extends SubsystemBase {
         return elevatorMotor.getEncoder().getPosition();
     }
 
+    /** Zeroes the elevator motors encoder to 0. */
     public void zeroElevatorEncoder() {
         elevatorMotor.getEncoder().setPosition(0);
     }
@@ -206,6 +207,10 @@ public class Elevator extends SubsystemBase {
 
     public boolean isLocked() {
         return locked;
+    }
+
+    public ColorSensorV3 getColorSensor() {
+        return colorSensor;
     }
 
     @Override

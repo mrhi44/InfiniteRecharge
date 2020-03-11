@@ -4,18 +4,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
 import frc.robot.subsystems.Elevator;
 import com.revrobotics.ColorSensorV3;
-import edu.wpi.first.wpilibj.I2C;
 
 
 public class ColorWheelRotation extends CommandBase {
 
     Elevator elevator;
+    ColorSensorV3 colorSensor;
     public Elevator.WheelColor currentColor, previousColor;
-    private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     public int revCount;
     public boolean rotationComplete;
     
     public ColorWheelRotation(Elevator elevator) {
+        this.colorSensor = elevator.getColorSensor();
         this.elevator = elevator;
         addRequirements(elevator);
     }
