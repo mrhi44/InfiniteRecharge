@@ -38,7 +38,7 @@ ext.localdeps = [
     /* Run this in settings.gradle */
     settingsSetup: {
         localdeps.list.eachWithIndex { item, index ->
-            println "Fetching preemptively: $item"
+            println "Fetching preemptively: $item (from ${localdeps.repoPrefix})"
             localdeps.syncLocalDependency("${localdeps.repoPrefix}/$item", item)
             localdeps.registerProjectIfExists(item)
         }
