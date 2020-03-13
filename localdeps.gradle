@@ -33,7 +33,7 @@ ext.localdeps = [
      * The format for dependencies is "$repoPrefix/$item" Where $item is the dependency
      * in the list above.
      */
-    repoPrefix: "https://github.com/Team6090",
+    repoPrefix: "https://github.com/jordanbancino",
 
     /* Run this in settings.gradle */
     settingsSetup: {
