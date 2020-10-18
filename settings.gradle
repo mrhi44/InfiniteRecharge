@@ -25,7 +25,3 @@ pluginManagement {
         }
     }
 }
-
-/* Below we register local projects if they exist. */
-apply from: 'localdeps.gradle'
-localdeps.settingsSetup()

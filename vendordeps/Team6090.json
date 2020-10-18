@@ -10,7 +10,7 @@
         {
             "artifactId": "SwerveIO",
             "groupId": "net.bancino.robotics",
-            "version": "2.1.3"
+            "version": "2.2.0"
         },
         {
             "artifactId": "LibOI",
@@ -19,11 +19,11 @@
         }
     ],
     "jniDependencies": [],
-    "jsonUrl": "https://team6090.bancino.net/Team6090.json",
+    "jsonUrl": "https://maven.bancino.net/Team6090.json",
     "mavenUrls": [
-        "https://team6090.bancino.net/maven/"
+        "https://maven.bancino.net/"
     ],
     "name": "Team6090",
     "uuid": "b6ef44ee-67ef-4886-a3c9-2d5391a0c75a",
-    "version": "1.0.13"
+    "version": "1.0.14"
 }

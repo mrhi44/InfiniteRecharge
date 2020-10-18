@@ -43,13 +43,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
-
-    /* Add our dependencies here. */
-    apply from: 'localdeps.gradle'
-    localdeps.buildSetup()
 }
 
 jar {
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+        duplicatesStrategy = 'include'
+    }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
