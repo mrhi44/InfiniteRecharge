@@ -43,6 +43,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+
+    /*
+     * Use the flag -PuseSubmodules to activate the submodule dependencies.
+     */
+    if (project.hasProperty('useSubmodules')) {
+        implementation project(':SwerveIO')
+        implementation project(':JLimelight')
+        implementation project(':LibOI')
+    }
 }
 
 jar {

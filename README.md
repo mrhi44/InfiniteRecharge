@@ -3,15 +3,31 @@ The official repository of Team 6090's 2020 infinite recharge code, vision, and 
 
 To whom it may concern, a text file of all of our joystick button and axis mappings can be found in [`JoystickMap.txt`](JoystickMap.txt)
 
+# Downloading
+Download the source code with this command:
+
+        $ git clone --recursive https://github.com/Team6090/InfiniteRecharge
+
+The `--recursive` flag is important; it downloads all the submodule dependencies. If you do a regular git clone, then make sure you
+
+        $ git submodule init
+        $ git submodule update
+
+to download the submodules. Every once and a while, you should run
+
+        $ git submodule foreach git pull
+
+To update the submodule code.
+
 ## Building & Deploying
 For those of you that are too lazy/impatient to read the rest of this document, just run this command in the root of the
 repository to build the code:
 
-        $ ./gradlew clean build -PallLocal
+        $ ./gradlew clean build -PuseSubmodules
 
 If you want to deploy the code, run this command:
 
-        $ ./gradlew clean build deploy -PallLocal
+        $ ./gradlew clean build deploy -PuseSubmodules
 
 Our workflow guide can be found [here](https://docs.google.com/document/d/1KQAkZUGQNtcGS0PK-z6KMCrwNERii5Keec-gO0QWUK0/edit?usp=sharing)
 
@@ -30,20 +46,12 @@ The following dependencies have been set up to allow the option of running local
 - [JLimelight](https://github.com/Team6090/JLimelight)
 - [LibOI](https://github.com/Team6090/LibOI)
 
-In the even you want to use a local copy of any of the above projects, specify the `useLocalProject` property to clone it to the project directory.
+In the even you want to use a local copy of all of the above projects, specify the `useSubmodules` property to clone them to the project directory.
 For example:
 
-        $ gradle clean build -PuseLocalSwerveIO
+        $ gradle clean build -PuseSubmodules
 
-or:
-        
-        $ gradle clean build -PuseLocalJLimelight -PuseLocalLibOI
-
-You can also use any combination of the above commands, or you can run this command to include all known dependencies:
-
-        $ gradle clean build -PallLocal
-
-These commands will compile and include a local copy of the project(s) so that you can make modifications and whatnot to the source code on your disk, then include the changes in your robot code. On the first run, you will need internet access to clone the projects. Any sequential runs should also be done online when possible to pull the latest code.
+This command will compile and include a local copy of the project(s) so that you can make modifications and whatnot to the source code on your disk, then include the changes in your robot code. The projects are git submodules, so use git to keep them up to date.
 
 ## Competition Checklist
 - [ ] Update Laptops

@@ -25,3 +25,7 @@ pluginManagement {
         }
     }
 }
+
+include ':SwerveIO'
+include ':JLimelight'
+include ':LibOI'
