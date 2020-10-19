@@ -162,6 +162,3 @@ imgui.ini
 
 # Begin InfiniteRecharge-specific ignores
 .vscode
-SwerveIO/
-JLimelight/
-LibOI/
