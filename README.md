@@ -17,7 +17,7 @@ to download the submodules. Every once and a while, you should run
 
         $ git submodule foreach git pull
 
-To update the submodule code.
+To update the submodule code, ensuring you have the latest version.
 
 ## Building & Deploying
 For those of you that are too lazy/impatient to read the rest of this document, just run this command in the root of the
@@ -29,7 +29,7 @@ If you want to deploy the code, run this command:
 
         $ ./gradlew clean build deploy -PuseSubmodules
 
-Our workflow guide can be found [here](https://docs.google.com/document/d/1KQAkZUGQNtcGS0PK-z6KMCrwNERii5Keec-gO0QWUK0/edit?usp=sharing)
+Our workflow guide can be found [here](#contributing)
 
 ### Common Issues
 - Gradle may fail to resolve some dependencies. If this happens, you'll need to run this command to manually download
@@ -40,18 +40,19 @@ them:
 - Gradle may not be able to find Java. Make sure you add `java` to the system path, and set the `JAVA_HOME` environment variable. You may have to restart your IDE after making these changes.
 
 ### Local Dependencies
-The following dependencies have been set up to allow the option of running locally:
+The following dependencies have been set up to be built from source:
 
 - [SwerveIO](https://github.com/Team6090/SwerveIO)
 - [JLimelight](https://github.com/Team6090/JLimelight)
 - [LibOI](https://github.com/Team6090/LibOI)
 
-In the even you want to use a local copy of all of the above projects, specify the `useSubmodules` property to clone them to the project directory.
+In the event you want to use a local copy of all of the above projects, specify the `useSubmodules` property to use the local source instead of the Maven dependencies.
+
 For example:
 
         $ gradle clean build -PuseSubmodules
 
-This command will compile and include a local copy of the project(s) so that you can make modifications and whatnot to the source code on your disk, then include the changes in your robot code. The projects are git submodules, so use git to keep them up to date.
+This command will compile and include a local copy of the projects so that you can make modifications and whatnot to the source code on your disk, then include the changes in your robot code. The projects are git submodules, so use git to keep them up to date.
 
 ## Competition Checklist
 - [ ] Update Laptops
@@ -82,7 +83,7 @@ Usage:
 Note that this needs to be run as `root`, and of course provide the interface that you're connected to, either USB or Ethernet. You should not need this tool for deploying wirelessly as the radio will automatically  take care of DHCP operations.
 
 ## Contributing
-Please view our [Code Of Conduct](CODE_OF_CONDUCT.md). Eventually we will add a contributing guide. Eventually. Maybe. Possibly.
+Please view our [Code Of Conduct](CODE_OF_CONDUCT.md) and our [Contributing Guide](https://docs.google.com/document/d/1KQAkZUGQNtcGS0PK-z6KMCrwNERii5Keec-gO0QWUK0/edit?usp=sharing).
 
 ### Contributors
 - Jordan Bancino
