@@ -24,8 +24,6 @@ import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.SwerveDrive;
-import net.bancino.robotics.swerveio.exception.SwerveException;
-import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
 import net.bancino.robotics.liboi.command.RunnableCommand;
@@ -56,22 +54,23 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 @SuppressWarnings("unused")
 public class RobotContainer {
 
+  /* Operator Interface */
   private final DeadbandedXboxController xbox0 = new DeadbandedXboxController(0);
   private final DeadbandedXboxController xbox1 = new DeadbandedXboxController(1);
 
-  /* The robot's subsystems and commands are defined here */
-  private final AirCompressor compressor = new AirCompressor();
-  private final SwerveDrive drivetrain;
-  private final Elevator elevator = new Elevator();
-  private final Feed feed = new Feed();
-  private final Intake intake = new Intake();
-  private final Shooter shooter = new Shooter();
-
-  /* Additional global objects can go here. */
+  /* Global objects */
   private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
   private final CameraServer camServer = CameraServer.getInstance();
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
   private final Limelight limelight = new Limelight();
+
+  /* The robot's subsystems */
+  private final AirCompressor compressor = new AirCompressor();
+  private final SwerveDrive drivetrain = DriveTrain.create(gyro);
+  private final Elevator elevator = new Elevator();
+  private final Feed feed = new Feed();
+  private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
 
   private static final String[] availableAutons = {"Backward", "Forward", "OppositeWallBackward", "OppositeWallForward", "TargetWallBack", "TargetWallForward"};
   private static final int defaultAuton = 1; /* The default autonomous. */
@@ -83,12 +82,6 @@ public class RobotContainer {
   public RobotContainer() {
     xbox0.setJoystickDeadband(GenericHID.Hand.kLeft, 0.3);
     xbox0.setJoystickDeadband(GenericHID.Hand.kRight, 0.2);
-    /* Construct our subsystems here if they throw exceptions. */
-    try {
-      drivetrain = DriveTrain.create(gyro);
-    } catch (SwerveException e) {
-      throw new SwerveRuntimeException(e);
-    }
 
     limelight.setStreamMode(StreamMode.PIP_SECONDARY);
 

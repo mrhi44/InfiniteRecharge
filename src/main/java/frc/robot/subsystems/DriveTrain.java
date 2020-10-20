@@ -13,9 +13,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 
-import net.bancino.robotics.swerveio.SwerveBuilder;
 import net.bancino.robotics.swerveio.SwerveDrive;
-import net.bancino.robotics.swerveio.SwerveMeta;
 import net.bancino.robotics.swerveio.DegreeOfFreedom;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
 import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
@@ -23,7 +21,6 @@ import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
 import net.bancino.robotics.swerveio.pid.AbstractPIDController;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
 import net.bancino.robotics.swerveio.SwerveModule;
-import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
 import net.bancino.robotics.swerveio.geometry.Length;
 import net.bancino.robotics.swerveio.geometry.Unit;
@@ -50,10 +47,10 @@ public class DriveTrain {
    * Create a new instance of a swerve drive.
    * @param gyro The gyro to use in field-centric calculations
    * @return A new SwerveDrive drivetrain based on our configuration.
-   * @throws SwerveException If there is an error creating the swerve drive.
+   * @throws IllegalArgumentException If there is an error creating the swerve drive.
    */
-  public static SwerveDrive create(AbstractGyro gyro) throws SwerveException {
-    return new SwerveBuilder()
+  public static SwerveDrive create(AbstractGyro gyro) throws IllegalArgumentException {
+    return new SwerveDrive.Builder()
       .setKinematicsProvider(new DefaultSwerveKinematics(new SquareChassis(new Length(29, Unit.INCHES))))
       .setGyro(gyro)
       /* This function adds the modules to the module map. */
@@ -81,7 +78,7 @@ public class DriveTrain {
         modulePid.setD(Const.PID.SWERVE_MODULE_D);
       })
       /* This function is run when the swerve drive object is created. It performs additional setup. */
-      .create((swerve) -> {
+      .build((swerve) -> {
         swerve.setReversed(DegreeOfFreedom.FORWARD, true);
         swerve.setReversed(DegreeOfFreedom.STRAFE, true);
         swerve.setReversed(DegreeOfFreedom.ROTATION, true);
