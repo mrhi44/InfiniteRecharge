@@ -55,7 +55,6 @@ public class DriveTrain {
   public static SwerveDrive create(AbstractGyro gyro) throws SwerveException {
     return new SwerveBuilder()
       .setKinematicsProvider(new DefaultSwerveKinematics(new SquareChassis(new Length(29, Unit.INCHES))))
-      .setCountsPerPivotRevolution(360)
       .setGyro(gyro)
       /* This function adds the modules to the module map. */
       .setModuleMap((map) -> {
