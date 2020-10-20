@@ -112,6 +112,9 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 
+  /**
+   * Don't allow the robot class to be constructed. Reflection is used instead.
+   */
   private Robot() {}
 
   /**
