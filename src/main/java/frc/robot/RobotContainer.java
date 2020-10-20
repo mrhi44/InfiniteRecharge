@@ -23,6 +23,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.exception.SwerveException;
 import net.bancino.robotics.swerveio.exception.SwerveRuntimeException;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
@@ -60,7 +61,7 @@ public class RobotContainer {
 
   /* The robot's subsystems and commands are defined here */
   private final AirCompressor compressor = new AirCompressor();
-  private final DriveTrain drivetrain;
+  private final SwerveDrive drivetrain;
   private final Elevator elevator = new Elevator();
   private final Feed feed = new Feed();
   private final Intake intake = new Intake();
@@ -84,7 +85,7 @@ public class RobotContainer {
     xbox0.setJoystickDeadband(GenericHID.Hand.kRight, 0.2);
     /* Construct our subsystems here if they throw exceptions. */
     try {
-      drivetrain = new DriveTrain(gyro);
+      drivetrain = DriveTrain.create(gyro);
     } catch (SwerveException e) {
       throw new SwerveRuntimeException(e);
     }

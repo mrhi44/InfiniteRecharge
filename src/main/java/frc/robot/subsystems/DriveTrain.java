@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 
+import net.bancino.robotics.swerveio.SwerveBuilder;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveMeta;
 import net.bancino.robotics.swerveio.DegreeOfFreedom;
@@ -43,62 +44,45 @@ import net.bancino.robotics.swerveio.kinematics.SwerveKinematicsProvider;
  *
  * @author Jordan Bancino
  */
-public class DriveTrain extends SwerveDrive {
+public class DriveTrain {
 
-  public DriveTrain(AbstractGyro gyro) throws SwerveException {
-    super(new SwerveMeta() {
+  /**
+   * Create a new instance of a swerve drive.
+   * @param gyro The gyro to use in field-centric calculations
+   * @return A new SwerveDrive drivetrain based on our configuration.
+   * @throws SwerveException If there is an error creating the swerve drive.
+   */
+  public static SwerveDrive create(AbstractGyro gyro) throws SwerveException {
+    return new SwerveBuilder()
+      .setKinematicsProvider(new DefaultSwerveKinematics(new SquareChassis(new Length(29, Unit.INCHES))))
+      .setCountsPerPivotRevolution(360)
+      .setGyro(gyro)
+      /* This function adds the modules to the module map. */
+      .setModuleMap((map) -> {
+        AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET);
+        AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET);
+        AbstractEncoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, Const.Encoder.REAR_LEFT_ENCODER_OFFSET);
+        AbstractEncoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, Const.Encoder.REAR_RIGHT_ENCODER_OFFSET);
 
-      private final AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET);
-      private final AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET);
-      private final AbstractEncoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, Const.Encoder.REAR_LEFT_ENCODER_OFFSET);
-      private final AbstractEncoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, Const.Encoder.REAR_RIGHT_ENCODER_OFFSET);
-
-      @Override
-      public String name() {
-        return "Team6090 SwerveIO Drivetrain";
-      }
-
-      @Override
-      public SwerveKinematicsProvider kinematicsProvider() {
-        return new DefaultSwerveKinematics(new SquareChassis(new Length(29, Unit.INCHES)));
-      }
-
-      @Override
-      public double countsPerPivotRevolution() {
-        return 360;
-      }
-
-      @Override
-      public Map<SwerveModule, AbstractSwerveModule> moduleMap() {
-        var modules = new HashMap<SwerveModule, AbstractSwerveModule>();
-        modules.put(SwerveModule.FRONT_RIGHT, new MK2SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR,
+        map.put(SwerveModule.FRONT_RIGHT, new MK2SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR,
             Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, frontRightEncoder));
-        modules.put(SwerveModule.FRONT_LEFT,
+        map.put(SwerveModule.FRONT_LEFT,
             new MK2SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, frontLeftEncoder));
-        modules.put(SwerveModule.REAR_LEFT,
+        map.put(SwerveModule.REAR_LEFT,
             new MK2SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, rearLeftEncoder));
-        modules.put(SwerveModule.REAR_RIGHT,
+        map.put(SwerveModule.REAR_RIGHT,
             new MK2SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, rearRightEncoder));
-        return modules; /* Return the module map for the constructor's use. */
-      }
-
-      @Override
-      public AbstractGyro gyro() {
-        gyro.zero();
-        return gyro;
-      }
-
-      @Override
-      public void modifyModule(AbstractSwerveModule module) {
+  
+      /* This function is run on every module. */
+      }, (module) -> {
         AbstractPIDController modulePid = module.getPivotPIDController();
         modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
         modulePid.setP(Const.PID.SWERVE_MODULE_P);
         modulePid.setI(Const.PID.SWERVE_MODULE_I);
         modulePid.setD(Const.PID.SWERVE_MODULE_D);
-      }
-
-      @Override
-      public void initialize(SwerveDrive swerve) {
+      })
+      /* This function is run when the swerve drive object is created. It performs additional setup. */
+      .create((swerve) -> {
         swerve.setReversed(DegreeOfFreedom.FORWARD, true);
         swerve.setReversed(DegreeOfFreedom.STRAFE, true);
         swerve.setReversed(DegreeOfFreedom.ROTATION, true);
@@ -108,7 +92,6 @@ public class DriveTrain extends SwerveDrive {
         //swerve.setIdleAngle(0, false);
 
         swerve.startLogging(new DashboardSwerveLogger());
-      }
-    });
+      });
   }
 }
