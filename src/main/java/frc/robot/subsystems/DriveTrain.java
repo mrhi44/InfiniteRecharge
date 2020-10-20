@@ -30,7 +30,6 @@ import net.bancino.robotics.swerveio.geometry.SquareChassis;
 import net.bancino.robotics.swerveio.gyro.AbstractGyro;
 import net.bancino.robotics.swerveio.kinematics.DefaultSwerveKinematics;
 import net.bancino.robotics.swerveio.kinematics.SwerveKinematicsProvider;
-import net.bancino.robotics.swerveio.SwerveFlag;
 
 /**
  * The drivetrain subsystem drives the robot! (wow!).
@@ -96,13 +95,6 @@ public class DriveTrain extends SwerveDrive {
         modulePid.setP(Const.PID.SWERVE_MODULE_P);
         modulePid.setI(Const.PID.SWERVE_MODULE_I);
         modulePid.setD(Const.PID.SWERVE_MODULE_D);
-      }
-
-      @Override
-      public List<SwerveFlag> applyFlags() {
-        return List.of(
-          SwerveFlag.ENABLE_PIVOT_OPTIMIZE
-        );
       }
 
       @Override
