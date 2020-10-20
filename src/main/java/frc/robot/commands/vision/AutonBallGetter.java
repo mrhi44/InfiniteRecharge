@@ -10,7 +10,7 @@ package frc.robot.commands.vision;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Const;
-import frc.robot.subsystems.DriveTrain;
+import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
 
 /**
@@ -20,14 +20,14 @@ import net.bancino.robotics.swerveio.geometry.SwerveVector;
  */
 public class AutonBallGetter extends CommandBase {
 
-    DriveTrain drivetrain;
+    SwerveDrive drivetrain;
     double[] bloberooX, defaultBloberoo;
     double ballAngle, gyroAngle, angleDiff;
     boolean isFinished = false;
     int scanTracker = 0;
     int maxTrackScans = 10;
 
-    public AutonBallGetter(DriveTrain drivetrain) {
+    public AutonBallGetter(SwerveDrive drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
     }
