@@ -13,6 +13,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,7 +27,6 @@ import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
-import net.bancino.robotics.liboi.command.RunnableCommand;
 import net.bancino.robotics.liboi.command.PeriodicCommand;
 import frc.robot.commands.joystick.ElevatorWithJoystick;
 import frc.robot.commands.joystick.FeedWithJoystick;
@@ -145,13 +145,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Zero the gyro when the start button is pressed. */
     JoystickButton xbox0Start = new JoystickButton(xbox0, XboxController.Button.kStart.value);
-    xbox0Start.whenPressed(new RunnableCommand(() -> {
+    xbox0Start.whenPressed(new InstantCommand(() -> {
       drivetrain.getGyro().zero();
     }));
 
     /* Toggle field-centric drive (should only be used if we lose the gyro during a match) */
     JoystickButton xbox0Back = new JoystickButton(xbox0, XboxController.Button.kBack.value);
-    xbox0Back.whenPressed(new RunnableCommand(() -> {
+    xbox0Back.whenPressed(new InstantCommand(() -> {
       drivetrain.setFieldCentric(!drivetrain.isFieldCentric());
     }));
     
@@ -161,7 +161,7 @@ public class RobotContainer {
 
     /* Change the limelight's camera stream mode. */
     POVButton xbox0POV0 = new POVButton(xbox0, 0);
-    xbox0POV0.toggleWhenPressed(new RunnableCommand(() -> {
+    xbox0POV0.toggleWhenPressed(new InstantCommand(() -> {
       if (limelight.getStreamMode() == StreamMode.PIP_MAIN) {
         limelight.setStreamMode(StreamMode.PIP_SECONDARY);
       } else if (limelight.getStreamMode() == StreamMode.PIP_SECONDARY) {
@@ -173,7 +173,7 @@ public class RobotContainer {
     }));
     /* Change the camera source on the dashboard between Limelight and Raspberry PI */
     POVButton xbox0POV180 = new POVButton(xbox0, 180);
-    xbox0POV180.toggleWhenPressed(new RunnableCommand(() -> {
+    xbox0POV180.toggleWhenPressed(new InstantCommand(() -> {
       /**
        * TODO: Implement this here
        */
@@ -193,22 +193,22 @@ public class RobotContainer {
 
     /* Toggle the intake. */
     POVButton xbox1POV0 = new POVButton(xbox1, 0);
-    xbox1POV0.whenPressed(new RunnableCommand(() -> {
+    xbox1POV0.whenPressed(new InstantCommand(() -> {
       intake.lift(true);
     }));
     POVButton xbox1POV180 = new POVButton(xbox1, 180);
-    xbox1POV180.whenPressed(new RunnableCommand(() -> {
+    xbox1POV180.whenPressed(new InstantCommand(() -> {
       intake.lift(false);
     }));
 
     /* Toggle the elevator lock. */
     JoystickButton xbox1X = new JoystickButton(xbox1, XboxController.Button.kX.value);
-    xbox1X.whenPressed(new RunnableCommand(() -> {
+    xbox1X.whenPressed(new InstantCommand(() -> {
       elevator.setLocked(!elevator.isLocked());
     }));
 
     JoystickButton xbox1Start = new JoystickButton(xbox1, XboxController.Button.kStart.value);
-    xbox1Start.whenPressed(new RunnableCommand(() -> {
+    xbox1Start.whenPressed(new InstantCommand(() -> {
       elevator.zeroElevatorEncoder();
     }));
   }
@@ -235,7 +235,7 @@ public class RobotContainer {
     /** The shooter uses the right bumper. */
     ShooterWithJoystick shooterWithJoystick = new ShooterWithJoystick(shooter, limelight, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY);
     JoystickButton xbox1Y = new JoystickButton(xbox1, XboxController.Button.kY.value);
-    xbox1Y.whenPressed(new RunnableCommand(() -> {
+    xbox1Y.whenPressed(new InstantCommand(() -> {
       shooterWithJoystick.setManualHoodControl(!shooterWithJoystick.hoodManuallyControlled());
     }));
     shooter.setDefaultCommand(shooterWithJoystick);

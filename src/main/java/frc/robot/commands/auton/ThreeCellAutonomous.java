@@ -9,6 +9,8 @@ package frc.robot.commands.auton;
 
 import java.io.IOException;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.vision.LimelightAlign;
@@ -20,7 +22,6 @@ import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive.PathExecutionMode;
 import net.bancino.robotics.jlimelight.Limelight;
-import net.bancino.robotics.liboi.command.RunnableCommand;
 
 /**
  * This command runs an autonomous mode that simply scores the three pre-loaded 
@@ -32,7 +33,7 @@ import net.bancino.robotics.liboi.command.RunnableCommand;
 public class ThreeCellAutonomous extends SequentialCommandGroup {
   public ThreeCellAutonomous(String path, SwerveDrive swerve, Shooter shooter, Intake intake, Feed feed, Limelight limelight) throws IOException {
     super(
-      new RunnableCommand(() -> {
+      new InstantCommand(() -> {
         shooter.run();
         intake.lift(true);
       }, shooter, intake),
@@ -41,10 +42,10 @@ public class ThreeCellAutonomous extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new ShooterHoodWithLimelight(shooter, limelight),
         new SequentialCommandGroup(
-          new Delay(500),
-          new RunnableCommand(() -> feed.runAt(Const.Speed.FEED_WITH_SHOOTER_SPEED), feed),
-          new Delay(4000),
-          new RunnableCommand(() -> {
+          new WaitCommand(0.5),
+          new InstantCommand(() -> feed.runAt(Const.Speed.FEED_WITH_SHOOTER_SPEED), feed),
+          new WaitCommand(4),
+          new InstantCommand(() -> {
             shooter.stop();
             feed.stop();
           }, feed)  /* We don't require the shooter here because the hood command is using it. */
