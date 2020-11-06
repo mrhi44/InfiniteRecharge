@@ -14,20 +14,18 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.bancino.robotics.swerveio.SwerveDrive;
-import net.bancino.robotics.swerveio.DegreeOfFreedom;
+import net.bancino.robotics.swerveio.SwerveDrive.DegreeOfFreedom;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
-import net.bancino.robotics.swerveio.encoder.AbstractEncoder;
-import net.bancino.robotics.swerveio.module.AbstractSwerveModule;
-import net.bancino.robotics.swerveio.pid.AbstractPIDController;
+import net.bancino.robotics.swerveio.encoder.Encoder;
+import net.bancino.robotics.swerveio.module.SwerveModule;
+import net.bancino.robotics.swerveio.pid.PIDController;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
-import net.bancino.robotics.swerveio.SwerveModule;
 import net.bancino.robotics.swerveio.log.DashboardSwerveLogger;
 import net.bancino.robotics.swerveio.geometry.Length;
-import net.bancino.robotics.swerveio.geometry.Unit;
-import net.bancino.robotics.swerveio.geometry.SquareChassis;
-import net.bancino.robotics.swerveio.gyro.AbstractGyro;
+import net.bancino.robotics.swerveio.geometry.Length.Unit;
+import net.bancino.robotics.swerveio.geometry.ChassisDimension;
+import net.bancino.robotics.swerveio.gyro.Gyro;
 import net.bancino.robotics.swerveio.kinematics.DefaultSwerveKinematics;
-import net.bancino.robotics.swerveio.kinematics.SwerveKinematicsProvider;
 
 /**
  * The drivetrain subsystem drives the robot! (wow!).
@@ -49,29 +47,29 @@ public class DriveTrain {
    * @return A new SwerveDrive drivetrain based on our configuration.
    * @throws IllegalArgumentException If there is an error creating the swerve drive.
    */
-  public static SwerveDrive create(AbstractGyro gyro) throws IllegalArgumentException {
+  public static SwerveDrive create(Gyro gyro) throws IllegalArgumentException {
     return new SwerveDrive.Builder()
-      .setKinematicsProvider(new DefaultSwerveKinematics(new SquareChassis(new Length(29, Unit.INCHES))))
+      .useDefaultKinematics(new ChassisDimension(new Length(29, Unit.INCHES)))
       .setGyro(gyro)
       /* This function adds the modules to the module map. */
       .setModuleMap((map) -> {
-        AbstractEncoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET);
-        AbstractEncoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET);
-        AbstractEncoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, Const.Encoder.REAR_LEFT_ENCODER_OFFSET);
-        AbstractEncoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, Const.Encoder.REAR_RIGHT_ENCODER_OFFSET);
+        Encoder frontRightEncoder = new AnalogEncoder(Const.Encoder.FRONT_RIGHT_ANALOG_ENCODER, Const.Encoder.FRONT_RIGHT_ENCODER_OFFSET);
+        Encoder frontLeftEncoder = new AnalogEncoder(Const.Encoder.FRONT_LEFT_ANALOG_ENCODER, Const.Encoder.FRONT_LEFT_ENCODER_OFFSET);
+        Encoder rearLeftEncoder = new AnalogEncoder(Const.Encoder.REAR_LEFT_ANALOG_ENCODER, Const.Encoder.REAR_LEFT_ENCODER_OFFSET);
+        Encoder rearRightEncoder = new AnalogEncoder(Const.Encoder.REAR_RIGHT_ANALOG_ENCODER, Const.Encoder.REAR_RIGHT_ENCODER_OFFSET);
 
-        map.put(SwerveModule.FRONT_RIGHT, new MK2SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR,
+        map.put(SwerveModule.Location.FRONT_RIGHT, new MK2SwerveModule(Const.CAN.FRONT_RIGHT_DRIVE_MOTOR,
             Const.CAN.FRONT_RIGHT_PIVOT_MOTOR, frontRightEncoder));
-        map.put(SwerveModule.FRONT_LEFT,
+        map.put(SwerveModule.Location.FRONT_LEFT,
             new MK2SwerveModule(Const.CAN.FRONT_LEFT_DRIVE_MOTOR, Const.CAN.FRONT_LEFT_PIVOT_MOTOR, frontLeftEncoder));
-        map.put(SwerveModule.REAR_LEFT,
+        map.put(SwerveModule.Location.REAR_LEFT,
             new MK2SwerveModule(Const.CAN.REAR_LEFT_DRIVE_MOTOR, Const.CAN.REAR_LEFT_PIVOT_MOTOR, rearLeftEncoder));
-        map.put(SwerveModule.REAR_RIGHT,
+        map.put(SwerveModule.Location.REAR_RIGHT,
             new MK2SwerveModule(Const.CAN.REAR_RIGHT_DRIVE_MOTOR, Const.CAN.REAR_RIGHT_PIVOT_MOTOR, rearRightEncoder));
   
       /* This function is run on every module. */
       }, (module) -> {
-        AbstractPIDController modulePid = module.getPivotPIDController();
+        PIDController modulePid = module.getPivotPIDController();
         modulePid.setOutputRampRate(Const.PID.SWERVE_MODULE_RAMP_RATE);
         modulePid.setP(Const.PID.SWERVE_MODULE_P);
         modulePid.setI(Const.PID.SWERVE_MODULE_I);
