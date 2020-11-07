@@ -1,0 +1,19 @@
+{
+    "cppDependencies": [],
+    "fileName": "JLimelight.json",
+    "javaDependencies": [
+        {
+            "artifactId": "JLimelight",
+            "groupId": "net.bancino.robotics",
+            "version": "1.3.0"
+        }
+    ],
+    "jniDependencies": [],
+    "jsonUrl": "https://maven.bancino.net/JLimelight.json",
+    "mavenUrls": [
+        "https://maven.bancino.net"
+    ],
+    "name": "JLimelight",
+    "uuid": "9926294b-b8ee-4df4-b88a-8abac1c44375",
+    "version": "1.3.0"
+}

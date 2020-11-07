@@ -1,0 +1,19 @@
+{
+    "cppDependencies": [],
+    "fileName": "SwerveIO.json",
+    "javaDependencies": [
+        {
+            "artifactId": "SwerveIO",
+            "groupId": "net.bancino.robotics",
+            "version": "4.0.0"
+        }
+    ],
+    "jniDependencies": [],
+    "jsonUrl": "https://maven.bancino.net/SwerveIO.json",
+    "mavenUrls": [
+        "https://maven.bancino.net"
+    ],
+    "name": "SwerveIO",
+    "uuid": "6b09d57e-394c-4631-a580-adb28563979f",
+    "version": "4.0.0"
+}
