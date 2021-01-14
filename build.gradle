@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2020.3.2"
+    id "edu.wpi.first.GradleRIO" version "2021.1.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -43,6 +43,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+    simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, false)
+
+    /* Websocket extensions require additional configuration. */
+    // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)
+    // simulation wpi.deps.sim.ws_client(wpi.platforms.desktop, false)
 
     /*
      * Use the flag -PuseSubmodules to activate the submodule dependencies.
@@ -52,6 +57,12 @@ dependencies {
         implementation project(':JLimelight')
         implementation project(':LibOI')
     }
+}
+
+/* Simulation configuration (e.g. environment variables). */
+sim {
+    /* Sets the websocket client remote host. */
+    // envVar "HALSIMWS_HOST", "10.0.0.2"
 }
 
 jar {
