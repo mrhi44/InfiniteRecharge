@@ -1,9 +1,12 @@
 [submodule "SwerveIO"]
 	path = SwerveIO
 	url = https://git.bancino.net/robotics/SwerveIO.git
+	branch = master
 [submodule "LibOI"]
 	path = LibOI
 	url = https://git.bancino.net/robotics/LibOI.git
+	branch = master
 [submodule "JLimelight"]
 	path = JLimelight
 	url = https://git.bancino.net/robotics/JLimelight.git
+	branch = master
