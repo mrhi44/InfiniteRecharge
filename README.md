@@ -8,20 +8,21 @@ Download the source code with this command:
 
         $ git clone --recursive https://github.com/Team6090/InfiniteRecharge
 
-The `--recursive` flag is important; it downloads all the submodule dependencies. If you do a regular git clone, then make sure you
+The `--recursive` flag is important; it downloads all the submodule dependencies. If you did a regular git clone, then make sure you
 
         $ git submodule init
         $ git submodule update
 
-to download the submodules. Every once and a while, you should run
+to download the submodules.
+
+Every once and a while (or whenever you're asked), you should run
 
         $ git submodule foreach git pull
 
 To update the submodule code, ensuring you have the latest version.
 
 ## Building & Deploying
-For those of you that are too lazy/impatient to read the rest of this document, just run this command in the root of the
-repository to build the code:
+For the impatient: just run this command in the root of the repository to build the code:
 
         $ ./gradlew clean build -PuseSubmodules
 
@@ -32,8 +33,7 @@ If you want to deploy the code, run this command:
 Our workflow guide can be found [here](#contributing)
 
 ### Common Issues
-- Gradle may fail to resolve some dependencies. If this happens, you'll need to run this command to manually download
-them: 
+- Gradle may fail to resolve some dependencies. If this happens, you'll need to run this command to manually download them: 
 
         $ gradle downloadAll
 
@@ -42,9 +42,9 @@ them:
 ### Local Dependencies
 The following dependencies have been set up to be built from source:
 
-- [SwerveIO](https://github.com/Team6090/SwerveIO)
-- [JLimelight](https://github.com/Team6090/JLimelight)
-- [LibOI](https://github.com/Team6090/LibOI)
+- [SwerveIO](https://git.bancino.net/?p=robotics/SwerveIO.git)
+- [JLimelight](https://git.bancino.net/?p=robotics/JLimelight.git)
+- [LibOI](https://github.com/Team6090/?p=robotics/LibOI.git)
 
 In the event you want to use a local copy of all of the above projects, specify the `useSubmodules` property to use the local source instead of the Maven dependencies.
 
@@ -58,7 +58,7 @@ This command will compile and include a local copy of the projects so that you c
 - [ ] Update Laptops
     - [ ] Windows Update
     - [ ] Code (always ` git pull`)
-    - [ ] **See [versions table](https://github.com/Team6090/Software-Table/blob/master/README.md) for software updates**
+    - [ ] **See the [versions table](https://github.com/Team6090/Software-Table/blob/master/README.md) for software updates**
 - [ ] Ensure laptop functionality
     - [ ] Driver Station
     - [ ] Dashboard
