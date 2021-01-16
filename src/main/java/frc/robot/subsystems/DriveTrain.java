@@ -9,10 +9,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Const;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveDrive.DegreeOfFreedom;
 import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
@@ -25,7 +21,6 @@ import net.bancino.robotics.swerveio.geometry.Length;
 import net.bancino.robotics.swerveio.geometry.Length.Unit;
 import net.bancino.robotics.swerveio.geometry.ChassisDimension;
 import net.bancino.robotics.swerveio.gyro.Gyro;
-import net.bancino.robotics.swerveio.kinematics.DefaultSwerveKinematics;
 
 /**
  * The drivetrain subsystem drives the robot! (wow!).
