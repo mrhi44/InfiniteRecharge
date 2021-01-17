@@ -70,7 +70,6 @@ jar {
         configurations.runtimeClasspath.collect {
             it.isDirectory() ? it : zipTree(it)
         }
-        duplicatesStrategy = 'include'
     }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
