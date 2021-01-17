@@ -3,7 +3,10 @@ package frc.robot;
 /**
  * The constants class stores all of our robot wiring, speed, pneumatic, and
  * encoder constants.
+ *
+ * @deprecated In favor of {@link Config}
  */
+@Deprecated(forRemoval = true)
 public class Const {
     /**
      * CAN IDs of all the motor controllers, the PCM and PDP are here.

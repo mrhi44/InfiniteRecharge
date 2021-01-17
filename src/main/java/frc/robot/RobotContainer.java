@@ -53,12 +53,25 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 @SuppressWarnings("unused")
 public class RobotContainer {
 
+  private static Config cachedConfig;
+
+  public static Config config() {
+    if (cachedConfig == null) {
+      try {
+        cachedConfig = new Config();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return cachedConfig;
+  }
+
   /* Operator Interface */
   private final DeadbandedXboxController xbox0 = new DeadbandedXboxController(0);
   private final DeadbandedXboxController xbox1 = new DeadbandedXboxController(1);
 
   /* Global objects */
-  private final PowerDistributionPanel pdp = new PowerDistributionPanel(Const.CAN.POWER_DISTRIBUTION_PANEL);
+  private final PowerDistributionPanel pdp = new PowerDistributionPanel(config().getInt("pdpCanId"));
   private final CameraServer camServer = CameraServer.getInstance();
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
   private final Limelight limelight = new Limelight();

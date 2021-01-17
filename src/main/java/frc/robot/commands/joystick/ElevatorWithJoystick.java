@@ -9,7 +9,7 @@ package frc.robot.commands.joystick;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Const;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorWithJoystick extends CommandBase {
@@ -18,6 +18,11 @@ public class ElevatorWithJoystick extends CommandBase {
     private XboxController xbox;
     private XboxController.Axis axis;
     private XboxController.Button wheelForward, wheelBackward, positionOverride;
+
+    private final int elevatorMaxHeight = RobotContainer.config().getInt("elevatorMaxHeight");
+    private final int elevatorBottomHeight = RobotContainer.config().getInt("elevatorBottomHeight");
+    private final double endgameBarSpeed = RobotContainer.config().getDouble("endgameBarSpeed");
+    private final double colorWheelSpeed = RobotContainer.config().getDouble("colorWheelSpeed");
 
     public ElevatorWithJoystick(Elevator elevator, XboxController xbox, XboxController.Axis axis, XboxController.Button wheelForward, XboxController.Button wheelBackward, XboxController.Button positionOverride) {
         this.xbox = xbox;
@@ -43,9 +48,9 @@ public class ElevatorWithJoystick extends CommandBase {
 
         /* Run the elevator, but only if it's within the encoder bounds (if the override button isn't being pressed). */
         boolean checkBounds = !xbox.getRawButton(positionOverride.value);
-        if (checkBounds && currentPosition >= Const.Elevator.MAX_HEIGHT && speedRef > 0) {
+        if (checkBounds && currentPosition >= elevatorMaxHeight && speedRef > 0) {
             elevator.setElevatorSpeed(0);
-        } else if (checkBounds && currentPosition <= Const.Elevator.BOTTOM_HEIGHT && speedRef < 0) {
+        } else if (checkBounds && currentPosition <= elevatorBottomHeight && speedRef < 0) {
             elevator.setElevatorSpeed(0);
         } else {
             elevator.setElevatorSpeed(speedRef);
@@ -56,10 +61,10 @@ public class ElevatorWithJoystick extends CommandBase {
          * the endgame bar speed, otherwise, we're running the color wheel speed.
          */
         speedRef = 0;
-        if (currentPosition > Const.Elevator.MAX_HEIGHT * 0.7) {
-            speedRef = Const.Speed.ENDGAME_BAR_SPEED;
+        if (currentPosition > elevatorMaxHeight * 0.7) {
+            speedRef = endgameBarSpeed;
         } else {
-            speedRef = Const.Speed.COLOR_WHEEL_FIXED_SPEED;
+            speedRef = colorWheelSpeed;
         }
         boolean forward = xbox.getRawButton(wheelForward.value);
         boolean backward = xbox.getRawButton(wheelBackward.value);

@@ -1,0 +1,127 @@
+#
+# CAN Ids of all the motor controllers, the PCM, and PWM
+#
+
+frontRightDriveCanId=1
+frontLeftDriveCanId=2
+rearLeftDriveCanId=3
+rearRightDriveCanId=4
+
+frontRightPivotCanId=5
+frontLeftPivotCanId=6
+rearLeftPivotCanId=7
+rearRightPivotCanId=8
+
+elevatorCanId=15
+elevatorWheelCanId=16
+
+feedCanId=20
+intakeCanId=11
+
+shooter1CanId=25
+shooter2CanId=26
+shooterHoodCanId=28
+
+pdpCanId=59
+pwmCanId=58
+
+#
+# Pneumatic components
+#
+
+elevatorLockEnable=1
+elevatorLockDisable=0
+
+intakeDown=3
+intakeUp=2
+
+#
+# Encoders - Analog Ports and position offsets
+#
+
+frontRightAnalogEncoder=0
+frontLeftAnalogEncoder=1
+rearLeftAnalogEncoder=2
+rearRightAnalogEncoder=3
+
+frontRightEncoderOffset=313.414
+frontLeftEncoderOffset=69.855
+rearLeftEncoderOffset=43.001
+rearRightEncoderOffset=53.904
+
+#
+# PID Coefficients
+#
+
+swerveModuleRampRate=0
+swerveModuleP=0.003
+swerveModuleI=0.00000155
+swerveModuleD=0
+
+elevatorP=0
+elevatorI=0
+elevatorD=0
+
+hoodSlot=0
+hoodTimeout=10
+hoodP=0.000056
+hoodI=0.000002
+hoodD=0
+
+#
+# Default speeds
+#
+
+intakeSpeed=0.65
+feedWithShooterSpeed=0.35
+feedWithIntakeSpeed=0.75
+shooterSpeed=0.85
+hoodSpeed=0.25
+colorWheelSpeed=0.2
+endgameBarSpeed=1
+
+drivetrainThrottle=0.8
+
+#
+# Elevator
+#
+
+elevatorMaxHeight=161
+elevatorBottomHeight=0
+elevatorColorChanges=25
+
+#
+# Rolling average parameters
+#
+
+rollingAverageWindow=15
+
+#
+# Ball-fetching parameters
+#
+
+cameraAngleX=61
+cameraAngleY=31.16
+cameraResX=320
+cameraResY=240
+ballGetterAcceptedOffsetBounds=5
+adjustSpeed=0.15
+
+#
+# Limelight alignment parameters
+# All units in inches.
+#
+distanceToTarget=120
+strafeAdjustSpeed=0.008
+forwardAdjustSpeed=0.001
+rotateAdjustSpeed=0.007
+limelightAlignAcceptedOffsetBounds=0.5
+
+#
+# Shooter
+#
+
+maxHoodPosition=16100
+minHoodPosition=0
+hoodPositionIncrement=200
+hoodOutputLimit=0.15

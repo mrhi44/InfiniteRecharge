@@ -9,7 +9,7 @@ package frc.robot.commands.joystick;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Const;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Shooter;
 
@@ -19,6 +19,9 @@ public class FeedWithJoystick extends CommandBase {
     private Shooter shooter;
     private XboxController.Button runButton, reverseButton;
     private XboxController xbox;
+
+    private final double feedWithShooterSpeed = RobotContainer.config().getDouble("feedWithShooterSpeed");
+    private final double feedWithIntakeSpeed = RobotContainer.config().getDouble("feedWithIntakeSpeed");
 
     public FeedWithJoystick(Feed feed, Shooter shooter, XboxController xbox, XboxController.Button runButton,
             XboxController.Button reverseButton) {
@@ -37,9 +40,9 @@ public class FeedWithJoystick extends CommandBase {
         if (xbox.getRawButton(runButton.value)) {
             double speed = 0;
             if (shooter.getSpeed() != 0) {
-                speed = Const.Speed.FEED_WITH_SHOOTER_SPEED;
+                speed = feedWithShooterSpeed;
             } else {
-                speed = Const.Speed.FEED_WITH_INTAKE_SPEED;
+                speed = feedWithIntakeSpeed;
             }
             if (xbox.getRawButton(reverseButton.value)) {
                 speed *= -1;
