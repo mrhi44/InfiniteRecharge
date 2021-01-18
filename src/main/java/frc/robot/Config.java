@@ -4,12 +4,13 @@ import java.util.Properties;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 
 /**
- * Load configuration parameters from the disk. This makes
- * changing parameters possible without having to re-deploy
- * the code.
+ * Load configuration parameters from the disk. This makes changing parameters
+ * possible without having to re-deploy the code.
  */
 public class Config {
 
@@ -36,6 +37,13 @@ public class Config {
         if (val == null) {
             throw new IllegalArgumentException("Property '" + key + "' not found in '" + propFileName + "'.");
         }
+        /*
+         * This is to let us know if we are hitting this method too often. Ideally, we
+         * want to cache all config properties in the classes that they are used in, so
+         * we should only see these warnings during robot initialization. If we see them
+         * periodically throughout the code's execution, we know we have a performance issue.
+         */
+        DriverStation.reportWarning("Retrieved key [" + key + "] with value [" + val + "]", false);
         return val;
     }
 
