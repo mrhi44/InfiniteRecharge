@@ -55,7 +55,6 @@ dependencies {
     if (project.hasProperty('useSubmodules')) {
         implementation project(':SwerveIO')
         implementation project(':JLimelight')
-        implementation project(':LibOI')
     }
 }
 

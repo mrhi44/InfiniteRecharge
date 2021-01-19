@@ -29,5 +29,4 @@ pluginManagement {
 if (hasProperty('useSubmodules')) {
     include ':SwerveIO'
     include ':JLimelight'
-    include ':LibOI'
 }

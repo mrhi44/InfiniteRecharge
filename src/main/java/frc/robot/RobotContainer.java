@@ -39,7 +39,7 @@ import frc.robot.commands.auton.ThreeCellAutonomous;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.jlimelight.StreamMode;
-import net.bancino.robotics.liboi.DeadbandedXboxController;
+import frc.robot.util.DeadbandedXboxController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
