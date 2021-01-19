@@ -104,40 +104,10 @@ public class RobotContainer {
     /*
      * Autonomous Selection.
      *
-     * Create a new thread that makes sure only one button is selected. To save clock cycles, this will run once a
-     * robot periodic scan, which is 20 milliseconds.
-     * We iterate over the array twice, one to get the current selection, and one to set everything else to
-     * false.
      */
     for (int i = 0; i < availableAutons.length; i++) {
       SmartDashboard.putBoolean(availableAutons[i], false);
     }
-    new Thread(() -> {
-      final long scanTime = 20;
-      long currentTime = System.currentTimeMillis();
-      long lastRunTime = currentTime;
-      while (true) {
-        currentTime = System.currentTimeMillis();
-        if (currentTime - lastRunTime >= scanTime) {
-          boolean haveSelection = false;
-          int selected = defaultAuton;
-          for (int i = 0; i < availableAutons.length; i++) {
-            if (SmartDashboard.getBoolean(availableAutons[i], false) && !haveSelection) {
-              selected = i;
-              haveSelection = true;
-            }
-          }
-          for (int i = 0; i < availableAutons.length; i++) {
-            if (i != selected) {
-              SmartDashboard.putBoolean(availableAutons[i], false);
-            }
-          }
-          setSelectedAuto(selected);
-          lastRunTime = currentTime;
-        }
-      }
-    }).start();
-
   }
 
   private void setSelectedAuto(int auto) {

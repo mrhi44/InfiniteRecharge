@@ -98,7 +98,7 @@ public class Shooter extends SimpleMotorSubsystem {
      *
      * @return The hood position, in encoder counts.
      */
-    public int getHoodPosition() {
+    public double getHoodPosition() {
         return hoodMotor.getSelectedSensorPosition(0);
     }
 
