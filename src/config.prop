@@ -23,7 +23,7 @@ shooter2CanId=26
 shooterHoodCanId=28
 
 pdpCanId=59
-pwmCanId=58
+pcmCanId=58
 
 #
 # Pneumatic components

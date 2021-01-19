@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Const;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -32,13 +33,24 @@ import com.revrobotics.CANSparkMax.IdleMode;
  */
 public class Elevator extends SubsystemBase {
 
-    private final CANSparkMax elevatorMotor = new CANSparkMax(Const.CAN.ELEVATOR_MOTOR, MotorType.kBrushless);
-    private final WPI_VictorSPX wheelMotor = new WPI_VictorSPX(Const.CAN.ELEVATOR_WHEEL);
+    private static final int elevatorCanId = RobotContainer.config().getInt("elevatorCanId");
+    private static final int elevatorWheelCanId = RobotContainer.config().getInt("elevatorWheelCanId");
+
+    private static final int pcmCanId = RobotContainer.config().getInt("pcmCanId");
+    private static final int elevatorLockEnable = RobotContainer.config().getInt("elevatorLockEnable");
+    private static final int elevatorLockDisable = RobotContainer.config().getInt("elevatorLockDisable");
+
+    private static final double elevatorP = RobotContainer.config().getDouble("elevatorP");
+    private static final double elevatorI = RobotContainer.config().getDouble("elevatorI");
+    private static final double elevatorD = RobotContainer.config().getDouble("elevatorD");
+
+    private final CANSparkMax elevatorMotor = new CANSparkMax(elevatorCanId, MotorType.kBrushless);
+    private final WPI_VictorSPX wheelMotor = new WPI_VictorSPX(elevatorWheelCanId);
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final CANPIDController elevatorPID = new CANPIDController(elevatorMotor);
 
-    private final Solenoid lockEnable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_ENABLE);
-    private final Solenoid lockDisable = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.ELEVATOR_LOCK_DISABLE);
+    private final Solenoid lockEnable = new Solenoid(pcmCanId, elevatorLockEnable);
+    private final Solenoid lockDisable = new Solenoid(pcmCanId, elevatorLockDisable);
     
     private WheelColor targetColor, previousColor, currentColor;
     private int revCount = 0;
@@ -50,8 +62,9 @@ public class Elevator extends SubsystemBase {
     };
 
     public Elevator() {
-        elevatorPID.setP(Const.PID.ELEVATOR_P);
-        elevatorPID.setI(Const.PID.ELEVATOR_I);
+        elevatorPID.setP(elevatorP);
+        elevatorPID.setI(elevatorI);
+        elevatorPID.setD(elevatorD);
         elevatorMotor.setIdleMode(IdleMode.kBrake);
         setLocked(false);
     }
