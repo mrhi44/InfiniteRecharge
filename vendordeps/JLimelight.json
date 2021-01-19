@@ -5,7 +5,7 @@
         {
             "artifactId": "JLimelight",
             "groupId": "net.bancino.robotics",
-            "version": "1.3.0"
+            "version": "1.3.2"
         }
     ],
     "jniDependencies": [],
@@ -15,5 +15,5 @@
     ],
     "name": "JLimelight",
     "uuid": "9926294b-b8ee-4df4-b88a-8abac1c44375",
-    "version": "1.3.0"
+    "version": "1.3.2"
 }
