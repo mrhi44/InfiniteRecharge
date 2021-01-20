@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import frc.robot.Const;
-
+import frc.robot.RobotContainer;
 import net.bancino.robotics.swerveio.pid.MiniPID;
 
 /**
@@ -26,11 +25,26 @@ import net.bancino.robotics.swerveio.pid.MiniPID;
  */
 public class Shooter extends SimpleMotorSubsystem {
 
-    public final WPI_VictorSPX shooterMotor1 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_1);
-    public final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(Const.CAN.SHOOTER_MOTOR_2);
+    private static final int shooter1CanId = RobotContainer.config().getInt("shooter1CanId");
+    private static final int shooter2CanId = RobotContainer.config().getInt("shooter2CanId");
+    private static final int shooterHoodCanId = RobotContainer.config().getInt("shooterHoodCanId");
 
-    public final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(Const.CAN.SHOOTER_HOOD_MOTOR);
-    private final MiniPID hoodPid = new MiniPID(Const.PID.HOOD_P, Const.PID.HOOD_I, Const.PID.HOOD_D);
+    private static final double hoodP = RobotContainer.config().getDouble("hoodP");
+    private static final double hoodI = RobotContainer.config().getDouble("hoodI");
+    private static final double hoodD = RobotContainer.config().getDouble("hoodD");
+
+    private static final double shooterSpeed = RobotContainer.config().getDouble("shooterSpeed");
+    private static final double hoodOutputLimit = RobotContainer.config().getDouble("hoodOutputLimit");
+
+    private static final int hoodSlot = RobotContainer.config().getInt("hoodSlot");
+    private static final int hoodTimeout = RobotContainer.config().getInt("hoodTimeout");
+    private static final int maxHoodPosition = RobotContainer.config().getInt("maxHoodPosition");
+
+    private final WPI_VictorSPX shooterMotor1 = new WPI_VictorSPX(shooter1CanId);
+    private final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(shooter2CanId);
+
+    private final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(shooterHoodCanId);
+    private final MiniPID hoodPid = new MiniPID(hoodP, hoodI, hoodD);
     private int hoodSetpoint = 0;
     private double hoodPidOutput = 0;
 
@@ -38,15 +52,14 @@ public class Shooter extends SimpleMotorSubsystem {
      * Configure the shooter and hood motor.
      */
     public Shooter() {
-        super(Const.Speed.SHOOTER_SPEED);
+        super(shooterSpeed);
         /* Make it do the super fancy blinky thingy. */
         hoodMotor.setSensorPhase(true);
         hoodMotor.setInverted(true);
-        hoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Const.PID.HOOD_SLOT,
-                Const.PID.HOOD_TIMEOUT);
+        hoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, hoodSlot, hoodTimeout);
 
-        hoodPid.setOutputLimits(Const.Shooter.HOOD_OUTPUT_LIMIT);
-        hoodPid.setSetpointRange(Const.Shooter.MAX_HOOD_POSITION);
+        hoodPid.setOutputLimits(hoodOutputLimit);
+        hoodPid.setSetpointRange(maxHoodPosition);
     }
 
     /**
@@ -85,10 +98,10 @@ public class Shooter extends SimpleMotorSubsystem {
      *              Const.Shooter.HOOD_OUTPUT_LIMIT)
      */
     public void setHoodSpeed(double speed) {
-        if (speed > Const.Shooter.HOOD_OUTPUT_LIMIT) {
-            speed = Const.Shooter.HOOD_OUTPUT_LIMIT;
-        } else if (speed < -Const.Shooter.HOOD_OUTPUT_LIMIT) {
-            speed = -Const.Shooter.HOOD_OUTPUT_LIMIT;
+        if (speed > hoodOutputLimit) {
+            speed = hoodOutputLimit;
+        } else if (speed < -hoodOutputLimit) {
+            speed = -hoodOutputLimit;
         }
         hoodMotor.set(speed);
     }
@@ -119,15 +132,15 @@ public class Shooter extends SimpleMotorSubsystem {
      * epxerimentation. We measured the ideal hood position for distances
      * incremented in a foot and generated this polynomial by curve fitting.
      *
-     * @param distance The distance the robot is away from the target.
-     *                               The hood position will be calculated from this.
+     * @param distance The distance the robot is away from the target. The hood
+     *                 position will be calculated from this.
      * @return The encoder reading that represents the position that the hood should
      *         be set to for the given distance.
      */
     public int calculateHoodPosition(double distance) {
-        return (int) ((0.0043 * Math.pow(distance, 3)) - (2.1315 * Math.pow(distance, 2)) + (336.75 * distance) - 8432.4);
+        return (int) ((0.0043 * Math.pow(distance, 3)) - (2.1315 * Math.pow(distance, 2)) + (336.75 * distance)
+                - 8432.4);
     }
-
 
     @Override
     public void periodic() {

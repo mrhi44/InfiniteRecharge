@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import frc.robot.Const;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,16 +27,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Intake extends SimpleMotorSubsystem {
 
-  private final Solenoid intakeUp = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.INTAKE_UP);
-  private final Solenoid intakeDown = new Solenoid(Const.CAN.PNEUMATIC_CONTROL_MODULE, Const.Pneumatic.INTAKE_DOWN);
+  private static final int pcmCanId = RobotContainer.config().getInt("pcmCanId");
+  private static final int intakeUpId = RobotContainer.config().getInt("intakeUpId");
+  private static final int intakeDownId = RobotContainer.config().getInt("intakeDownId");
+  private static final int intakeCanId = RobotContainer.config().getInt("intakeCanId");
+  private static final double intakeSpeed = RobotContainer.config().getDouble("intakeSpeed");
+
+  private final Solenoid intakeUp = new Solenoid(pcmCanId, intakeUpId);
+  private final Solenoid intakeDown = new Solenoid(pcmCanId, intakeDownId);
   private boolean intakeIsUp = true;
-  private final WPI_VictorSPX motor = new WPI_VictorSPX(Const.CAN.INTAKE_MOTOR);
+  private final WPI_VictorSPX motor = new WPI_VictorSPX(intakeCanId);
 
   /**
    * Creates a new Intake with the settings in the constants file.
    */
   public Intake() {
-    super(Const.Speed.INTAKE_SPEED);
+    super(intakeSpeed);
   }
 
   /**
