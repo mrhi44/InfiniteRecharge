@@ -10,12 +10,16 @@ package frc.robot.commands.joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Const;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 
 public class ShooterWithJoystick extends CommandBase {
+
+    private static final int hoodPositionIncrement = RobotContainer.config().getInt("hoodPositionIncrement");
+    private static final int maxHoodPosition = RobotContainer.config().getInt("maxHoodPosition");
+    private static final int minHoodPosition = RobotContainer.config().getInt("minHoodPosition");
 
     private Shooter shooter;
     private XboxController.Button shooterButton;
@@ -54,11 +58,11 @@ public class ShooterWithJoystick extends CommandBase {
          */
         if (manualHoodControl) {
             double speedRef = -xbox.getRawAxis(hoodAxis.value);
-            positionRef = positionRef + (speedRef * Const.Shooter.HOOD_POSITION_INCREMENT);
-            if (positionRef > Const.Shooter.MAX_HOOD_POSITION) {
-                positionRef = Const.Shooter.MAX_HOOD_POSITION;
-            } else if (positionRef < Const.Shooter.MIN_HOOD_POSITION) {
-                positionRef = Const.Shooter.MIN_HOOD_POSITION;
+            positionRef = positionRef + (speedRef * hoodPositionIncrement);
+            if (positionRef > maxHoodPosition) {
+                positionRef = maxHoodPosition;
+            } else if (positionRef < minHoodPosition) {
+                positionRef = minHoodPosition;
             }
         }
         double[] camtran = limelight.getCamTran();

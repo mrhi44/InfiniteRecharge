@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import frc.robot.Const;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AirCompressor extends SubsystemBase {
 
-    private final Compressor compressor = new Compressor(Const.CAN.PNEUMATIC_CONTROL_MODULE);
+    private static final int pcmCanId = RobotContainer.config().getInt("pcmCanId");
+
+    private final Compressor compressor = new Compressor(pcmCanId);
 
     /**
      * Create an air compressor on the specified control module.

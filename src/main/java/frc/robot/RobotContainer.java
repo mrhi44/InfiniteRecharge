@@ -66,12 +66,15 @@ public class RobotContainer {
     return cachedConfig;
   }
 
+  private static final double drivetrainThrottle = config().getDouble("drivetrainThrottle");
+  private static final int pdpCanId = config().getInt("pdpCanId");
+
   /* Operator Interface */
   private final DeadbandedXboxController xbox0 = new DeadbandedXboxController(0);
   private final DeadbandedXboxController xbox1 = new DeadbandedXboxController(1);
 
   /* Global objects */
-  private final PowerDistributionPanel pdp = new PowerDistributionPanel(config().getInt("pdpCanId"));
+  private final PowerDistributionPanel pdp = new PowerDistributionPanel(pdpCanId);
   private final CameraServer camServer = CameraServer.getInstance();
   private final NavXGyro gyro = new NavXGyro(SPI.Port.kMXP);
   private final Limelight limelight = new Limelight();
@@ -202,7 +205,7 @@ public class RobotContainer {
      */
     SwerveDriveTeleop swerveDriveTeleop = new SwerveDriveTeleop(drivetrain, xbox0, XboxController.Axis.kLeftY,
         XboxController.Axis.kLeftX, XboxController.Axis.kRightX);
-    swerveDriveTeleop.setThrottle(Const.Speed.DRIVETRAIN_THROTTLE);
+    swerveDriveTeleop.setThrottle(drivetrainThrottle);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
     /** The elevator uses the y axis of the left joystick. */

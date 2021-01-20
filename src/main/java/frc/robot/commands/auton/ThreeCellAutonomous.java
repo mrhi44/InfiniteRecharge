@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.vision.LimelightAlign;
-import frc.robot.Const;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
@@ -31,6 +31,9 @@ import net.bancino.robotics.jlimelight.Limelight;
  * @author Jordan Bancino
  */
 public class ThreeCellAutonomous extends SequentialCommandGroup {
+  
+  private static final double feedWithShooterSpeed = RobotContainer.config().getDouble("feedWithShooterSpeed"));
+
   public ThreeCellAutonomous(String path, SwerveDrive swerve, Shooter shooter, Intake intake, Feed feed, Limelight limelight) throws IOException {
     super(
       new InstantCommand(() -> {
@@ -43,7 +46,7 @@ public class ThreeCellAutonomous extends SequentialCommandGroup {
         new ShooterHoodWithLimelight(shooter, limelight),
         new SequentialCommandGroup(
           new WaitCommand(0.5),
-          new InstantCommand(() -> feed.runAt(Const.Speed.FEED_WITH_SHOOTER_SPEED), feed),
+          new InstantCommand(() -> feed.runAt(feedWithShooterSpeed, feed),
           new WaitCommand(4),
           new InstantCommand(() -> {
             shooter.stop();

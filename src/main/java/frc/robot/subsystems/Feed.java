@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
-import frc.robot.Const;
+import frc.robot.RobotContainer;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,10 +20,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Feed extends SimpleMotorSubsystem {
 
-    private final CANSparkMax feedMotor = new CANSparkMax(Const.CAN.FEED_MOTOR, MotorType.kBrushless);
+    private static final int feedCanId = RobotContainer.config().getInt("feedCanId");
+    private static final double feedWithIntakeSpeed = RobotContainer.config().getDouble("feedWithIntakeSpeed");
+
+    private final CANSparkMax feedMotor = new CANSparkMax(feedCanId, MotorType.kBrushless);
 
     public Feed() {
-        super(Const.Speed.FEED_WITH_INTAKE_SPEED);
+        super(feedWithIntakeSpeed);
     }
 
     @Override

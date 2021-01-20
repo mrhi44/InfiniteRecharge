@@ -104,17 +104,18 @@ cameraAngleX=61
 cameraAngleY=31.16
 cameraResX=320
 cameraResY=240
+
 ballGetterAcceptedOffsetBounds=5
-adjustSpeed=0.15
+ballGetterAdjustSpeed=0.15
 
 #
 # Limelight alignment parameters
 # All units in inches.
 #
-distanceToTarget=120
-strafeAdjustSpeed=0.008
-forwardAdjustSpeed=0.001
-rotateAdjustSpeed=0.007
+limelightAlignDistanceToTarget=120
+limelightAlignStrafeAdjustSpeed=0.008
+limelightAlignForwardAdjustSpeed=0.001
+limelightAlignRotateAdjustSpeed=0.007
 limelightAlignAcceptedOffsetBounds=0.5
 
 #

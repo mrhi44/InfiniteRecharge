@@ -8,14 +8,18 @@
 package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.util.RollingAverage;
 import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 
 public class ShooterHoodWithLimelight extends CommandBase {
+
+  private static final int rollingAverageWindow = RobotContainer.config().getInt("rollingAverageWindow");
+
   private final Limelight limelight;
-  private final RollingAverage rollingAverage = new RollingAverage(15);
+  private final RollingAverage rollingAverage = new RollingAverage(rollingAverageWindow);
   private final Shooter shooter;
 
   /**

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import frc.robot.Const;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.I2C;
@@ -33,6 +32,9 @@ import com.revrobotics.CANSparkMax.IdleMode;
  */
 public class Elevator extends SubsystemBase {
 
+    private static final int elevatorColorChanges = RobotContainer.config().getInt("elevatorColorChanges");
+    private static final double colorWheelSpeed = RobotContainer.config().getDouble("colorWheelSpeed");
+
     private static final int elevatorCanId = RobotContainer.config().getInt("elevatorCanId");
     private static final int elevatorWheelCanId = RobotContainer.config().getInt("elevatorWheelCanId");
 
@@ -47,7 +49,7 @@ public class Elevator extends SubsystemBase {
     private final CANSparkMax elevatorMotor = new CANSparkMax(elevatorCanId, MotorType.kBrushless);
     private final WPI_VictorSPX wheelMotor = new WPI_VictorSPX(elevatorWheelCanId);
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-    private final CANPIDController elevatorPID = new CANPIDController(elevatorMotor);
+    private final CANPIDController elevatorPID = elevatorMotor.getPIDController();
 
     private final Solenoid lockEnable = new Solenoid(pcmCanId, elevatorLockEnable);
     private final Solenoid lockDisable = new Solenoid(pcmCanId, elevatorLockDisable);
@@ -122,7 +124,7 @@ public class Elevator extends SubsystemBase {
             revCount++;
         }
         /** If we have reached our rotation count, stop spinning */
-        if (revCount >= Const.Elevator.NUMBER_OF_COLOR_CHANGES) {
+        if (revCount >= elevatorColorChanges) {
             setWheelSpeed(0);
             /* Reset everything to the starting configuration for the next run. */
             revCount = 0;
@@ -130,7 +132,7 @@ public class Elevator extends SubsystemBase {
             previousColor = null;
             return true;
         } else {
-            setWheelSpeed(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
+            setWheelSpeed(colorWheelSpeed);
             return false;
         }
     }
@@ -183,7 +185,7 @@ public class Elevator extends SubsystemBase {
      */
     public boolean goToColor(WheelColor color) {
         if (toWheelColor(colorSensor.getColor()) != toTargetColor(color)) {
-            wheelMotor.set(Const.Speed.COLOR_WHEEL_FIXED_SPEED);
+            wheelMotor.set(colorWheelSpeed);
             return false;
         } else {
             wheelMotor.set(0);
