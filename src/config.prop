@@ -32,8 +32,8 @@ pcmCanId=58
 elevatorLockEnable=1
 elevatorLockDisable=0
 
-intakeDown=3
-intakeUp=2
+intakeDownId=3
+intakeUpId=2
 
 #
 # Encoders - Analog Ports and position offsets
