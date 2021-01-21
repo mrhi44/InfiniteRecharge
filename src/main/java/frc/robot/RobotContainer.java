@@ -10,6 +10,7 @@ package frc.robot;
 import java.io.IOException;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -58,9 +59,17 @@ public class RobotContainer {
   public static Config config() {
     if (cachedConfig == null) {
       try {
-        cachedConfig = new Config();
+        /* This configuration file is deployed by the user and manually updated. */
+        cachedConfig = new Config("config.prop");
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        DriverStation.reportWarning("Failed to load configuration file! Falling back to defaults.", false);
+        try {
+          /* This configuration file is deployed with the code, so it should always exist. */
+          cachedConfig = new Config("config.default.prop");
+        } catch (IOException e1) {
+          DriverStation.reportError("Failed to load default configuration file! Aborting now.", false);
+          throw new RuntimeException(e);
+        }
       }
     }
     return cachedConfig;

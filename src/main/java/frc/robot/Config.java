@@ -17,10 +17,6 @@ public class Config {
     private final Properties props = new Properties();
     private final String propFileName;
 
-    public Config() throws IOException {
-        this("config.prop");
-    }
-
     public Config(String propFileName) throws IOException {
         /* On the roboRIO, this is /home/lvuser/deploy */
         File deployDir = Filesystem.getDeployDirectory();
