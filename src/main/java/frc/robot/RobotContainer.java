@@ -60,16 +60,10 @@ public class RobotContainer {
     if (cachedConfig == null) {
       try {
         /* This configuration file is deployed by the user and manually updated. */
-        cachedConfig = new Config("config.prop");
+        cachedConfig = new Config();
       } catch (IOException e) {
-        DriverStation.reportWarning("Failed to load configuration file! Falling back to defaults.", false);
-        try {
-          /* This configuration file is deployed with the code, so it should always exist. */
-          cachedConfig = new Config("config.default.prop");
-        } catch (IOException e1) {
-          DriverStation.reportError("Failed to load default configuration file! Aborting now.", false);
-          throw new RuntimeException(e);
-        }
+        DriverStation.reportWarning("Failed to load configuration file.", false);
+        throw new RuntimeException(e);
       }
     }
     return cachedConfig;
