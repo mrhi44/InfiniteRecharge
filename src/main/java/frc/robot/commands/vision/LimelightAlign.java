@@ -16,17 +16,18 @@ import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
+import net.bancino.robotics.swerveio.pid.MiniPID;
 
 @SuppressWarnings("unused")
 public class LimelightAlign extends CommandBase {
 
     /* Import parameters from the config file. */
     private static final int rollingAverageWindow = RobotContainer.config().getInt("rollingAverageWindow");
-    private static final double distanceToTarget = RobotContainer.config().getDouble("limelightAlignDistanceToTarget");
+    private static final double desiredDistancetoTarget = RobotContainer.config().getDouble("limelightAlignDesiredDistancetoTarget");
     private static final double acceptedOffsetBounds = RobotContainer.config().getDouble("limelightAlignAcceptedOffsetBounds");
-    private static final double strafeAdjustSpeed = RobotContainer.config().getDouble("limelightAlignStrafeAdjustSpeed");
-    private static final double forwardAdjustSpeed = RobotContainer.config().getDouble("limelightAlignForwardAdjustSpeed");
-    private static final double rotateAdjustSpeed = RobotContainer.config().getDouble("limelightAlignRotateAdjustSpeed");
+    private static final double strafeAdjustSpeed = RobotContainer.config().getDouble("limelightAlignStrP");
+    private static final double forwardAdjustSpeed = RobotContainer.config().getDouble("limelightAlignFwdP");
+    private static final double rotateAdjustSpeed = RobotContainer.config().getDouble("limelightAlignRcwP");
 
     private SwerveDrive drivetrain;
     private Limelight limelight;
@@ -87,7 +88,7 @@ public class LimelightAlign extends CommandBase {
         if (!doFrontHatch) {
             double[] camtran = limelight.getCamTran();
             rollingAverageFWD.add(camtran[2]);
-            fwd = Math.abs(rollingAverageFWD.get()) - distanceToTarget;
+            fwd = Math.abs(rollingAverageFWD.get()) - desiredDistancetoTarget;
             if ((fwd <= acceptedOffsetBounds)
                     && (fwd > -acceptedOffsetBounds)) {
                 fwd = 0;

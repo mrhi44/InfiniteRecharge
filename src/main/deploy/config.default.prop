@@ -68,6 +68,13 @@ hoodP=0.000056
 hoodI=0.000002
 hoodD=0
 
+limelightAlignStrP=0.008
+limelightAlignStrP=0.008
+limelightAlignFwdP=0.001
+limelightAlignFwdI=0.001
+limelightAlignRcwP=0.007
+limelightAlignRcwP=0.007
+
 #
 # Default speeds
 #
@@ -112,10 +119,8 @@ ballGetterAdjustSpeed=0.15
 # Limelight alignment parameters
 # All units in inches.
 #
-limelightAlignDistanceToTarget=120
-limelightAlignStrafeAdjustSpeed=0.008
-limelightAlignForwardAdjustSpeed=0.001
-limelightAlignRotateAdjustSpeed=0.007
+
+limelightAlignDesiredDistanceToTarget=120
 limelightAlignAcceptedOffsetBounds=0.5
 
 #
