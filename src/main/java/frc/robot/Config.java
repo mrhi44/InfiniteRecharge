@@ -14,15 +14,22 @@ import edu.wpi.first.wpilibj.Filesystem;
  */
 public class Config {
 
-    private final Properties props = new Properties();
-    private final String propFileName;
+    /* This file is manually deployed and adjusted */
+    private static final File configFile = new File(Filesystem.getDeployDirectory(), "config.prop");
 
-    public Config(String propFileName) throws IOException {
-        /* On the roboRIO, this is /home/lvuser/deploy */
-        File deployDir = Filesystem.getDeployDirectory();
-        File propFile = new File(deployDir, propFileName);
-        props.load(new FileInputStream(propFile));
-        this.propFileName = propFile.getAbsolutePath();
+    /* This file is automatically deployed by Gradle */
+    private static final File configDefaultFile = new File(Filesystem.getDeployDirectory(), "config.default.prop");
+
+    private final Properties props = new Properties();
+
+    public Config() throws IOException {
+        /* Load the defaults first */
+        props.load(new FileInputStream(configDefaultFile));
+
+        if (configFile.exists()) {
+            /* Load the regular config next */
+            props.load(new FileInputStream(configFile));
+        }
     }
 
     public String getString(String key) {
@@ -31,13 +38,14 @@ public class Config {
         }
         String val = props.getProperty(key);
         if (val == null) {
-            throw new IllegalArgumentException("Property '" + key + "' not found in '" + propFileName + "'.");
+            throw new IllegalArgumentException("Property '" + key + "' not found in any config file.");
         }
         /*
          * This is to let us know if we are hitting this method too often. Ideally, we
          * want to cache all config properties in the classes that they are used in, so
          * we should only see these warnings during robot initialization. If we see them
-         * periodically throughout the code's execution, we know we have a performance issue.
+         * periodically throughout the code's execution, we know we have a performance
+         * issue.
          */
         DriverStation.reportWarning("Retrieved key [" + key + "] with value [" + val + "]", false);
         return val;

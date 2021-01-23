@@ -54,22 +54,16 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 @SuppressWarnings("unused")
 public class RobotContainer {
 
+  /* Store the robot configuration. */
   private static Config cachedConfig;
 
   public static Config config() {
     if (cachedConfig == null) {
       try {
-        /* This configuration file is deployed by the user and manually updated. */
-        cachedConfig = new Config("config.prop");
+        cachedConfig = new Config();
       } catch (IOException e) {
-        DriverStation.reportWarning("Failed to load configuration file! Falling back to defaults.", false);
-        try {
-          /* This configuration file is deployed with the code, so it should always exist. */
-          cachedConfig = new Config("config.default.prop");
-        } catch (IOException e1) {
-          DriverStation.reportError("Failed to load default configuration file! Aborting now.", false);
-          throw new RuntimeException(e);
-        }
+        DriverStation.reportWarning("Failed to load configuration file.", false);
+        throw new RuntimeException(e);
       }
     }
     return cachedConfig;
