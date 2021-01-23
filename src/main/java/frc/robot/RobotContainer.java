@@ -54,12 +54,12 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 @SuppressWarnings("unused")
 public class RobotContainer {
 
+  /* Store the robot configuration. */
   private static Config cachedConfig;
 
   public static Config config() {
     if (cachedConfig == null) {
       try {
-        /* This configuration file is deployed by the user and manually updated. */
         cachedConfig = new Config();
       } catch (IOException e) {
         DriverStation.reportWarning("Failed to load configuration file.", false);
