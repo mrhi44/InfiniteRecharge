@@ -1,10 +1,30 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2021.2.1"
+    id "org.hidetake.ssh" version "2.10.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
+
+/* Declare the RoboRIO host for SSH access */
+remotes {
+    roboRio {
+        host = '10.60.90.2'
+        user = 'admin'
+    }
+}
+
+/* Deploy the default configuration manually. */
+task deployConfig() {
+    doLast {
+        ssh.run {
+            session(remotes.roboRio) {
+                put from: 'src/main/deploy/config.default.prop', into: '/home/lvuser/deploy/config.prop'
+            }
+        }
+    }
+}
 
 def ROBOT_MAIN_CLASS = "frc.robot.Robot"
 
