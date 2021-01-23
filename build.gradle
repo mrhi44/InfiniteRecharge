@@ -20,9 +20,10 @@ task deployConfig() {
     doLast {
         ssh.run {
             session(remotes.roboRio) {
-                put from: 'src/main/deploy/config.default.prop', into: '/home/lvuser/deploy/config.prop'
+                put from: "${projectDir}/src/main/deploy/config.default.prop", into: '/home/lvuser/deploy/config.prop'
             }
         }
+        println "Pushed configuration file."
     }
 }
 
