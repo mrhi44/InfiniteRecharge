@@ -23,11 +23,17 @@ public class LimelightAlign extends CommandBase {
 
     /* Import parameters from the config file. */
     private static final int rollingAverageWindow = RobotContainer.config().getInt("rollingAverageWindow");
-    private static final double desiredDistancetoTarget = RobotContainer.config().getDouble("limelightAlignDesiredDistancetoTarget");
-    private static final double acceptedOffsetBounds = RobotContainer.config().getDouble("limelightAlignAcceptedOffsetBounds");
-    private static final double strafeAdjustSpeed = RobotContainer.config().getDouble("limelightAlignStrP");
-    private static final double forwardAdjustSpeed = RobotContainer.config().getDouble("limelightAlignFwdP");
-    private static final double rotateAdjustSpeed = RobotContainer.config().getDouble("limelightAlignRcwP");
+    private static final double rampRate = RobotContainer.config().getDouble("limelightAlignRampRate");
+    private static final double maxOutput = RobotContainer.config().getDouble("limelightAlignPIDMax");
+    private static final double desiredDistancetoTarget = RobotContainer.config().getDouble("limelightFWDSetpoint");
+    private static final double desiredAngletoTarget = RobotContainer.config().getDouble("limelightRCWSetpoint");
+    private static final double desiredStrafetoTarget = RobotContainer.config().getDouble("limelightSTRSetpoint");
+    private static final double forwardP = RobotContainer.config().getDouble("limelightAlignFwdP");
+    private static final double forwardI = RobotContainer.config().getDouble("limelightAlignFwdI");
+    private static final double rotateP = RobotContainer.config().getDouble("limelightAlignRcwP");
+    private static final double rotateI = RobotContainer.config().getDouble("limelightAlignRcwI");
+    private static final double strafeP = RobotContainer.config().getDouble("limelightAlignStrP");
+    private static final double strafeI = RobotContainer.config().getDouble("limelightAlignStrI");
 
     private SwerveDrive drivetrain;
     private Limelight limelight;
@@ -36,12 +42,23 @@ public class LimelightAlign extends CommandBase {
     private boolean isFinished = false;
     private boolean fwdIsGood = false, strIsGood = false, rcwIsGood = false;
 
+    /** Variables to hold distance and the vector speed on that axis. */
     private double fwd, str, rcw;
     private double fwdSpeed, strSpeed, rcwSpeed;
 
+    /** Timeout variables */
     private final long timeout;
     private long startTime = 0;
-    private RollingAverage rollingAverageRCW, rollingAverageSTR, rollingAverageFWD  = new RollingAverage(rollingAverageWindow);
+
+    /** Makes a new RollingAverage for every axis that uses the average limelight readings over so many readings. */
+    private RollingAverage rollingAverageFWD = new RollingAverage(rollingAverageWindow);
+    private RollingAverage rollingAverageRCW = new RollingAverage(rollingAverageWindow);
+    private RollingAverage rollingAverageSTR = new RollingAverage(rollingAverageWindow);
+
+    /** Make a PID controller for every axis that LimelightAlign corrects. P and I doubles defined in config file. */
+    private MiniPID pidFWD = new MiniPID(forwardP, forwardI, 0);
+    private MiniPID pidRCW = new MiniPID(rotateP, rotateI, 0);
+    private MiniPID pidSTR = new MiniPID(strafeP, strafeI, 0);
 
     public LimelightAlign(SwerveDrive drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch, long timeout) {
         this.drivetrain = drivetrain;
@@ -58,11 +75,26 @@ public class LimelightAlign extends CommandBase {
 
     @Override
     public void initialize() {
+        /** Setting the setpoint that the PID will try to achieve for each axis. Defined in config file. */
+        pidFWD.setSetpoint(desiredDistancetoTarget);
+        pidRCW.setSetpoint(desiredAngletoTarget);
+        pidSTR.setSetpoint(desiredStrafetoTarget);
+
+        /** Setting the ramp rate for each axis. Defined in config file. */
+        pidFWD.setOutputRampRate(rampRate);
+        pidRCW.setOutputRampRate(rampRate);
+        pidSTR.setOutputRampRate(rampRate);
+
+        /** Setting the maximum output value each axis. Defined in config file. */
+        pidFWD.setOutputLimits(maxOutput);
+        pidRCW.setOutputLimits(maxOutput);
+        pidSTR.setOutputLimits(maxOutput);
+
         limelight.setPipeline(0);
         drivetrain.setFieldCentric(false);
         limelight.setLedMode(LedMode.FORCE_ON);
+        /** For the front hatch, there's no need for head-on alignment where forward and strafe would matter. */
         if (doFrontHatch) {
-            limelight.setPipeline(0);
             fwd = 0;
             fwdSpeed = 0;
             str = 0;
@@ -73,49 +105,30 @@ public class LimelightAlign extends CommandBase {
 
     @Override
     public void execute() {
-        /**
-         * Sets variables for doing the back hatch as well as the bounds in which
-         * they're acceptably close.
+
+        /** If there's no target, no bueno. Exit the command. */
+        isFinished = limelight.hasValidTargets();
+
+        /** 
+         * RCW must be done for front and back hatches, so it gets calculated here before any other axis.
+         * Values are put into the rolling average first to smooth out jumpy readings, and then put into the PID
+         * loop for more efficient readings. (For all axis').
          */
         rollingAverageRCW.add(limelight.getHorizontalOffset());
-        rcw = rollingAverageRCW.get();
-        if ((rcw <= acceptedOffsetBounds)
-                && (rcw > -acceptedOffsetBounds)) {
-            rcw = 0;
-            rcwIsGood = true;
-        }
-        /* Sets forward and strafe depending on whether or not you're doing the back port. */
-        if (!doFrontHatch) {
-            double[] camtran = limelight.getCamTran();
-            rollingAverageFWD.add(camtran[2]);
-            fwd = Math.abs(rollingAverageFWD.get()) - desiredDistancetoTarget;
-            if ((fwd <= acceptedOffsetBounds)
-                    && (fwd > -acceptedOffsetBounds)) {
-                fwd = 0;
-                fwdIsGood = true;
-            }
-            rollingAverageSTR.add(camtran[0]);
-            str = rollingAverageSTR.get();
-            if ((str <= acceptedOffsetBounds)
-                    && (str > -acceptedOffsetBounds)) {
-                str = 0;
-                strIsGood = true;
-            }
-        }
+        rcw = pidRCW.getOutput(rollingAverageRCW.get());
 
         /**
-         * Multiply all of the values by their speed constants to get a decent speed
-         * reference, only if a target is seen. If not, set the speed references to zero
-         * and set the strafe, forward, and rotate checks to true.
+         * Sets forward and strafe depending on whether or not you're doing the back port.
+         * Forwards and strafe were set equal to zero in init.
          */
-        if (limelight.hasValidTargets()) {
-            strSpeed = str * strafeAdjustSpeed;
-            rcwSpeed = rcw * rotateAdjustSpeed;
-            fwdSpeed = fwd * forwardAdjustSpeed;
-        } else {
-            strSpeed = rcwSpeed = fwdSpeed = 0;
-            strIsGood = rcwIsGood = fwdIsGood = true;
-            //isFinished = true;
+        if (!doFrontHatch) {
+            double[] camtran = limelight.getCamTran();
+            /** Forwards calculations. */
+            rollingAverageFWD.add(camtran[2]);
+            fwd = pidFWD.getOutput(rollingAverageFWD.get());
+            /** Strafe calculations. */
+            rollingAverageSTR.add(camtran[0]);
+            str = pidSTR.getOutput(rollingAverageSTR.get());
         }
 
         /**
@@ -128,32 +141,20 @@ public class LimelightAlign extends CommandBase {
         } else {
             isFinished = rcwIsGood;
         }
-        /** If all three conditions are within bounds or the timeout is hit, end the program. */
+
+        /** If the timeout is hit, end the command. */
         if (timeout != -1 && System.currentTimeMillis() - startTime >= timeout) {
             isFinished = true;
-            strSpeed = rcwSpeed = fwdSpeed = 0;
         }
 
-        // SwerveVector alignmentVector = new SwerveVector(str, fwd, rcw); for testing
-        // on swervio
+        /** Robot go vroom on the vector with swerve drive. */
         SwerveVector alignmentVector = new SwerveVector(fwdSpeed, strSpeed, rcwSpeed);
         drivetrain.drive(alignmentVector);
-
-        /**
-         * Put here for testing. SmartDashboard.putNumber("LimelightAlign/ForwardValue",
-         * fwdSpeed); SmartDashboard.putNumber("LimelightAlign/StrafeValue", strSpeed);
-         * SmartDashboard.putNumber("LimelightAlign/RotateValue", rcwSpeed);
-         * 
-         * SmartDashboard.putNumber("LimelightAlign/ForwardRaw", fwd);
-         * SmartDashboard.putNumber("LimelightAlign/StrafeRaw", str);
-         * SmartDashboard.putNumber("LimelightAlign/RotateRaw", rcw);
-         */
     }
 
     @Override
     public void end(boolean interrupted) {
         limelight.setLedMode(LedMode.PIPELINE_CURRENT);
-        //drivetrain.setFieldCentric(true);
     }
 
     @Override
