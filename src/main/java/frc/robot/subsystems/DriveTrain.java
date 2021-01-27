@@ -55,10 +55,10 @@ public class DriveTrain {
   private static final double swerveModuleI = RobotContainer.config().getDouble("swerveModuleI");
   private static final double swerveModuleD = RobotContainer.config().getDouble("swerveModuleD");
 
-  private static final double frontRightEncoderOffset = RobotContainer.config().getDouble("frontRightEncoderOffset");
-  private static final double frontLeftEncoderOffset = RobotContainer.config().getDouble("frontLeftEncoderOffset");
-  private static final double rearLeftEncoderOffset = RobotContainer.config().getDouble("rearLeftEncoderOffset");
-  private static final double rearRightEncoderOffset = RobotContainer.config().getDouble("rearRightEncoderOffset");
+  private static final double frontRightAngleOffset = RobotContainer.config().getDouble("frontRightAngleOffset");
+  private static final double frontLeftAngleOffset = RobotContainer.config().getDouble("frontLeftAngleOffset");
+  private static final double rearLeftAngleOffset = RobotContainer.config().getDouble("rearLeftAngleOffset");
+  private static final double rearRightAngleOffset = RobotContainer.config().getDouble("rearRightAngleOffset");
 
   /**
    * Create a new instance of a swerve drive.
@@ -73,19 +73,14 @@ public class DriveTrain {
         .setGyro(gyro)
         /* This function adds the modules to the module map. */
         .setModuleMap((map) -> {
-          Encoder frontRightEncoder = new AnalogEncoder(frontRightAnalogEncoder, frontRightEncoderOffset);
-          Encoder frontLeftEncoder = new AnalogEncoder(frontLeftAnalogEncoder, frontLeftEncoderOffset);
-          Encoder rearLeftEncoder = new AnalogEncoder(rearLeftAnalogEncoder, rearLeftEncoderOffset);
-          Encoder rearRightEncoder = new AnalogEncoder(rearRightAnalogEncoder, rearRightEncoderOffset);
-
           map.put(SwerveModule.Location.FRONT_RIGHT,
-              new MK2SwerveModule(frontRightDriveCanId, frontRightPivotCanId, frontRightEncoder));
+              new MK2SwerveModule(frontRightDriveCanId, frontRightPivotCanId, frontRightAnalogEncoder, frontRightAngleOffset));
           map.put(SwerveModule.Location.FRONT_LEFT,
-              new MK2SwerveModule(frontLeftDriveCanId, frontLeftPivotCanId, frontLeftEncoder));
+              new MK2SwerveModule(frontLeftDriveCanId, frontLeftPivotCanId, frontLeftAnalogEncoder, frontLeftAngleOffset));
           map.put(SwerveModule.Location.REAR_LEFT,
-              new MK2SwerveModule(rearLeftDriveCanId, rearLeftPivotCanId, rearLeftEncoder));
+              new MK2SwerveModule(rearLeftDriveCanId, rearLeftPivotCanId, rearLeftAnalogEncoder, rearLeftAngleOffset));
           map.put(SwerveModule.Location.REAR_RIGHT,
-              new MK2SwerveModule(rearRightDriveCanId, rearRightPivotCanId, rearRightEncoder));
+              new MK2SwerveModule(rearRightDriveCanId, rearRightPivotCanId, rearRightAnalogEncoder, rearRightAngleOffset));
 
           /* This function is run on every module. */
         }, (module) -> {
@@ -103,7 +98,6 @@ public class DriveTrain {
           swerve.setReversed(DegreeOfFreedom.FORWARD, true);
           swerve.setReversed(DegreeOfFreedom.STRAFE, true);
           swerve.setReversed(DegreeOfFreedom.ROTATION, true);
-          swerve.zeroDriveEncoders();
           // swerve.setFieldCentric(false);
 
           // swerve.setIdleAngle(0, false);

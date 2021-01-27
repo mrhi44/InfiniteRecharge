@@ -1,5 +1,5 @@
 #
-# CAN Ids of all the motor controllers, the PCM, and PWM
+# CAN Ids of all the motor controllers, the PCM, and PDP
 #
 
 frontRightDriveCanId=1
@@ -44,10 +44,10 @@ frontLeftAnalogEncoder=1
 rearLeftAnalogEncoder=2
 rearRightAnalogEncoder=3
 
-frontRightEncoderOffset=313.414
-frontLeftEncoderOffset=69.855
-rearLeftEncoderOffset=43.001
-rearRightEncoderOffset=53.904
+frontRightAngleOffset=313.414
+frontLeftAngleOffset=69.855
+rearLeftAngleOffset=43.001
+rearRightAngleOffset=53.904
 
 #
 # PID Coefficients
