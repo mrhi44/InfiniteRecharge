@@ -135,3 +135,9 @@ maxHoodPosition=16100
 minHoodPosition=0
 hoodPositionIncrement=200
 hoodOutputLimit=0.15
+
+#
+# Drivetrain dimensions - in inches
+#
+drivetrainWidth=22.5
+drivetrainLength=22.5

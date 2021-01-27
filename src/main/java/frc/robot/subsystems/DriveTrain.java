@@ -11,8 +11,6 @@ import frc.robot.RobotContainer;
 
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.SwerveDrive.DegreeOfFreedom;
-import net.bancino.robotics.swerveio.encoder.AnalogEncoder;
-import net.bancino.robotics.swerveio.encoder.Encoder;
 import net.bancino.robotics.swerveio.module.SwerveModule;
 import net.bancino.robotics.swerveio.pid.PIDController;
 import net.bancino.robotics.swerveio.module.MK2SwerveModule;
@@ -34,6 +32,9 @@ import net.bancino.robotics.swerveio.gyro.Gyro;
  * @author Jordan Bancino
  */
 public class DriveTrain {
+
+  private static final double drivetrainWidth = RobotContainer.config().getDouble("drivetrainWidth");
+  private static final double drivetrainLength = RobotContainer.config().getDouble("drivetrainLength");
 
   private static final int frontRightDriveCanId = RobotContainer.config().getInt("frontRightDriveCanId");
   private static final int frontLeftDriveCanId = RobotContainer.config().getInt("frontLeftDriveCanId");
@@ -69,7 +70,7 @@ public class DriveTrain {
    *                                  drive.
    */
   public static SwerveDrive create(Gyro gyro) throws IllegalArgumentException {
-    return new SwerveDrive.Builder().useDefaultKinematics(new ChassisDimension(new Length(29, Unit.INCHES)))
+    return new SwerveDrive.Builder().useDefaultKinematics(new ChassisDimension(new Length(drivetrainWidth, Unit.INCHES), new Length(drivetrainLength, Unit.INCHES)))
         .setGyro(gyro)
         /* This function adds the modules to the module map. */
         .setModuleMap((map) -> {
