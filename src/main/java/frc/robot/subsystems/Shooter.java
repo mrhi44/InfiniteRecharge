@@ -27,7 +27,7 @@ public class Shooter extends SimpleMotorSubsystem {
 
     private static final int shooter1CanId = RobotContainer.config().getInt("shooter1CanId");
     private static final int shooter2CanId = RobotContainer.config().getInt("shooter2CanId");
-    private static final int shooter3CanId = RobotContainer.config().getInt("shooter3CanId");
+    //private static final int shooter3CanId = RobotContainer.config().getInt("shooter3CanId");
     private static final int shooterHoodCanId = RobotContainer.config().getInt("shooterHoodCanId");
 
     private static final double hoodP = RobotContainer.config().getDouble("hoodP");

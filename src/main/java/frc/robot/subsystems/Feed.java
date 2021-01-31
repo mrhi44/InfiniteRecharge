@@ -22,7 +22,6 @@ public class Feed extends SubsystemBase {
 
     private static final int feedRiseCanId = RobotContainer.config().getInt("feedRiseCanId");
     private static final int feedRunCanId = RobotContainer.config().getInt("feedRunCanId");
-    private static final double feedWithIntakeSpeed = RobotContainer.config().getDouble("feedWithIntakeSpeed");
 
     private final CANSparkMax feedRunMotor = new CANSparkMax(feedRunCanId, MotorType.kBrushless);
     private final CANSparkMax feedRiseMotor = new CANSparkMax(feedRiseCanId, MotorType.kBrushless);
