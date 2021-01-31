@@ -17,18 +17,20 @@ public class FeedWithJoystick extends CommandBase {
 
     private Feed feed;
     private Shooter shooter;
-    private XboxController.Button runButton, reverseButton;
+    private XboxController.Button runButton, riseButton, reverseButton;
     private XboxController xbox;
 
-    private final double feedWithShooterSpeed = RobotContainer.config().getDouble("feedWithShooterSpeed");
-    private final double feedWithIntakeSpeed = RobotContainer.config().getDouble("feedWithIntakeSpeed");
+    private final double feedRiseWithShooterSpeed = RobotContainer.config().getDouble("feedRiseWithShooterSpeed");
+    private final double feedRiseWithIntakeSpeed = RobotContainer.config().getDouble("feedRiseWithIntakeSpeed");
+    private final double feedRunSpeed = RobotContainer.config().getDouble("feedRunSpeed");
 
-    public FeedWithJoystick(Feed feed, Shooter shooter, XboxController xbox, XboxController.Button runButton,
+    public FeedWithJoystick(Feed feed, Shooter shooter, XboxController xbox, XboxController.Button runButton, XboxController.Button riseButton,
             XboxController.Button reverseButton) {
         this.feed = feed;
         this.shooter = shooter;
         this.xbox = xbox;
         this.runButton = runButton;
+        this.riseButton = runButton;
         this.reverseButton = reverseButton;
 
         addRequirements(feed);
@@ -38,18 +40,28 @@ public class FeedWithJoystick extends CommandBase {
     @Override
     public void execute() {
         if (xbox.getRawButton(runButton.value)) {
+            double speed = feedRunSpeed;
+           
+            if (xbox.getRawButton(reverseButton.value)) {
+                speed *= -1;
+            }
+            feed.setRun(speed);
+        } else {
+            feed.stopRun();
+        }
+        if (xbox.getRawButton(riseButton.value)) {
             double speed = 0;
             if (shooter.getSpeed() != 0) {
-                speed = feedWithShooterSpeed;
+                speed = feedRiseWithShooterSpeed;
             } else {
-                speed = feedWithIntakeSpeed;
+                speed = feedRiseWithIntakeSpeed;
             }
             if (xbox.getRawButton(reverseButton.value)) {
                 speed *= -1;
             }
-            feed.runAt(speed);
+            feed.setRise(speed);
         } else {
-            feed.stop();
+            feed.stopRise();
         }
     }
 
