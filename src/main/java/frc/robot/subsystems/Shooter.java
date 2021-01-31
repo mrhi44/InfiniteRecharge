@@ -27,6 +27,7 @@ public class Shooter extends SimpleMotorSubsystem {
 
     private static final int shooter1CanId = RobotContainer.config().getInt("shooter1CanId");
     private static final int shooter2CanId = RobotContainer.config().getInt("shooter2CanId");
+    private static final int shooter3CanId = RobotContainer.config().getInt("shooter3CanId");
     private static final int shooterHoodCanId = RobotContainer.config().getInt("shooterHoodCanId");
 
     private static final double hoodP = RobotContainer.config().getDouble("hoodP");
@@ -42,6 +43,7 @@ public class Shooter extends SimpleMotorSubsystem {
 
     private final WPI_VictorSPX shooterMotor1 = new WPI_VictorSPX(shooter1CanId);
     private final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(shooter2CanId);
+   // private final WPI_VictorSPX shooterMotor3 = new WPI_VictorSPX(shooter3CanId);
 
     private final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(shooterHoodCanId);
     private final MiniPID hoodPid = new MiniPID(hoodP, hoodI, hoodD);
@@ -71,6 +73,7 @@ public class Shooter extends SimpleMotorSubsystem {
     public void runAt(double speed) {
         shooterMotor1.set(-speed);
         shooterMotor2.set(-speed);
+        //shooterMotor3.set(speed);
     }
 
     @Override

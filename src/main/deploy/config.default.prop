@@ -20,6 +20,7 @@ intakeCanId=11
 
 shooter1CanId=25
 shooter2CanId=26
+shooter3CanId=27
 shooterHoodCanId=28
 
 pdpCanId=59
