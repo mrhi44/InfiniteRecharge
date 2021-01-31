@@ -5,7 +5,7 @@
         {
             "artifactId": "SwerveIO",
             "groupId": "net.bancino.robotics",
-            "version": "5.0.1"
+            "version": "5.0.2"
         }
     ],
     "jniDependencies": [],
@@ -15,5 +15,5 @@
     ],
     "name": "SwerveIO",
     "uuid": "6b09d57e-394c-4631-a580-adb28563979f",
-    "version": "5.0.1"
+    "version": "5.0.2"
 }

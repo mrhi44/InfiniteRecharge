@@ -36,13 +36,13 @@ intakeDownId=3
 intakeUpId=2
 
 #
-# Encoders - Analog Ports and position offsets
+# Encoders - CAN Ids and angle offsets
 #
 
-frontRightAnalogEncoder=0
-frontLeftAnalogEncoder=1
-rearLeftAnalogEncoder=2
-rearRightAnalogEncoder=3
+frontRightEncoder=0
+frontLeftEncoder=1
+rearLeftEncoder=2
+rearRightEncoder=3
 
 frontRightAngleOffset=313.414
 frontLeftAngleOffset=69.855
@@ -57,6 +57,10 @@ swerveModuleRampRate=0
 swerveModuleP=0.003
 swerveModuleI=0.00000155
 swerveModuleD=0
+
+swerveDriveAngleP=0.0055
+swerveDriveAngleI=0.00000155
+swerveDriveAngleD=0
 
 elevatorP=0
 elevatorI=0
