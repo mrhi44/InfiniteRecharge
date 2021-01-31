@@ -21,21 +21,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.AirCompressor;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.command.SwerveDriveTeleop;
 import net.bancino.robotics.swerveio.command.PathweaverSwerveDrive;
-import frc.robot.commands.joystick.ElevatorWithJoystick;
 import frc.robot.commands.joystick.FeedWithJoystick;
 import frc.robot.commands.joystick.IntakeWithJoystick;
 import frc.robot.commands.joystick.ShooterWithJoystick;
 import frc.robot.commands.vision.AutonBallGetter;
 import frc.robot.commands.vision.LimelightAlign;
-import frc.robot.commands.ColorFinder;
-import frc.robot.commands.ColorWheelRotation;
 import frc.robot.commands.auton.ThreeCellAutonomous;
 import net.bancino.robotics.swerveio.gyro.NavXGyro;
 import net.bancino.robotics.jlimelight.Limelight;
@@ -85,7 +81,6 @@ public class RobotContainer {
   /* The robot's subsystems */
   private final AirCompressor compressor = new AirCompressor();
   private final SwerveDrive drivetrain = DriveTrain.create(gyro);
-  private final Elevator elevator = new Elevator();
   private final Feed feed = new Feed();
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
@@ -143,9 +138,6 @@ public class RobotContainer {
       drivetrain.setFieldCentric(!drivetrain.isFieldCentric());
     }));
     
-    /* Rotate the color wheel 3 times with wheel on elevator*/
-    JoystickButton xbox1B = new JoystickButton(xbox0, XboxController.Button.kB.value);
-    xbox1B.whileHeld(new ColorWheelRotation(elevator));
 
     /* Change the limelight's camera stream mode. */
     POVButton xbox0POV0 = new POVButton(xbox0, 0);
@@ -189,16 +181,7 @@ public class RobotContainer {
       intake.lift(false);
     }));
 
-    /* Toggle the elevator lock. */
-    JoystickButton xbox1X = new JoystickButton(xbox1, XboxController.Button.kX.value);
-    xbox1X.whenPressed(new InstantCommand(() -> {
-      elevator.setLocked(!elevator.isLocked());
-    }));
-
-    JoystickButton xbox1Start = new JoystickButton(xbox1, XboxController.Button.kStart.value);
-    xbox1Start.whenPressed(new InstantCommand(() -> {
-      elevator.zeroElevatorEncoder();
-    }));
+   
   }
 
   private void configureCommands() {
@@ -211,14 +194,13 @@ public class RobotContainer {
     swerveDriveTeleop.setThrottle(drivetrainThrottle);
     drivetrain.setDefaultCommand(swerveDriveTeleop);
 
-    /** The elevator uses the y axis of the left joystick. */
-    elevator.setDefaultCommand(new ElevatorWithJoystick(elevator, xbox0, XboxController.Axis.kRightY, XboxController.Button.kBumperLeft, XboxController.Button.kBumperRight, XboxController.Button.kY));
+  
 
     /* The intake uses the given hand's bumper. */
     intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, XboxController.Button.kBumperRight));
     
     /* The feed will use the left bumper and the A button for reverse. Notice the overlap; The feed will run at the same time as the intake. */
-    feed.setDefaultCommand(new FeedWithJoystick(feed, shooter, xbox1, XboxController.Button.kBumperRight, XboxController.Button.kA));
+    feed.setDefaultCommand(new FeedWithJoystick(feed, shooter, xbox1, XboxController.Button.kA,XboxController.Button.kB, XboxController.Button.kBumperRight));
 
     /** The shooter uses the right bumper. */
     ShooterWithJoystick shooterWithJoystick = new ShooterWithJoystick(shooter, limelight, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY);

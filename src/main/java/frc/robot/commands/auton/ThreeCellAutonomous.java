@@ -32,7 +32,7 @@ import net.bancino.robotics.jlimelight.Limelight;
  */
 public class ThreeCellAutonomous extends SequentialCommandGroup {
 
-  private static final double feedWithShooterSpeed = RobotContainer.config().getDouble("feedWithShooterSpeed");
+  //private static final double feedWithShooterSpeed = RobotContainer.config().getDouble("feedWithShooterSpeed");
 
   public ThreeCellAutonomous(String path, SwerveDrive swerve, Shooter shooter, Intake intake, Feed feed,
       Limelight limelight) throws IOException {
@@ -44,7 +44,7 @@ public class ThreeCellAutonomous extends SequentialCommandGroup {
         new LimelightAlign(swerve, limelight, shooter, true, 1000),
         new ParallelCommandGroup(new ShooterHoodWithLimelight(shooter, limelight),
             new SequentialCommandGroup(new WaitCommand(0.5),
-                new InstantCommand(() -> feed.runAt(feedWithShooterSpeed), feed), new WaitCommand(4),
+               // new InstantCommand(() -> feed.runAt(feedWithShooterSpeed), feed), new WaitCommand(4),
                 new InstantCommand(() -> {
                   shooter.stop();
                   feed.stop();
