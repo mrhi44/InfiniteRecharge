@@ -12,10 +12,8 @@ frontLeftPivotCanId=1
 rearLeftPivotCanId=12
 rearRightPivotCanId=9
 
-elevatorCanId=15
-elevatorWheelCanId=16
-
-feedCanId=20
+feedRunCanId=20
+feedRiseCanId=15
 intakeCanId=29
 
 shooter1CanId=25
@@ -45,9 +43,6 @@ rearRightAngleOffset=0
 # Pneumatic components
 #
 
-elevatorLockEnable=1
-elevatorLockDisable=0
-
 intakeDownId=3
 intakeUpId=2
 
@@ -63,10 +58,6 @@ swerveModuleD=0
 swerveDriveAngleP=0.0055
 swerveDriveAngleI=0.00000155
 swerveDriveAngleD=0
-
-elevatorP=0
-elevatorI=0
-elevatorD=0
 
 hoodSlot=0
 hoodTimeout=10
