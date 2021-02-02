@@ -7,6 +7,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 /**
  * The Feed subsystem controls the belt that will feed power cells into the
  * shooter.
@@ -23,7 +25,7 @@ public class Feed extends SubsystemBase {
     private static final int feedRiseCanId = RobotContainer.config().getInt("feedRiseCanId");
     private static final int feedRunCanId = RobotContainer.config().getInt("feedRunCanId");
 
-    private final CANSparkMax feedRunMotor = new CANSparkMax(feedRunCanId, MotorType.kBrushless);
+    private final WPI_VictorSPX feedRunMotor = new WPI_VictorSPX(feedRunCanId);
     private final CANSparkMax feedRiseMotor = new CANSparkMax(feedRiseCanId, MotorType.kBrushless);
 
     public void setRun(double speed) {
