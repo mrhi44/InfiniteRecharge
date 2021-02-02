@@ -3,12 +3,12 @@
 #
 
 frontRightDriveCanId=4
-frontLeftDriveCanId=3
+frontLeftDriveCanId=1
 rearLeftDriveCanId=10
 rearRightDriveCanId=7
 
 frontRightPivotCanId=6
-frontLeftPivotCanId=1
+frontLeftPivotCanId=3
 rearLeftPivotCanId=12
 rearRightPivotCanId=9
 
