@@ -24,8 +24,8 @@ public class FeedWithJoystick extends CommandBase {
     private final double feedRiseWithIntakeSpeed = RobotContainer.config().getDouble("feedRiseWithIntakeSpeed");
     private final double feedRunSpeed = RobotContainer.config().getDouble("feedRunSpeed");
 
-    public FeedWithJoystick(Feed feed, Shooter shooter, XboxController xbox, XboxController.Button runButton, XboxController.Button riseButton,
-            XboxController.Button reverseButton) {
+    public FeedWithJoystick(Feed feed, Shooter shooter, XboxController xbox, XboxController.Button runButton,
+            XboxController.Button riseButton, XboxController.Button reverseButton) {
         this.feed = feed;
         this.shooter = shooter;
         this.xbox = xbox;
@@ -41,7 +41,7 @@ public class FeedWithJoystick extends CommandBase {
     public void execute() {
         if (xbox.getRawButton(runButton.value)) {
             double speed = feedRunSpeed;
-           
+
             if (xbox.getRawButton(reverseButton.value)) {
                 speed *= -1;
             }
@@ -49,6 +49,7 @@ public class FeedWithJoystick extends CommandBase {
         } else {
             feed.stopRun();
         }
+
         if (xbox.getRawButton(riseButton.value)) {
             double speed = 0;
             if (shooter.getSpeed() != 0) {
