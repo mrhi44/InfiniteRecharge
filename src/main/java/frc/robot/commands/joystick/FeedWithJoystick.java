@@ -30,7 +30,7 @@ public class FeedWithJoystick extends CommandBase {
         this.shooter = shooter;
         this.xbox = xbox;
         this.runButton = runButton;
-        this.riseButton = runButton;
+        this.riseButton = riseButton;
         this.reverseButton = reverseButton;
 
         addRequirements(feed);

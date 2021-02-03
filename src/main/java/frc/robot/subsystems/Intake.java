@@ -35,7 +35,7 @@ public class Intake extends SimpleMotorSubsystem {
 
   private final Solenoid intakeUp = new Solenoid(pcmCanId, intakeUpId);
   private final Solenoid intakeDown = new Solenoid(pcmCanId, intakeDownId);
-  private boolean intakeIsUp = true;
+  private boolean intakeIsUp = false;
   private final WPI_VictorSPX motor = new WPI_VictorSPX(intakeCanId);
 
   /**

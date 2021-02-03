@@ -197,10 +197,10 @@ public class RobotContainer {
   
 
     /* The intake uses the given hand's bumper. */
-    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, XboxController.Button.kBumperRight));
+    intake.setDefaultCommand(new IntakeWithJoystick(intake, feed, xbox1, XboxController.Button.kA));
     
     /* The feed will use the left bumper and the A button for reverse. Notice the overlap; The feed will run at the same time as the intake. */
-    feed.setDefaultCommand(new FeedWithJoystick(feed, shooter, xbox1, XboxController.Button.kA,XboxController.Button.kB, XboxController.Button.kBumperRight));
+    feed.setDefaultCommand(new FeedWithJoystick(feed, shooter, xbox1, XboxController.Button.kA, XboxController.Button.kB, XboxController.Button.kBumperRight));
 
     /** The shooter uses the right bumper. */
     ShooterWithJoystick shooterWithJoystick = new ShooterWithJoystick(shooter, limelight, xbox1, XboxController.Button.kBumperLeft, XboxController.Axis.kRightY);
