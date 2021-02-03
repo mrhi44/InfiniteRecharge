@@ -79,7 +79,8 @@ public class DriveTrain {
     	.setRampRate(swerveDriveRampRate)
         .useDefaultKinematics(
             new ChassisDimension(new Length(drivetrainWidth, Unit.INCHES), new Length(drivetrainLength, Unit.INCHES)))
-        .setGyro(gyro).setAnglePID(swerveDriveAngleP, swerveDriveAngleI, swerveDriveAngleD)
+        .setGyro(gyro)
+        .setAnglePID(null) //.setAnglePID(swerveDriveAngleP, swerveDriveAngleI, swerveDriveAngleD)
         /* This function adds the modules to the module map. */
         .setModuleMap((map) -> {
           map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(frontRightDriveCanId, frontRightPivotCanId,
