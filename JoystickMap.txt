@@ -40,6 +40,7 @@ Right Bumper (Hold)                  : Reverse feed
 POV (D-PAD) Up                       : Intake Up
 POV (D-PAD) Down                     : Intake Down
 
+X (Hold)                             : Intake (both)
 A (Hold)                             : Intake (run)
 B (Hold)                             : Intake (rise)
 Y                                    : Manual Hood Control On/Off
@@ -53,8 +54,6 @@ Right Trigger
 
 POV (D-PAD) Left
 POV (D-PAD) Right
-
-X
 
 Back
 Start
