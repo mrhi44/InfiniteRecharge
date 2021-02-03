@@ -56,6 +56,7 @@ public class DriveTrain {
   private static final double swerveModuleI = RobotContainer.config().getDouble("swerveModuleI");
   private static final double swerveModuleD = RobotContainer.config().getDouble("swerveModuleD");
 
+  private static final double swerveDriveRampRate = RobotContainer.config().getDouble("swerveDriveRampRate");
   private static final double swerveDriveAngleP = RobotContainer.config().getDouble("swerveDriveAngleP");
   private static final double swerveDriveAngleI = RobotContainer.config().getDouble("swerveDriveAngleI");
   private static final double swerveDriveAngleD = RobotContainer.config().getDouble("swerveDriveAngleD");
@@ -75,6 +76,7 @@ public class DriveTrain {
    */
   public static SwerveDrive create(Gyro gyro) throws IllegalArgumentException {
     return new SwerveDrive.Builder()
+    	.setRampRate(swerveDriveRampRate)
         .useDefaultKinematics(
             new ChassisDimension(new Length(drivetrainWidth, Unit.INCHES), new Length(drivetrainLength, Unit.INCHES)))
         .setGyro(gyro).setAnglePID(swerveDriveAngleP, swerveDriveAngleI, swerveDriveAngleD)
