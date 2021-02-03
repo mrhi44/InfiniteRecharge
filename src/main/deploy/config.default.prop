@@ -34,10 +34,10 @@ rearLeftEncoder=11
 rearRightEncoder=8
 
 # The bevel gear faces to the RIGHT.
-frontRightAngleOffset=0
-frontLeftAngleOffset=0
-rearLeftAngleOffset=0
-rearRightAngleOffset=0
+frontRightAngleOffset=187.405
+frontLeftAngleOffset=335.275
+rearLeftAngleOffset=15.117
+rearRightAngleOffset=96.575
 
 #
 # Pneumatic components
