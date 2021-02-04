@@ -83,7 +83,7 @@ intakeSpeed=0.65
 feedRiseWithShooterSpeed=0.35
 feedRiseWithIntakeSpeed=0.65
 feedRunSpeed=0.75
-shooterSpeed=1.0
+shooterSpeed=0.97
 hoodSpeed=0.25
 
 drivetrainThrottle=0.8
