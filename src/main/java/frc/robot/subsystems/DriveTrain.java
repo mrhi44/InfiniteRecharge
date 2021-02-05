@@ -57,14 +57,22 @@ public class DriveTrain {
   private static final double swerveModuleD = RobotContainer.config().getDouble("swerveModuleD");
 
   private static final double swerveDriveRampRate = RobotContainer.config().getDouble("swerveDriveRampRate");
-  private static final double swerveDriveAngleP = RobotContainer.config().getDouble("swerveDriveAngleP");
-  private static final double swerveDriveAngleI = RobotContainer.config().getDouble("swerveDriveAngleI");
-  private static final double swerveDriveAngleD = RobotContainer.config().getDouble("swerveDriveAngleD");
+
+  private static final double swerveDriveStandingAngleP = RobotContainer.config().getDouble("swerveDriveAngleP");
+  private static final double swerveDriveStandingAngleI = RobotContainer.config().getDouble("swerveDriveAngleI");
+  private static final double swerveDriveStandingAngleD = RobotContainer.config().getDouble("swerveDriveAngleD");
+
+  private static final double swerveDriveMovingAngleP = RobotContainer.config().getDouble("swerveDriveMovingAngleP");
+  private static final double swerveDriveMovingAngleI = RobotContainer.config().getDouble("swerveDriveMovingAngleI");
+  private static final double swerveDriveMovingAngleD = RobotContainer.config().getDouble("swerveDriveMovingAngleD");
 
   private static final double frontRightAngleOffset = RobotContainer.config().getDouble("frontRightAngleOffset");
   private static final double frontLeftAngleOffset = RobotContainer.config().getDouble("frontLeftAngleOffset");
   private static final double rearLeftAngleOffset = RobotContainer.config().getDouble("rearLeftAngleOffset");
   private static final double rearRightAngleOffset = RobotContainer.config().getDouble("rearRightAngleOffset");
+
+  private static final int ANGLE_STANDING_SLOT = 0;
+  private static final int ANGLE_MOVING_SLOT = 1;
 
   /**
    * Create a new instance of a swerve drive.
@@ -76,11 +84,19 @@ public class DriveTrain {
    */
   public static SwerveDrive create(Gyro gyro) throws IllegalArgumentException {
     return new SwerveDrive.Builder()
-    	.setRampRate(swerveDriveRampRate)
+      .setRampRate(swerveDriveRampRate)
         .useDefaultKinematics(
             new ChassisDimension(new Length(drivetrainWidth, Unit.INCHES), new Length(drivetrainLength, Unit.INCHES)))
         .setGyro(gyro)
-        .setAnglePID(null) //.setAnglePID(swerveDriveAngleP, swerveDriveAngleI, swerveDriveAngleD)
+        .setAnglePID(ANGLE_STANDING_SLOT, ANGLE_MOVING_SLOT, (pid) -> {
+          pid.setP(ANGLE_STANDING_SLOT, swerveDriveStandingAngleP);
+          pid.setI(ANGLE_STANDING_SLOT, swerveDriveStandingAngleI);
+          pid.setD(ANGLE_STANDING_SLOT, swerveDriveStandingAngleD);
+
+          pid.setP(ANGLE_MOVING_SLOT, swerveDriveMovingAngleP);
+          pid.setI(ANGLE_MOVING_SLOT, swerveDriveMovingAngleI);
+          pid.setD(ANGLE_MOVING_SLOT, swerveDriveMovingAngleD);
+        })
         /* This function adds the modules to the module map. */
         .setModuleMap((map) -> {
           map.put(SwerveModule.Location.FRONT_RIGHT, new MK3SwerveModule(frontRightDriveCanId, frontRightPivotCanId,
