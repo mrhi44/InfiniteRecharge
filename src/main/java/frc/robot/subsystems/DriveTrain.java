@@ -58,13 +58,13 @@ public class DriveTrain {
 
   private static final double swerveDriveRampRate = RobotContainer.config().getDouble("swerveDriveRampRate");
 
-  private static final double swerveDriveStandingAngleP = RobotContainer.config().getDouble("swerveDriveAngleP");
-  private static final double swerveDriveStandingAngleI = RobotContainer.config().getDouble("swerveDriveAngleI");
-  private static final double swerveDriveStandingAngleD = RobotContainer.config().getDouble("swerveDriveAngleD");
+  private static final double swerveDriveStandingAngleP = RobotContainer.config().getDouble("swerveDriveAngleStandingP");
+  private static final double swerveDriveStandingAngleI = RobotContainer.config().getDouble("swerveDriveAngleStandingI");
+  private static final double swerveDriveStandingAngleD = RobotContainer.config().getDouble("swerveDriveAngleStandingD");
 
-  private static final double swerveDriveMovingAngleP = RobotContainer.config().getDouble("swerveDriveMovingAngleP");
-  private static final double swerveDriveMovingAngleI = RobotContainer.config().getDouble("swerveDriveMovingAngleI");
-  private static final double swerveDriveMovingAngleD = RobotContainer.config().getDouble("swerveDriveMovingAngleD");
+  private static final double swerveDriveMovingAngleP = RobotContainer.config().getDouble("swerveDriveAngleMovingP");
+  private static final double swerveDriveMovingAngleI = RobotContainer.config().getDouble("swerveDriveAngleMovingI");
+  private static final double swerveDriveMovingAngleD = RobotContainer.config().getDouble("swerveDriveAngleMovingD");
 
   private static final double frontRightAngleOffset = RobotContainer.config().getDouble("frontRightAngleOffset");
   private static final double frontLeftAngleOffset = RobotContainer.config().getDouble("frontLeftAngleOffset");

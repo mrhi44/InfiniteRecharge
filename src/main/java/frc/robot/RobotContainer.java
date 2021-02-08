@@ -219,7 +219,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     drivetrain.getGyro().zero();
     try {
-      return new ThreeCellAutonomous(availableAutons[selectedAuton], drivetrain, shooter, intake, feed, limelight);
+      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Simple" + ".wpilib.json", false);
+      //return new ThreeCellAutonomous(availableAutons[selectedAuton], drivetrain, shooter, intake, feed, limelight);
     } catch (IOException e) {
       return null;
     }
