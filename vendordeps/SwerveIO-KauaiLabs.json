@@ -5,7 +5,7 @@
         {
             "artifactId": "SwerveIO-KauaiLabs",
             "groupId": "net.bancino.robotics",
-            "version": "6.0.0-rc2"
+            "version": "6.0.0-rc3"
         }
     ],
     "jniDependencies": [],
@@ -19,5 +19,5 @@
     ],
     "name": "SwerveIO-KauaiLabs",
     "uuid": "net.bancino.robotics:SwerveIO-KauaiLabs",
-    "version": "6.0.0-rc2"
+    "version": "6.0.0-rc3"
 }
