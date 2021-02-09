@@ -16,7 +16,7 @@ import net.bancino.robotics.jlimelight.LedMode;
 import net.bancino.robotics.jlimelight.Limelight;
 import net.bancino.robotics.swerveio.SwerveDrive;
 import net.bancino.robotics.swerveio.geometry.SwerveVector;
-import net.bancino.robotics.swerveio.pid.MiniPID;
+import net.bancino.robotics.swerveio.pid.DefaultPIDController;
 
 @SuppressWarnings("unused")
 public class LimelightAlign extends CommandBase {
@@ -56,9 +56,9 @@ public class LimelightAlign extends CommandBase {
     private RollingAverage rollingAverageSTR = new RollingAverage(rollingAverageWindow);
 
     /** Make a PID controller for every axis that LimelightAlign corrects. P and I doubles defined in config file. */
-    private MiniPID pidFWD = new MiniPID(forwardP, forwardI, 0);
-    private MiniPID pidRCW = new MiniPID(rotateP, rotateI, 0);
-    private MiniPID pidSTR = new MiniPID(strafeP, strafeI, 0);
+    private DefaultPIDController pidFWD = new DefaultPIDController(forwardP, forwardI, 0);
+    private DefaultPIDController pidRCW = new DefaultPIDController(rotateP, rotateI, 0);
+    private DefaultPIDController pidSTR = new DefaultPIDController(strafeP, strafeI, 0);
 
     public LimelightAlign(SwerveDrive drivetrain, Limelight limelight, Shooter shooter, boolean doFrontHatch, long timeout) {
         this.drivetrain = drivetrain;
@@ -75,11 +75,6 @@ public class LimelightAlign extends CommandBase {
 
     @Override
     public void initialize() {
-        /** Setting the setpoint that the PID will try to achieve for each axis. Defined in config file. */
-        pidFWD.setSetpoint(desiredDistancetoTarget);
-        pidRCW.setSetpoint(desiredAngletoTarget);
-        pidSTR.setSetpoint(desiredStrafetoTarget);
-
         /** Setting the ramp rate for each axis. Defined in config file. */
         pidFWD.setOutputRampRate(rampRate);
         pidRCW.setOutputRampRate(rampRate);
@@ -115,7 +110,7 @@ public class LimelightAlign extends CommandBase {
          * loop for more efficient readings. (For all axis').
          */
         rollingAverageRCW.add(limelight.getHorizontalOffset());
-        rcw = pidRCW.getOutput(rollingAverageRCW.get());
+        rcw = pidRCW.getOutput(rollingAverageRCW.get(), desiredAngletoTarget);
 
         /**
          * Sets forward and strafe depending on whether or not you're doing the back port.
@@ -125,10 +120,10 @@ public class LimelightAlign extends CommandBase {
             double[] camtran = limelight.getCamTran();
             /** Forwards calculations. */
             rollingAverageFWD.add(camtran[2]);
-            fwd = pidFWD.getOutput(rollingAverageFWD.get());
+            fwd = pidFWD.getOutput(rollingAverageFWD.get(), desiredDistancetoTarget);
             /** Strafe calculations. */
             rollingAverageSTR.add(camtran[0]);
-            str = pidSTR.getOutput(rollingAverageSTR.get());
+            str = pidSTR.getOutput(rollingAverageSTR.get(), desiredStrafetoTarget);
         }
 
         /**

@@ -27,6 +27,6 @@ pluginManagement {
 }
 
 if (hasProperty('useSubmodules')) {
-    include ':SwerveIO'
+    includeBuild 'SwerveIO'
     include ':JLimelight'
 }

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.robot.RobotContainer;
-import net.bancino.robotics.swerveio.pid.MiniPID;
+import net.bancino.robotics.swerveio.pid.DefaultPIDController;
 
 /**
  * The Shooter subsystem controls the shooting mechanism that will shoot power
@@ -46,7 +46,7 @@ public class Shooter extends SimpleMotorSubsystem {
    // private final WPI_VictorSPX shooterMotor3 = new WPI_VictorSPX(shooter3CanId);
 
     private final WPI_TalonSRX hoodMotor = new WPI_TalonSRX(shooterHoodCanId);
-    private final MiniPID hoodPid = new MiniPID(hoodP, hoodI, hoodD);
+    private final DefaultPIDController hoodPid = new DefaultPIDController(hoodP, hoodI, hoodD);
     private int hoodSetpoint = 0;
     private double hoodPidOutput = 0;
 
