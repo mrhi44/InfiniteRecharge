@@ -55,7 +55,7 @@ swerveModuleP=0.003
 swerveModuleI=0.00000155
 swerveModuleD=0
 
-swerveDriveRampRate=0.03
+swerveDriveRampRate=0.04
 
 swerveDriveAngleStandingP=0.0055
 swerveDriveAngleStandingI=0

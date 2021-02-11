@@ -7,12 +7,15 @@
 
 package frc.robot;
 
+import java.io.File;
 import java.io.IOException;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -85,11 +88,7 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
 
-  private static final String[] availableAutons = {"Backward", "Forward", "OppositeWallBackward", "OppositeWallForward", "TargetWallBack", "TargetWallForward"};
-  private static final int defaultAuton = 1; /* The default autonomous. */
-  private int selectedAuton = defaultAuton;
-
-  private PathweaverSwerveDrive autonCommand;
+  private final SendableChooser<Command> autonCommands = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -104,27 +103,27 @@ public class RobotContainer {
     configureButtonBindings();
     configureCommands();
 
-    try {
-      autonCommand = new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Straight" + ".wpilib.json", false);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    // Configure autonomous modes
+    File pathDir = new File(Filesystem.getDeployDirectory(), "paths/output");
+    File[] paths = pathDir.listFiles((file) -> file.getName().endsWith(".wpilib.json"));
 
-    /*
-     * Autonomous Selection.
-     *
-     */
-    for (int i = 0; i < availableAutons.length; i++) {
-      SmartDashboard.putBoolean(availableAutons[i], false);
+    DriverStation.reportError("Paths: " + paths.length, false);
+    for (int i = 0; i < paths.length; i++) {
+      File path = paths[i];
+      try {
+        String name = path.getName().replaceAll(".wpilib.json", "");
+        Command auto =  new PathweaverSwerveDrive(drivetrain, path, PathweaverSwerveDrive.PathExecutionMode.NORMAL, false);
+        if (i == 0) {
+          autonCommands.setDefaultOption(name, auto);
+        } else {
+          autonCommands.addOption(name, auto);
+        }
+      } catch (IOException e) {
+        DriverStation.reportError("Unable to load path: " + path.getName(), false);
+        e.printStackTrace();
+      }
     }
-  }
-
-  private void setSelectedAuto(int auto) {
-    if (auto > -1 && auto < availableAutons.length) {
-      selectedAuton = auto;
-    } {
-      throw new ArrayIndexOutOfBoundsException("Cannot set index " + auto + " as the selected autonomous.");
-    }
+    SmartDashboard.putData("Autonomous", autonCommands);
   }
 
   /**
@@ -225,7 +224,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    drivetrain.getGyro().zero();
-    return autonCommand;
+    return autonCommands.getSelected();
   }
 }
