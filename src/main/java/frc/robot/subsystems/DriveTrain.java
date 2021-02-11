@@ -86,11 +86,12 @@ public class DriveTrain {
     return new SwerveDrive.Builder().setRampRate(swerveDriveRampRate)
         .useDefaultKinematics(
             new ChassisDimension(new Length(drivetrainWidth, Unit.INCHES), new Length(drivetrainLength, Unit.INCHES)))
-        .setGyro(gyro).setAnglePID(ANGLE_STANDING_SLOT, ANGLE_MOVING_SLOT, (pid) -> {
+        .setGyro(gyro)
+        .setAnglePID(ANGLE_STANDING_SLOT, ANGLE_MOVING_SLOT, (pid) -> {
           pid.setP(ANGLE_STANDING_SLOT, swerveDriveStandingAngleP);
           pid.setI(ANGLE_STANDING_SLOT, swerveDriveStandingAngleI);
           pid.setD(ANGLE_STANDING_SLOT, swerveDriveStandingAngleD);
-
+        
           pid.setP(ANGLE_MOVING_SLOT, swerveDriveMovingAngleP);
           pid.setI(ANGLE_MOVING_SLOT, swerveDriveMovingAngleI);
           pid.setD(ANGLE_MOVING_SLOT, swerveDriveMovingAngleD);
