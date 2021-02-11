@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Load configuration parameters from the disk. This makes changing parameters
@@ -48,6 +49,7 @@ public class Config {
          * issue.
          */
         DriverStation.reportWarning("Retrieved key [" + key + "] with value [" + val + "]", false);
+        SmartDashboard.putString("Config/" + key, val);
         return val;
     }
 
