@@ -89,6 +89,8 @@ public class RobotContainer {
   private static final int defaultAuton = 1; /* The default autonomous. */
   private int selectedAuton = defaultAuton;
 
+  private PathweaverSwerveDrive autonCommand;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -101,6 +103,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     configureCommands();
+
+    try {
+      autonCommand = new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Straight" + ".wpilib.json", false);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
 
     /*
      * Autonomous Selection.
@@ -129,7 +137,7 @@ public class RobotContainer {
     /* Zero the gyro when the start button is pressed. */
     JoystickButton xbox0Start = new JoystickButton(xbox0, XboxController.Button.kStart.value);
     xbox0Start.whenPressed(new InstantCommand(() -> {
-      drivetrain.getGyro().zero();
+      gyro.zero();
     }));
 
     /* Toggle field-centric drive (should only be used if we lose the gyro during a match) */
@@ -218,11 +226,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     drivetrain.getGyro().zero();
-    try {
-      return new PathweaverSwerveDrive(drivetrain, "paths/output/" + "Simple" + ".wpilib.json", false);
-      //return new ThreeCellAutonomous(availableAutons[selectedAuton], drivetrain, shooter, intake, feed, limelight);
-    } catch (IOException e) {
-      return null;
-    }
+    return autonCommand;
   }
 }
