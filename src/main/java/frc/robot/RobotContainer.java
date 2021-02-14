@@ -107,7 +107,6 @@ public class RobotContainer {
     File pathDir = new File(Filesystem.getDeployDirectory(), "paths/output");
     File[] paths = pathDir.listFiles((file) -> file.getName().endsWith(".wpilib.json"));
 
-    DriverStation.reportError("Paths: " + paths.length, false);
     for (int i = 0; i < paths.length; i++) {
       File path = paths[i];
       try {
