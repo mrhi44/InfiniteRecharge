@@ -66,6 +66,8 @@ public class DriveTrain {
   private static final double swerveDriveMovingAngleI = RobotContainer.config().getDouble("swerveDriveAngleMovingI");
   private static final double swerveDriveMovingAngleD = RobotContainer.config().getDouble("swerveDriveAngleMovingD");
 
+  private static final double swerveDriveAngleAcceptableError = RobotContainer.config().getDouble("swerveDriveAngleAcceptableError");
+
   private static final double frontRightAngleOffset = RobotContainer.config().getDouble("frontRightAngleOffset");
   private static final double frontLeftAngleOffset = RobotContainer.config().getDouble("frontLeftAngleOffset");
   private static final double rearLeftAngleOffset = RobotContainer.config().getDouble("rearLeftAngleOffset");
@@ -95,6 +97,8 @@ public class DriveTrain {
           pid.setP(ANGLE_MOVING_SLOT, swerveDriveMovingAngleP);
           pid.setI(ANGLE_MOVING_SLOT, swerveDriveMovingAngleI);
           pid.setD(ANGLE_MOVING_SLOT, swerveDriveMovingAngleD);
+
+          pid.setAcceptableError(swerveDriveAngleAcceptableError);
         })
         /* This function adds the modules to the module map. */
         .setModuleMap((map) -> {

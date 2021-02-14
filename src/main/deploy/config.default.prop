@@ -34,10 +34,10 @@ rearLeftEncoder=11
 rearRightEncoder=8
 
 # The bevel gear faces to the RIGHT.
-frontRightAngleOffset=176.335
-frontLeftAngleOffset=335.995
-rearLeftAngleOffset=11.337
-rearRightAngleOffset=295.137
+frontRightAngleOffset=178.681
+frontLeftAngleOffset=335.918
+rearLeftAngleOffset=10.898
+rearRightAngleOffset=294.521
 
 #
 # Pneumatic components
@@ -55,15 +55,17 @@ swerveModuleP=0.003
 swerveModuleI=0.00000155
 swerveModuleD=0
 
-swerveDriveRampRate=0.045
+swerveDriveRampRate=0.040
 
-swerveDriveAngleStandingP=0.0065
+swerveDriveAngleStandingP=0.0075
 swerveDriveAngleStandingI=0
 swerveDriveAngleStandingD=0
 
-swerveDriveAngleMovingP=0.004
-swerveDriveAngleMovingI=0.0000001
+swerveDriveAngleMovingP=0.007
+swerveDriveAngleMovingI=0.0000004
 swerveDriveAngleMovingD=0
+
+swerveDriveAngleAcceptableError=0.25
 
 hoodSlot=0
 hoodTimeout=10
