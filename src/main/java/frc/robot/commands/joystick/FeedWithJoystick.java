@@ -17,20 +17,21 @@ public class FeedWithJoystick extends CommandBase {
 
     private Feed feed;
     private Shooter shooter;
-    private XboxController.Button runButton, riseButton, reverseButton;
+    private XboxController.Button runButton, riseButton, bothButton, reverseButton;
     private XboxController xbox;
 
     private final double feedRiseWithShooterSpeed = RobotContainer.config().getDouble("feedRiseWithShooterSpeed");
     private final double feedRiseWithIntakeSpeed = RobotContainer.config().getDouble("feedRiseWithIntakeSpeed");
     private final double feedRunSpeed = RobotContainer.config().getDouble("feedRunSpeed");
 
-    public FeedWithJoystick(Feed feed, Shooter shooter, XboxController xbox, XboxController.Button runButton, XboxController.Button riseButton,
-            XboxController.Button reverseButton) {
+    public FeedWithJoystick(Feed feed, Shooter shooter, XboxController xbox, XboxController.Button runButton,
+            XboxController.Button riseButton, XboxController.Button bothButton, XboxController.Button reverseButton) {
         this.feed = feed;
         this.shooter = shooter;
         this.xbox = xbox;
         this.runButton = runButton;
-        this.riseButton = runButton;
+        this.riseButton = riseButton;
+        this.bothButton = bothButton;
         this.reverseButton = reverseButton;
 
         addRequirements(feed);
@@ -39,9 +40,9 @@ public class FeedWithJoystick extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (xbox.getRawButton(runButton.value)) {
+        if (xbox.getRawButton(bothButton.value) || xbox.getRawButton(runButton.value)) {
             double speed = feedRunSpeed;
-           
+
             if (xbox.getRawButton(reverseButton.value)) {
                 speed *= -1;
             }
@@ -49,7 +50,8 @@ public class FeedWithJoystick extends CommandBase {
         } else {
             feed.stopRun();
         }
-        if (xbox.getRawButton(riseButton.value)) {
+
+        if (xbox.getRawButton(bothButton.value) || xbox.getRawButton(riseButton.value)) {
             double speed = 0;
             if (shooter.getSpeed() != 0) {
                 speed = feedRiseWithShooterSpeed;

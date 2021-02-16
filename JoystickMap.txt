@@ -8,9 +8,6 @@ execution. Therefore, the action is cancelled as soon as the button is released.
 ---------------------------------- XBox 0 --------------------------------------
 Left Joystick (X & Y)                : Swerve Drive X & Y movement
 Right Joystick (X)                   : Swerve drive rotation
-Right Joystick (Y)                   : Elevator Up/Down
-
-Left/Right Bumpers                   : Elevator Wheel Left/Right
 
 POV (D-PAD) Up                       : Toggle Limelight/USB Camera
 POV (D-PAD) Down                     : Toggle Raspberry Pi/Limelight
@@ -18,33 +15,36 @@ POV (D-PAD) Down                     : Toggle Raspberry Pi/Limelight
 A (Hold)                             : Limelight rotate to front target
 B (Hold)                             : Auton Ball Getter
 X (Hold)                             : Limelight align with back target
-Y (Hold)                             : Override Elevator height limits
 
 Start                                : Zero the Gyro
 Back                                 : Toggle Field Centric drive
 -------------------------------- Available -------------------------------------
+Right Joystick (Y)
 Left Trigger
 Right Trigger
 
+Left/Right Bumpers
+
 POV (D-PAD) Left
 POV (D-PAD) Right
+
+Y
 --------------------------------------------------------------------------------
 
 ---------------------------------- XBox 1 --------------------------------------
 Right Joystick (Y)                   : Manually Move Hood
 
 Left Bumper (Hold)                   : Shoot & Set Hood Automatically
-Right Bumper (Hold)                  : Intake
+Right Bumper (Hold)                  : Reverse feed
 
 POV (D-PAD) Up                       : Intake Up
 POV (D-PAD) Down                     : Intake Down
 
-A (Hold)                             : Reverse Feed
-B (Hold)                             : Color wheel spin
-X                                    : Elevator Lock/Unlock
+X (Hold)                             : Intake (both)
+A (Hold)                             : Intake (run)
+B (Hold)                             : Intake (rise)
 Y                                    : Manual Hood Control On/Off
 
-Start                                : Zero the elevator encoder
 -------------------------------- Available -------------------------------------
 Right Joystick (X)
 Left Joystick (X & Y)
@@ -56,4 +56,5 @@ POV (D-PAD) Left
 POV (D-PAD) Right
 
 Back
+Start
 --------------------------------------------------------------------------------

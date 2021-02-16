@@ -2,52 +2,49 @@
 # CAN Ids of all the motor controllers, the PCM, and PDP
 #
 
-frontRightDriveCanId=1
-frontLeftDriveCanId=2
-rearLeftDriveCanId=3
-rearRightDriveCanId=4
+frontRightDriveCanId=4
+frontLeftDriveCanId=1
+rearLeftDriveCanId=10
+rearRightDriveCanId=7
 
-frontRightPivotCanId=5
-frontLeftPivotCanId=6
-rearLeftPivotCanId=7
-rearRightPivotCanId=8
+frontRightPivotCanId=6
+frontLeftPivotCanId=3
+rearLeftPivotCanId=12
+rearRightPivotCanId=9
 
-elevatorCanId=15
-elevatorWheelCanId=16
-
-feedCanId=20
-intakeCanId=11
+feedRunCanId=20
+feedRiseCanId=15
+intakeCanId=29
 
 shooter1CanId=25
 shooter2CanId=26
+shooter3CanId=27
 shooterHoodCanId=28
 
 pdpCanId=59
 pcmCanId=58
 
 #
+# Encoders - CAN Ids and angle offsets
+#
+
+frontRightEncoder=5
+frontLeftEncoder=2
+rearLeftEncoder=11
+rearRightEncoder=8
+
+# The bevel gear faces to the RIGHT.
+frontRightAngleOffset=178.681
+frontLeftAngleOffset=335.918
+rearLeftAngleOffset=10.898
+rearRightAngleOffset=294.521
+
+#
 # Pneumatic components
 #
 
-elevatorLockEnable=1
-elevatorLockDisable=0
-
 intakeDownId=3
 intakeUpId=2
-
-#
-# Encoders - Analog Ports and position offsets
-#
-
-frontRightAnalogEncoder=0
-frontLeftAnalogEncoder=1
-rearLeftAnalogEncoder=2
-rearRightAnalogEncoder=3
-
-frontRightAngleOffset=313.414
-frontLeftAngleOffset=69.855
-rearLeftAngleOffset=43.001
-rearRightAngleOffset=53.904
 
 #
 # PID Coefficients
@@ -58,9 +55,17 @@ swerveModuleP=0.003
 swerveModuleI=0.00000155
 swerveModuleD=0
 
-elevatorP=0
-elevatorI=0
-elevatorD=0
+swerveDriveRampRate=0.040
+
+swerveDriveAngleStandingP=0.0075
+swerveDriveAngleStandingI=0
+swerveDriveAngleStandingD=0
+
+swerveDriveAngleMovingP=0.007
+swerveDriveAngleMovingI=0.0000004
+swerveDriveAngleMovingD=0
+
+swerveDriveAngleAcceptableError=0.25
 
 hoodSlot=0
 hoodTimeout=10
@@ -85,10 +90,8 @@ intakeSpeed=0.65
 feedRiseWithShooterSpeed=0.35
 feedRiseWithIntakeSpeed=0.65
 feedRunSpeed=0.75
-shooterSpeed=1.0
+shooterSpeed=0.97
 hoodSpeed=0.25
-colorWheelSpeed=0.2
-endgameBarSpeed=1
 
 drivetrainThrottle=0.8
 

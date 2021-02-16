@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.vision.LimelightAlign;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Feed;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
@@ -40,7 +39,7 @@ public class ThreeCellAutonomous extends SequentialCommandGroup {
       shooter.run();
       intake.lift(true);
     }, shooter, intake),
-        new PathweaverSwerveDrive(swerve, "paths/output/" + path + ".wpilib.json", PathExecutionMode.ROBOT_BACKWARDS),
+        new PathweaverSwerveDrive(swerve, "paths/output/" + path + ".wpilib.json", PathExecutionMode.ROBOT_BACKWARDS, false),
         new LimelightAlign(swerve, limelight, shooter, true, 1000),
         new ParallelCommandGroup(new ShooterHoodWithLimelight(shooter, limelight),
             new SequentialCommandGroup(new WaitCommand(0.5),
